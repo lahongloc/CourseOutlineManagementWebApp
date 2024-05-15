@@ -43,11 +43,9 @@ public class Subject implements Serializable {
     @Column(name = "name")
     private String name;
     @OneToMany(mappedBy = "subjectId")
-    private Set<SubjectClass> subjectClassSet;
+    private Set<OutlineSubject> outlineSubjectSet;
     @OneToMany(mappedBy = "subjectId")
     private Set<Outline> outlineSet;
-    @OneToMany(mappedBy = "subjectId")
-    private Set<StudentSubject> studentSubjectSet;
 
     public Subject() {
     }
@@ -73,12 +71,12 @@ public class Subject implements Serializable {
     }
 
     @XmlTransient
-    public Set<SubjectClass> getSubjectClassSet() {
-        return subjectClassSet;
+    public Set<OutlineSubject> getOutlineSubjectSet() {
+        return outlineSubjectSet;
     }
 
-    public void setSubjectClassSet(Set<SubjectClass> subjectClassSet) {
-        this.subjectClassSet = subjectClassSet;
+    public void setOutlineSubjectSet(Set<OutlineSubject> outlineSubjectSet) {
+        this.outlineSubjectSet = outlineSubjectSet;
     }
 
     @XmlTransient
@@ -88,15 +86,6 @@ public class Subject implements Serializable {
 
     public void setOutlineSet(Set<Outline> outlineSet) {
         this.outlineSet = outlineSet;
-    }
-
-    @XmlTransient
-    public Set<StudentSubject> getStudentSubjectSet() {
-        return studentSubjectSet;
-    }
-
-    public void setStudentSubjectSet(Set<StudentSubject> studentSubjectSet) {
-        this.studentSubjectSet = studentSubjectSet;
     }
 
     @Override

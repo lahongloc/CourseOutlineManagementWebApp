@@ -40,19 +40,20 @@ public class Student implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @JoinColumn(name = "academic_year_id", referencedColumnName = "id")
+    @ManyToOne
+    private AcademicYear academicYearId;
     @JoinColumn(name = "class_id", referencedColumnName = "id")
     @ManyToOne
     private Class classId;
-    @JoinColumn(name = "faculty_id", referencedColumnName = "id")
+    @JoinColumn(name = "major_id", referencedColumnName = "id")
     @ManyToOne
-    private Faculty facultyId;
+    private Major majorId;
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private User user;
     @OneToMany(mappedBy = "studentId")
     private Set<Feedback> feedbackSet;
-    @OneToMany(mappedBy = "studentId")
-    private Set<StudentSubject> studentSubjectSet;
     @OneToMany(mappedBy = "studentId")
     private Set<Comment> commentSet;
 
@@ -71,6 +72,14 @@ public class Student implements Serializable {
         this.id = id;
     }
 
+    public AcademicYear getAcademicYearId() {
+        return academicYearId;
+    }
+
+    public void setAcademicYearId(AcademicYear academicYearId) {
+        this.academicYearId = academicYearId;
+    }
+
     public Class getClassId() {
         return classId;
     }
@@ -79,12 +88,12 @@ public class Student implements Serializable {
         this.classId = classId;
     }
 
-    public Faculty getFacultyId() {
-        return facultyId;
+    public Major getMajorId() {
+        return majorId;
     }
 
-    public void setFacultyId(Faculty facultyId) {
-        this.facultyId = facultyId;
+    public void setMajorId(Major majorId) {
+        this.majorId = majorId;
     }
 
     public User getUser() {
@@ -102,15 +111,6 @@ public class Student implements Serializable {
 
     public void setFeedbackSet(Set<Feedback> feedbackSet) {
         this.feedbackSet = feedbackSet;
-    }
-
-    @XmlTransient
-    public Set<StudentSubject> getStudentSubjectSet() {
-        return studentSubjectSet;
-    }
-
-    public void setStudentSubjectSet(Set<StudentSubject> studentSubjectSet) {
-        this.studentSubjectSet = studentSubjectSet;
     }
 
     @XmlTransient

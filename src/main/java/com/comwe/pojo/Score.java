@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Score.findAll", query = "SELECT s FROM Score s"),
     @NamedQuery(name = "Score.findById", query = "SELECT s FROM Score s WHERE s.id = :id"),
     @NamedQuery(name = "Score.findByName", query = "SELECT s FROM Score s WHERE s.name = :name"),
-    @NamedQuery(name = "Score.findByScore", query = "SELECT s FROM Score s WHERE s.score = :score")})
+    @NamedQuery(name = "Score.findByAssessment", query = "SELECT s FROM Score s WHERE s.assessment = :assessment")})
 public class Score implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,14 +40,14 @@ public class Score implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 45)
+    @Size(max = 50)
     @Column(name = "name")
     private String name;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "score")
-    private Float score;
+    @Size(max = 300)
+    @Column(name = "assessment")
+    private String assessment;
     @OneToMany(mappedBy = "scoreId")
-    private Set<StudentSubject> studentSubjectSet;
+    private Set<OutlineScore> outlineScoreSet;
 
     public Score() {
     }
@@ -72,21 +72,21 @@ public class Score implements Serializable {
         this.name = name;
     }
 
-    public Float getScore() {
-        return score;
+    public String getAssessment() {
+        return assessment;
     }
 
-    public void setScore(Float score) {
-        this.score = score;
+    public void setAssessment(String assessment) {
+        this.assessment = assessment;
     }
 
     @XmlTransient
-    public Set<StudentSubject> getStudentSubjectSet() {
-        return studentSubjectSet;
+    public Set<OutlineScore> getOutlineScoreSet() {
+        return outlineScoreSet;
     }
 
-    public void setStudentSubjectSet(Set<StudentSubject> studentSubjectSet) {
-        this.studentSubjectSet = studentSubjectSet;
+    public void setOutlineScoreSet(Set<OutlineScore> outlineScoreSet) {
+        this.outlineScoreSet = outlineScoreSet;
     }
 
     @Override

@@ -5,6 +5,7 @@
 package com.comwe.pojo;
 
 import java.io.Serializable;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,9 +15,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -39,6 +42,8 @@ public class Admin implements Serializable {
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private User user;
+    @OneToMany(mappedBy = "approverId")
+    private Set<Outline> outlineSet;
 
     public Admin() {
     }
@@ -61,6 +66,15 @@ public class Admin implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @XmlTransient
+    public Set<Outline> getOutlineSet() {
+        return outlineSet;
+    }
+
+    public void setOutlineSet(Set<Outline> outlineSet) {
+        this.outlineSet = outlineSet;
     }
 
     @Override

@@ -46,11 +46,9 @@ public class Class implements Serializable {
     private String name;
     @OneToMany(mappedBy = "classId")
     private Set<Student> studentSet;
-    @OneToMany(mappedBy = "classId")
-    private Set<SubjectClass> subjectClassSet;
-    @JoinColumn(name = "faculty_id", referencedColumnName = "id")
+    @JoinColumn(name = "major_id", referencedColumnName = "id")
     @ManyToOne
-    private Faculty facultyId;
+    private Major majorId;
 
     public Class() {
     }
@@ -84,21 +82,12 @@ public class Class implements Serializable {
         this.studentSet = studentSet;
     }
 
-    @XmlTransient
-    public Set<SubjectClass> getSubjectClassSet() {
-        return subjectClassSet;
+    public Major getMajorId() {
+        return majorId;
     }
 
-    public void setSubjectClassSet(Set<SubjectClass> subjectClassSet) {
-        this.subjectClassSet = subjectClassSet;
-    }
-
-    public Faculty getFacultyId() {
-        return facultyId;
-    }
-
-    public void setFacultyId(Faculty facultyId) {
-        this.facultyId = facultyId;
+    public void setMajorId(Major majorId) {
+        this.majorId = majorId;
     }
 
     @Override

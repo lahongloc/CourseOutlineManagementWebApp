@@ -46,11 +46,9 @@ public class Faculty implements Serializable {
     @Column(name = "name")
     private String name;
     @OneToMany(mappedBy = "facultyId")
-    private Set<Student> studentSet;
-    @OneToMany(mappedBy = "facultyId")
     private Set<Lecturer> lecturerSet;
     @OneToMany(mappedBy = "facultyId")
-    private Set<Class> classSet;
+    private Set<Major> majorSet;
 
     public Faculty() {
     }
@@ -81,15 +79,6 @@ public class Faculty implements Serializable {
     }
 
     @XmlTransient
-    public Set<Student> getStudentSet() {
-        return studentSet;
-    }
-
-    public void setStudentSet(Set<Student> studentSet) {
-        this.studentSet = studentSet;
-    }
-
-    @XmlTransient
     public Set<Lecturer> getLecturerSet() {
         return lecturerSet;
     }
@@ -99,12 +88,12 @@ public class Faculty implements Serializable {
     }
 
     @XmlTransient
-    public Set<Class> getClassSet() {
-        return classSet;
+    public Set<Major> getMajorSet() {
+        return majorSet;
     }
 
-    public void setClassSet(Set<Class> classSet) {
-        this.classSet = classSet;
+    public void setMajorSet(Set<Major> majorSet) {
+        this.majorSet = majorSet;
     }
 
     @Override

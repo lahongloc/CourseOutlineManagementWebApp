@@ -23,12 +23,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author lahon
  */
 @Entity
-@Table(name = "subject_class")
+@Table(name = "outline_score")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SubjectClass.findAll", query = "SELECT s FROM SubjectClass s"),
-    @NamedQuery(name = "SubjectClass.findById", query = "SELECT s FROM SubjectClass s WHERE s.id = :id")})
-public class SubjectClass implements Serializable {
+    @NamedQuery(name = "OutlineScore.findAll", query = "SELECT o FROM OutlineScore o"),
+    @NamedQuery(name = "OutlineScore.findById", query = "SELECT o FROM OutlineScore o WHERE o.id = :id"),
+    @NamedQuery(name = "OutlineScore.findByPercent", query = "SELECT o FROM OutlineScore o WHERE o.percent = :percent")})
+public class OutlineScore implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -36,17 +37,20 @@ public class SubjectClass implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @JoinColumn(name = "class_id", referencedColumnName = "id")
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "percent")
+    private Float percent;
+    @JoinColumn(name = "outline_id", referencedColumnName = "id")
     @ManyToOne
-    private Class classId;
-    @JoinColumn(name = "subject_id", referencedColumnName = "id")
+    private Outline outlineId;
+    @JoinColumn(name = "score_id", referencedColumnName = "id")
     @ManyToOne
-    private Subject subjectId;
+    private Score scoreId;
 
-    public SubjectClass() {
+    public OutlineScore() {
     }
 
-    public SubjectClass(Integer id) {
+    public OutlineScore(Integer id) {
         this.id = id;
     }
 
@@ -58,20 +62,28 @@ public class SubjectClass implements Serializable {
         this.id = id;
     }
 
-    public Class getClassId() {
-        return classId;
+    public Float getPercent() {
+        return percent;
     }
 
-    public void setClassId(Class classId) {
-        this.classId = classId;
+    public void setPercent(Float percent) {
+        this.percent = percent;
     }
 
-    public Subject getSubjectId() {
-        return subjectId;
+    public Outline getOutlineId() {
+        return outlineId;
     }
 
-    public void setSubjectId(Subject subjectId) {
-        this.subjectId = subjectId;
+    public void setOutlineId(Outline outlineId) {
+        this.outlineId = outlineId;
+    }
+
+    public Score getScoreId() {
+        return scoreId;
+    }
+
+    public void setScoreId(Score scoreId) {
+        this.scoreId = scoreId;
     }
 
     @Override
@@ -84,10 +96,10 @@ public class SubjectClass implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SubjectClass)) {
+        if (!(object instanceof OutlineScore)) {
             return false;
         }
-        SubjectClass other = (SubjectClass) object;
+        OutlineScore other = (OutlineScore) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -96,7 +108,7 @@ public class SubjectClass implements Serializable {
 
     @Override
     public String toString() {
-        return "com.comwe.pojo.SubjectClass[ id=" + id + " ]";
+        return "com.comwe.pojo.OutlineScore[ id=" + id + " ]";
     }
     
 }

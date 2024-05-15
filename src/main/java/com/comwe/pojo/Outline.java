@@ -38,9 +38,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Outline.findById", query = "SELECT o FROM Outline o WHERE o.id = :id"),
     @NamedQuery(name = "Outline.findByStartedDate", query = "SELECT o FROM Outline o WHERE o.startedDate = :startedDate"),
     @NamedQuery(name = "Outline.findByExpiredDate", query = "SELECT o FROM Outline o WHERE o.expiredDate = :expiredDate"),
-    @NamedQuery(name = "Outline.findByTitle", query = "SELECT o FROM Outline o WHERE o.title = :title"),
-    @NamedQuery(name = "Outline.findByContentFile", query = "SELECT o FROM Outline o WHERE o.contentFile = :contentFile"),
-    @NamedQuery(name = "Outline.findByCreditHour", query = "SELECT o FROM Outline o WHERE o.creditHour = :creditHour")})
+    @NamedQuery(name = "Outline.findByDescription", query = "SELECT o FROM Outline o WHERE o.description = :description"),
+    @NamedQuery(name = "Outline.findByTheoCreditHour", query = "SELECT o FROM Outline o WHERE o.theoCreditHour = :theoCreditHour"),
+    @NamedQuery(name = "Outline.findByPracCreditHour", query = "SELECT o FROM Outline o WHERE o.pracCreditHour = :pracCreditHour"),
+    @NamedQuery(name = "Outline.findByStatus", query = "SELECT o FROM Outline o WHERE o.status = :status")})
 public class Outline implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,26 +52,36 @@ public class Outline implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "startedDate")
+    @Column(name = "started_date")
     @Temporal(TemporalType.DATE)
     private Date startedDate;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "expiredDate")
+    @Column(name = "expired_date")
     @Temporal(TemporalType.DATE)
     private Date expiredDate;
-    @Size(max = 100)
-    @Column(name = "title")
-    private String title;
     @Size(max = 500)
-    @Column(name = "contentFile")
-    private String contentFile;
+    @Column(name = "description")
+    private String description;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "creditHour")
-    private int creditHour;
+    @Column(name = "theo_credit_hour")
+    private int theoCreditHour;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "prac_credit_hour")
+    private int pracCreditHour;
+    @Column(name = "status")
+    private Boolean status;
+    @OneToMany(mappedBy = "outlineId")
+    private Set<OutlineSubject> outlineSubjectSet;
     @OneToMany(mappedBy = "outlineId")
     private Set<Feedback> feedbackSet;
+    @OneToMany(mappedBy = "outlineId")
+    private Set<OutlineScore> outlineScoreSet;
+    @JoinColumn(name = "approver_id", referencedColumnName = "id")
+    @ManyToOne
+    private Admin approverId;
     @JoinColumn(name = "lecturer_id", referencedColumnName = "id")
     @ManyToOne
     private Lecturer lecturerId;
@@ -79,6 +90,8 @@ public class Outline implements Serializable {
     private Subject subjectId;
     @OneToMany(mappedBy = "outlineId")
     private Set<Comment> commentSet;
+    @OneToMany(mappedBy = "outlineId")
+    private Set<OutlineAcademicYear> outlineAcademicYearSet;
 
     public Outline() {
     }
@@ -87,11 +100,12 @@ public class Outline implements Serializable {
         this.id = id;
     }
 
-    public Outline(Integer id, Date startedDate, Date expiredDate, int creditHour) {
+    public Outline(Integer id, Date startedDate, Date expiredDate, int theoCreditHour, int pracCreditHour) {
         this.id = id;
         this.startedDate = startedDate;
         this.expiredDate = expiredDate;
-        this.creditHour = creditHour;
+        this.theoCreditHour = theoCreditHour;
+        this.pracCreditHour = pracCreditHour;
     }
 
     public Integer getId() {
@@ -118,28 +132,45 @@ public class Outline implements Serializable {
         this.expiredDate = expiredDate;
     }
 
-    public String getTitle() {
-        return title;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getContentFile() {
-        return contentFile;
+    public int getTheoCreditHour() {
+        return theoCreditHour;
     }
 
-    public void setContentFile(String contentFile) {
-        this.contentFile = contentFile;
+    public void setTheoCreditHour(int theoCreditHour) {
+        this.theoCreditHour = theoCreditHour;
     }
 
-    public int getCreditHour() {
-        return creditHour;
+    public int getPracCreditHour() {
+        return pracCreditHour;
     }
 
-    public void setCreditHour(int creditHour) {
-        this.creditHour = creditHour;
+    public void setPracCreditHour(int pracCreditHour) {
+        this.pracCreditHour = pracCreditHour;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    @XmlTransient
+    public Set<OutlineSubject> getOutlineSubjectSet() {
+        return outlineSubjectSet;
+    }
+
+    public void setOutlineSubjectSet(Set<OutlineSubject> outlineSubjectSet) {
+        this.outlineSubjectSet = outlineSubjectSet;
     }
 
     @XmlTransient
@@ -149,6 +180,23 @@ public class Outline implements Serializable {
 
     public void setFeedbackSet(Set<Feedback> feedbackSet) {
         this.feedbackSet = feedbackSet;
+    }
+
+    @XmlTransient
+    public Set<OutlineScore> getOutlineScoreSet() {
+        return outlineScoreSet;
+    }
+
+    public void setOutlineScoreSet(Set<OutlineScore> outlineScoreSet) {
+        this.outlineScoreSet = outlineScoreSet;
+    }
+
+    public Admin getApproverId() {
+        return approverId;
+    }
+
+    public void setApproverId(Admin approverId) {
+        this.approverId = approverId;
     }
 
     public Lecturer getLecturerId() {
@@ -174,6 +222,15 @@ public class Outline implements Serializable {
 
     public void setCommentSet(Set<Comment> commentSet) {
         this.commentSet = commentSet;
+    }
+
+    @XmlTransient
+    public Set<OutlineAcademicYear> getOutlineAcademicYearSet() {
+        return outlineAcademicYearSet;
+    }
+
+    public void setOutlineAcademicYearSet(Set<OutlineAcademicYear> outlineAcademicYearSet) {
+        this.outlineAcademicYearSet = outlineAcademicYearSet;
     }
 
     @Override

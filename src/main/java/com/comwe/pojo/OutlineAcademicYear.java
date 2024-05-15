@@ -23,12 +23,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author lahon
  */
 @Entity
-@Table(name = "student_subject")
+@Table(name = "outline_academic_year")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "StudentSubject.findAll", query = "SELECT s FROM StudentSubject s"),
-    @NamedQuery(name = "StudentSubject.findById", query = "SELECT s FROM StudentSubject s WHERE s.id = :id")})
-public class StudentSubject implements Serializable {
+    @NamedQuery(name = "OutlineAcademicYear.findAll", query = "SELECT o FROM OutlineAcademicYear o"),
+    @NamedQuery(name = "OutlineAcademicYear.findById", query = "SELECT o FROM OutlineAcademicYear o WHERE o.id = :id")})
+public class OutlineAcademicYear implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -36,20 +36,17 @@ public class StudentSubject implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @JoinColumn(name = "score_id", referencedColumnName = "id")
+    @JoinColumn(name = "academic_year_id", referencedColumnName = "id")
     @ManyToOne
-    private Score scoreId;
-    @JoinColumn(name = "student_id", referencedColumnName = "id")
+    private AcademicYear academicYearId;
+    @JoinColumn(name = "outline_id", referencedColumnName = "id")
     @ManyToOne
-    private Student studentId;
-    @JoinColumn(name = "subject_id", referencedColumnName = "id")
-    @ManyToOne
-    private Subject subjectId;
+    private Outline outlineId;
 
-    public StudentSubject() {
+    public OutlineAcademicYear() {
     }
 
-    public StudentSubject(Integer id) {
+    public OutlineAcademicYear(Integer id) {
         this.id = id;
     }
 
@@ -61,28 +58,20 @@ public class StudentSubject implements Serializable {
         this.id = id;
     }
 
-    public Score getScoreId() {
-        return scoreId;
+    public AcademicYear getAcademicYearId() {
+        return academicYearId;
     }
 
-    public void setScoreId(Score scoreId) {
-        this.scoreId = scoreId;
+    public void setAcademicYearId(AcademicYear academicYearId) {
+        this.academicYearId = academicYearId;
     }
 
-    public Student getStudentId() {
-        return studentId;
+    public Outline getOutlineId() {
+        return outlineId;
     }
 
-    public void setStudentId(Student studentId) {
-        this.studentId = studentId;
-    }
-
-    public Subject getSubjectId() {
-        return subjectId;
-    }
-
-    public void setSubjectId(Subject subjectId) {
-        this.subjectId = subjectId;
+    public void setOutlineId(Outline outlineId) {
+        this.outlineId = outlineId;
     }
 
     @Override
@@ -95,10 +84,10 @@ public class StudentSubject implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof StudentSubject)) {
+        if (!(object instanceof OutlineAcademicYear)) {
             return false;
         }
-        StudentSubject other = (StudentSubject) object;
+        OutlineAcademicYear other = (OutlineAcademicYear) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -107,7 +96,7 @@ public class StudentSubject implements Serializable {
 
     @Override
     public String toString() {
-        return "com.comwe.pojo.StudentSubject[ id=" + id + " ]";
+        return "com.comwe.pojo.OutlineAcademicYear[ id=" + id + " ]";
     }
     
 }
