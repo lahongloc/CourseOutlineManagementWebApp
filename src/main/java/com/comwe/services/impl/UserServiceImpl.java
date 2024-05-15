@@ -21,6 +21,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -34,6 +35,9 @@ public class UserServiceImpl implements UserService {
     
     @Autowired
     private Cloudinary cloudinary;
+    
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     @Override
     public User getUserByUsername(String username) {
@@ -42,6 +46,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUser(User user) {
+        user.setPassword(this.encoder.encode(user.getPassword()));
         if (!user.getFile().isEmpty()) {
             try {
                 Map res = this.cloudinary.uploader().upload(user.getFile().getBytes(), ObjectUtils.asMap("resources_type", "auto"));

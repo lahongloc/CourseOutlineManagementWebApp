@@ -39,10 +39,10 @@ public class Class implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 30)
-    @Column(name = "name")
+    @Column(name = "name", length = 30)
     private String name;
     @OneToMany(mappedBy = "classId")
     private Set<Student> studentSet;

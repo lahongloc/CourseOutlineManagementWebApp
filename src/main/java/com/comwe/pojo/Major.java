@@ -40,12 +40,12 @@ public class Major implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, length = 100)
     private String name;
     @OneToMany(mappedBy = "majorId")
     private Set<Student> studentSet;

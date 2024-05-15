@@ -42,16 +42,16 @@ public class AcademicYear implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 50)
-    @Column(name = "name")
+    @Column(name = "name", length = 50)
     private String name;
     @Column(name = "start")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date start;
     @Column(name = "finish")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date finish;
     @OneToMany(mappedBy = "academicYearId")
     private Set<Student> studentSet;

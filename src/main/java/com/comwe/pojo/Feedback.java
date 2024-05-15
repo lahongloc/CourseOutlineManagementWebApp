@@ -37,12 +37,12 @@ public class Feedback implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 350)
-    @Column(name = "content")
+    @Column(name = "content", nullable = false, length = 350)
     private String content;
     @JoinColumn(name = "outline_id", referencedColumnName = "id")
     @ManyToOne

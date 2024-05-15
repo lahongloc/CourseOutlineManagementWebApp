@@ -36,8 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Outline.findAll", query = "SELECT o FROM Outline o"),
     @NamedQuery(name = "Outline.findById", query = "SELECT o FROM Outline o WHERE o.id = :id"),
-    @NamedQuery(name = "Outline.findByStartedDate", query = "SELECT o FROM Outline o WHERE o.startedDate = :startedDate"),
-    @NamedQuery(name = "Outline.findByExpiredDate", query = "SELECT o FROM Outline o WHERE o.expiredDate = :expiredDate"),
+    @NamedQuery(name = "Outline.findByStartedDatetime", query = "SELECT o FROM Outline o WHERE o.startedDatetime = :startedDatetime"),
+    @NamedQuery(name = "Outline.findByExpiredDatetime", query = "SELECT o FROM Outline o WHERE o.expiredDatetime = :expiredDatetime"),
     @NamedQuery(name = "Outline.findByDescription", query = "SELECT o FROM Outline o WHERE o.description = :description"),
     @NamedQuery(name = "Outline.findByTheoCreditHour", query = "SELECT o FROM Outline o WHERE o.theoCreditHour = :theoCreditHour"),
     @NamedQuery(name = "Outline.findByPracCreditHour", query = "SELECT o FROM Outline o WHERE o.pracCreditHour = :pracCreditHour"),
@@ -48,28 +48,28 @@ public class Outline implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "started_date")
-    @Temporal(TemporalType.DATE)
-    private Date startedDate;
+    @Column(name = "started_datetime", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startedDatetime;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "expired_date")
-    @Temporal(TemporalType.DATE)
-    private Date expiredDate;
+    @Column(name = "expired_datetime", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date expiredDatetime;
     @Size(max = 500)
-    @Column(name = "description")
+    @Column(name = "description", length = 500)
     private String description;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "theo_credit_hour")
+    @Column(name = "theo_credit_hour", nullable = false)
     private int theoCreditHour;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "prac_credit_hour")
+    @Column(name = "prac_credit_hour", nullable = false)
     private int pracCreditHour;
     @Column(name = "status")
     private Boolean status;
@@ -100,10 +100,10 @@ public class Outline implements Serializable {
         this.id = id;
     }
 
-    public Outline(Integer id, Date startedDate, Date expiredDate, int theoCreditHour, int pracCreditHour) {
+    public Outline(Integer id, Date startedDatetime, Date expiredDatetime, int theoCreditHour, int pracCreditHour) {
         this.id = id;
-        this.startedDate = startedDate;
-        this.expiredDate = expiredDate;
+        this.startedDatetime = startedDatetime;
+        this.expiredDatetime = expiredDatetime;
         this.theoCreditHour = theoCreditHour;
         this.pracCreditHour = pracCreditHour;
     }
@@ -116,20 +116,20 @@ public class Outline implements Serializable {
         this.id = id;
     }
 
-    public Date getStartedDate() {
-        return startedDate;
+    public Date getStartedDatetime() {
+        return startedDatetime;
     }
 
-    public void setStartedDate(Date startedDate) {
-        this.startedDate = startedDate;
+    public void setStartedDatetime(Date startedDatetime) {
+        this.startedDatetime = startedDatetime;
     }
 
-    public Date getExpiredDate() {
-        return expiredDate;
+    public Date getExpiredDatetime() {
+        return expiredDatetime;
     }
 
-    public void setExpiredDate(Date expiredDate) {
-        this.expiredDate = expiredDate;
+    public void setExpiredDatetime(Date expiredDatetime) {
+        this.expiredDatetime = expiredDatetime;
     }
 
     public String getDescription() {

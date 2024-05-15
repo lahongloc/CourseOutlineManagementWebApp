@@ -37,10 +37,10 @@ public class Subject implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 45)
-    @Column(name = "name")
+    @Column(name = "name", length = 45)
     private String name;
     @OneToMany(mappedBy = "subjectId")
     private Set<OutlineSubject> outlineSubjectSet;

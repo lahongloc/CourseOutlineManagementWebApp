@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,7 +31,8 @@ import org.springframework.web.multipart.MultipartFile;
  * @author lahon
  */
 @Entity
-@Table(name = "user")
+@Table(name = "user", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"username"})})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
@@ -45,53 +47,53 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "User.findByHotline", query = "SELECT u FROM User u WHERE u.hotline = :hotline"),
     @NamedQuery(name = "User.findByAvatar", query = "SELECT u FROM User u WHERE u.avatar = :avatar"),
     @NamedQuery(name = "User.findByIsActive", query = "SELECT u FROM User u WHERE u.isActive = :isActive"),
-    @NamedQuery(name = "User.findByCreatedDate", query = "SELECT u FROM User u WHERE u.createdDate = :createdDate")})
+    @NamedQuery(name = "User.findByCreatedDatetime", query = "SELECT u FROM User u WHERE u.createdDatetime = :createdDatetime")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "username")
+    @Column(name = "username", nullable = false, length = 50)
     private String username;
     @Column(name = "sex")
     private Boolean sex;
     @Column(name = "birthday")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date birthday;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "password")
+    @Column(name = "password", nullable = false, length = 50)
     private String password;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
     @Size(max = 20)
-    @Column(name = "role")
+    @Column(name = "role", length = 20)
     private String role;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 50)
-    @Column(name = "email")
+    @Column(name = "email", length = 50)
     private String email;
     @Size(max = 20)
-    @Column(name = "hotline")
+    @Column(name = "hotline", length = 20)
     private String hotline;
-    @Size(max = 50)
-    @Column(name = "avatar")
+    @Size(max = 500)
+    @Column(name = "avatar", length = 500)
     private String avatar;
     @Column(name = "is_active")
     private Boolean isActive;
-    @Column(name = "created_date")
-    @Temporal(TemporalType.DATE)
-    private Date createdDate;
+    @Column(name = "created_datetime")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDatetime;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Student student;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
@@ -100,7 +102,6 @@ public class User implements Serializable {
     private Lecturer lecturer;
     @Transient
     private MultipartFile file;
-
     public User() {
     }
 
@@ -203,12 +204,12 @@ public class User implements Serializable {
         this.isActive = isActive;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
+    public Date getCreatedDatetime() {
+        return createdDatetime;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+    public void setCreatedDatetime(Date createdDatetime) {
+        this.createdDatetime = createdDatetime;
     }
 
     public Student getStudent() {

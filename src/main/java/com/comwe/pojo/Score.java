@@ -38,13 +38,13 @@ public class Score implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 50)
-    @Column(name = "name")
+    @Column(name = "name", length = 50)
     private String name;
     @Size(max = 300)
-    @Column(name = "assessment")
+    @Column(name = "assessment", length = 300)
     private String assessment;
     @OneToMany(mappedBy = "scoreId")
     private Set<OutlineScore> outlineScoreSet;
