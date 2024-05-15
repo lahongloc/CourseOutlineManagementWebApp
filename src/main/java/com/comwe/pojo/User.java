@@ -19,9 +19,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -96,6 +98,8 @@ public class User implements Serializable {
     private Admin admin;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Lecturer lecturer;
+    @Transient
+    private MultipartFile file;
 
     public User() {
     }
@@ -254,6 +258,20 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "com.comwe.pojo.User[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the file
+     */
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
     
 }
