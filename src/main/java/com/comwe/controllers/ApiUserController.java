@@ -9,6 +9,7 @@ import com.comwe.services.UserService;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -40,9 +41,10 @@ import org.springframework.web.multipart.MultipartFile;
 @CrossOrigin
 @RequestMapping("/api")
 public class ApiUserController {
+
     @Autowired
     private UserService userService;
-    
+
     @PostMapping(path = "/addUser/", consumes = {
         MediaType.APPLICATION_JSON_VALUE,
         MediaType.MULTIPART_FORM_DATA_VALUE
@@ -52,10 +54,21 @@ public class ApiUserController {
         User user = new User();
         user.setUsername(params.get("username"));
         user.setSex(Boolean.TRUE);
-        
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        user.setBirthday(LocalDateTime.parse(params.get("birthday"), formatter));
-//        user.setBirthday();
+
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+        Date birthday;
+        try {
+            birthday = df.parse(params.get("birthday"));
+            user.setBirthday(birthday);
+
+            LocalDate today = LocalDate.now();
+            Instant instant = today.atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant();
+            Date created_date = Date.from(instant);
+            user.setCreatedDatetime(created_date);
+        } catch (ParseException ex) {
+            Logger.getLogger(ApiUserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         user.setPassword(params.get("password"));
         user.setName(params.get("name"));
         user.setRole("ADMIN");

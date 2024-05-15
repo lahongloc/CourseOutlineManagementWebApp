@@ -14,7 +14,7 @@ import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.7.12.v20230209-rNA", date="2024-05-15T16:37:17")
+@Generated(value="EclipseLink-2.7.12.v20230209-rNA", date="2024-05-15T18:53:06")
 @StaticMetamodel(Outline.class)
 public class Outline_ { 
 
@@ -22,14 +22,14 @@ public class Outline_ {
     public static volatile SetAttribute<Outline, OutlineScore> outlineScoreSet;
     public static volatile SetAttribute<Outline, Feedback> feedbackSet;
     public static volatile SingularAttribute<Outline, Admin> approverId;
-    public static volatile SingularAttribute<Outline, Date> expiredDate;
+    public static volatile SingularAttribute<Outline, Date> expiredDatetime;
     public static volatile SetAttribute<Outline, OutlineAcademicYear> outlineAcademicYearSet;
     public static volatile SingularAttribute<Outline, String> description;
-    public static volatile SingularAttribute<Outline, Date> startedDate;
     public static volatile SingularAttribute<Outline, Integer> pracCreditHour;
     public static volatile SingularAttribute<Outline, Subject> subjectId;
     public static volatile SingularAttribute<Outline, Lecturer> lecturerId;
     public static volatile SetAttribute<Outline, Comment> commentSet;
+    public static volatile SingularAttribute<Outline, Date> startedDatetime;
     public static volatile SingularAttribute<Outline, Integer> theoCreditHour;
     public static volatile SingularAttribute<Outline, Integer> id;
     public static volatile SingularAttribute<Outline, Boolean> status;
