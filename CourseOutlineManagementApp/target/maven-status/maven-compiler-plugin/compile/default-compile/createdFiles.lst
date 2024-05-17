@@ -1,3 +1,4 @@
+com\comwe\controllers\ApiOutlineController.class
 com\comwe\pojo\Faculty.class
 com\comwe\pojo\AcademicYear.class
 com\comwe\services\OutlineService.class
@@ -10,11 +11,16 @@ com\comwe\pojo\Feedback.class
 com\comwe\repositories\impl\OutlineRepositoryImpl.class
 com\comwe\pojo\Major.class
 com\comwe\pojo\Subject_.class
+com\comwe\controllers\ApiFacultyController.class
 com\comwe\pojo\User_.class
 com\comwe\pojo\Lecturer.class
 com\comwe\pojo\Admin_.class
+com\comwe\services\FacultyService.class
+com\comwe\repositories\impl\FacultyRepositoryImpl.class
+com\comwe\services\impl\FacultyServiceImpl.class
 com\comwe\services\impl\OutlineServiceImpl.class
 com\comwe\configs\DispatcherServletInit.class
+com\comwe\controllers\ApiUserController.class
 com\comwe\pojo\Semester.class
 com\comwe\pojo\Score.class
 com\comwe\pojo\Feedback_.class
@@ -47,3 +53,4 @@ com\comwe\pojo\Major_.class
 com\comwe\pojo\Admin.class
 com\comwe\pojo\Outline_.class
 com\comwe\pojo\OutlineAcademicYear.class
+com\comwe\repositories\FacultyRepository.class

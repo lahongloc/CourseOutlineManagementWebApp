@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "student")
@@ -38,7 +38,7 @@ public class Student implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @JoinColumn(name = "academic_year_id", referencedColumnName = "id")
     @ManyToOne
@@ -49,7 +49,7 @@ public class Student implements Serializable {
     @JoinColumn(name = "major_id", referencedColumnName = "id")
     @ManyToOne
     private Major majorId;
-    @JoinColumn(name = "id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private User user;
     @OneToMany(mappedBy = "studentId")

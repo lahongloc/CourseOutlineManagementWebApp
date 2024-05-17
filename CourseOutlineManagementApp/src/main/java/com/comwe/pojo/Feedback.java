@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "feedback")
@@ -37,12 +37,12 @@ public class Feedback implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 350)
-    @Column(name = "content", nullable = false, length = 350)
+    @Column(name = "content")
     private String content;
     @JoinColumn(name = "outline_id", referencedColumnName = "id")
     @ManyToOne

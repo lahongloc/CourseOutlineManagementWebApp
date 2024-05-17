@@ -1,26 +1,12 @@
-// import axios from "axios";
-// import cookie from "react-cookies";
+import axios from "axios";
 
-// const SERVER_CONTEXT = "/SaleAppV1";
-// const SERVER = "http://localhost:8085";
+const BASE_URL = 'http://localhost:8085/CourseOutlineManagementWebApp/';
 
-// export const endpoints = {
-//     "categories": `${SERVER_CONTEXT}/api/categories/`,
-//     "products": `${SERVER_CONTEXT}/api/products/`,
-//     "login": `${SERVER_CONTEXT}/api/login/`,
-//     "current-user": `${SERVER_CONTEXT}/api/current-user/`,
-//     "register": `${SERVER_CONTEXT}/api/users/`,
-// }
+export const endpoints = {
+    'getOutlines': '/api/getOutlines/',
+    'getFaculties': '/api/getFaculties/'
+}
 
-// export const authApi = () => {
-//     return axios.create({
-//         baseURL: SERVER,
-//         headers: {
-//             "Authorization": cookie.load("token")
-//         }
-//     })
-// }
-
-// export default axios.create({
-//     baseURL: SERVER
-// });
+export default axios.create({
+    baseURL: BASE_URL
+});

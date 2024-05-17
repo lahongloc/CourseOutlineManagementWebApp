@@ -4,6 +4,7 @@
  */
 package com.comwe.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -23,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "faculty")
@@ -38,16 +39,18 @@ public class Faculty implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "name", nullable = false, length = 100)
+    @Column(name = "name")
     private String name;
     @OneToMany(mappedBy = "facultyId")
+    @JsonIgnore
     private Set<Lecturer> lecturerSet;
     @OneToMany(mappedBy = "facultyId")
+    @JsonIgnore
     private Set<Major> majorSet;
 
     public Faculty() {

@@ -16,16 +16,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
-@Table(name = "outline_academic_year", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"outline_id", "academic_year_id"})})
+@Table(name = "outline_academic_year")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "OutlineAcademicYear.findAll", query = "SELECT o FROM OutlineAcademicYear o"),
@@ -36,7 +34,7 @@ public class OutlineAcademicYear implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @JoinColumn(name = "academic_year_id", referencedColumnName = "id")
     @ManyToOne

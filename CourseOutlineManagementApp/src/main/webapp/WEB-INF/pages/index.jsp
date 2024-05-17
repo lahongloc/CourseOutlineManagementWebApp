@@ -15,15 +15,5 @@
         <th>Ngày kết thúc</th>
         <th>Nội dung đề cương</th>
     </tr>
-    <c:forEach items="${outlines}" var="o">
-        <tr>
-            <td>${o.title}</td>
-            <td>${o.creditHour}</td>
-            <td>${o.startedDate}</td>
-            <td>${o.expiredDate}</td>
-            <td>
-                <a href=${o.contentFile}>File</a>
-            </td>
-        </tr>
-    </c:forEach>
+   
 </table>

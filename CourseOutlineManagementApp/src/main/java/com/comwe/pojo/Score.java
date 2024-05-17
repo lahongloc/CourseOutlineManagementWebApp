@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "score")
@@ -38,13 +38,13 @@ public class Score implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Size(max = 50)
-    @Column(name = "name", length = 50)
+    @Column(name = "name")
     private String name;
     @Size(max = 300)
-    @Column(name = "assessment", length = 300)
+    @Column(name = "assessment")
     private String assessment;
     @OneToMany(mappedBy = "scoreId")
     private Set<OutlineScore> outlineScoreSet;

@@ -16,16 +16,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
-@Table(name = "outline_score", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"outline_id", "score_id"})})
+@Table(name = "outline_score")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "OutlineScore.findAll", query = "SELECT o FROM OutlineScore o"),
@@ -37,10 +35,10 @@ public class OutlineScore implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "percent", precision = 12, scale = 0)
+    @Column(name = "percent")
     private Float percent;
     @JoinColumn(name = "outline_id", referencedColumnName = "id")
     @ManyToOne

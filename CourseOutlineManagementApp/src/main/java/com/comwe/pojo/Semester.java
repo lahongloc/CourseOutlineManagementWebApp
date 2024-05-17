@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "semester")
@@ -36,10 +36,10 @@ public class Semester implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Size(max = 50)
-    @Column(name = "name", length = 50)
+    @Column(name = "name")
     private String name;
     @JoinColumn(name = "academic_year_id", referencedColumnName = "id")
     @ManyToOne

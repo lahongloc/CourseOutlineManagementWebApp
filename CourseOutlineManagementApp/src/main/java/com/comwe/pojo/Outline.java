@@ -4,6 +4,7 @@
  */
 package com.comwe.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -28,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "outline")
@@ -48,49 +49,57 @@ public class Outline implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "started_datetime", nullable = false)
+    @Column(name = "started_datetime")
     @Temporal(TemporalType.TIMESTAMP)
     private Date startedDatetime;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "expired_datetime", nullable = false)
+    @Column(name = "expired_datetime")
     @Temporal(TemporalType.TIMESTAMP)
     private Date expiredDatetime;
     @Size(max = 500)
-    @Column(name = "description", length = 500)
+    @Column(name = "description")
     private String description;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "theo_credit_hour", nullable = false)
+    @Column(name = "theo_credit_hour")
     private int theoCreditHour;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "prac_credit_hour", nullable = false)
+    @Column(name = "prac_credit_hour")
     private int pracCreditHour;
     @Column(name = "status")
     private Boolean status;
     @OneToMany(mappedBy = "outlineId")
+    @JsonIgnore
     private Set<OutlineSubject> outlineSubjectSet;
     @OneToMany(mappedBy = "outlineId")
+    @JsonIgnore
     private Set<Feedback> feedbackSet;
     @OneToMany(mappedBy = "outlineId")
+    @JsonIgnore
     private Set<OutlineScore> outlineScoreSet;
     @JoinColumn(name = "approver_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Admin approverId;
     @JoinColumn(name = "lecturer_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Lecturer lecturerId;
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Subject subjectId;
     @OneToMany(mappedBy = "outlineId")
+    @JsonIgnore
     private Set<Comment> commentSet;
     @OneToMany(mappedBy = "outlineId")
+    @JsonIgnore
     private Set<OutlineAcademicYear> outlineAcademicYearSet;
 
     public Outline() {

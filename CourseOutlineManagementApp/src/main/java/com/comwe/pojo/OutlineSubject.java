@@ -16,17 +16,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
-@Table(name = "outline_subject", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"outline_id", "subject_id"})})
+@Table(name = "outline_subject")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "OutlineSubject.findAll", query = "SELECT o FROM OutlineSubject o"),
@@ -38,10 +36,10 @@ public class OutlineSubject implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Size(max = 50)
-    @Column(name = "type", length = 50)
+    @Column(name = "type")
     private String type;
     @JoinColumn(name = "outline_id", referencedColumnName = "id")
     @ManyToOne

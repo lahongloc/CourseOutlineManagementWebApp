@@ -4,6 +4,7 @@
  */
 package com.comwe.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -20,7 +21,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -28,11 +28,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
-@Table(name = "user", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"username"})})
+@Table(name = "user")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
@@ -54,12 +53,12 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "username", nullable = false, length = 50)
+    @Column(name = "username")
     private String username;
     @Column(name = "sex")
     private Boolean sex;
@@ -69,39 +68,43 @@ public class User implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "password", nullable = false, length = 50)
+    @Column(name = "password")
     private String password;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "name", nullable = false, length = 50)
+    @Column(name = "name")
     private String name;
     @Size(max = 20)
-    @Column(name = "role", length = 20)
+    @Column(name = "role")
     private String role;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 50)
-    @Column(name = "email", length = 50)
+    @Column(name = "email")
     private String email;
     @Size(max = 20)
-    @Column(name = "hotline", length = 20)
+    @Column(name = "hotline")
     private String hotline;
-    @Size(max = 500)
-    @Column(name = "avatar", length = 500)
+    @Size(max = 50)
+    @Column(name = "avatar")
     private String avatar;
     @Column(name = "is_active")
     private Boolean isActive;
     @Column(name = "created_datetime")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDatetime;
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Student student;
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Admin admin;
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Lecturer lecturer;
     @Transient
     private MultipartFile file;
+
     public User() {
     }
 

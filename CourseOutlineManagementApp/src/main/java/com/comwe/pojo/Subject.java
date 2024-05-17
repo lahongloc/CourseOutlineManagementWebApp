@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "subject")
@@ -37,10 +37,10 @@ public class Subject implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Size(max = 45)
-    @Column(name = "name", length = 45)
+    @Column(name = "name")
     private String name;
     @OneToMany(mappedBy = "subjectId")
     private Set<OutlineSubject> outlineSubjectSet;

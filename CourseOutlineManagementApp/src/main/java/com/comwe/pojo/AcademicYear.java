@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "academic_year")
@@ -42,10 +42,10 @@ public class AcademicYear implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Size(max = 50)
-    @Column(name = "name", length = 50)
+    @Column(name = "name")
     private String name;
     @Column(name = "start")
     @Temporal(TemporalType.TIMESTAMP)

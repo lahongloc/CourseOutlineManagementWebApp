@@ -4,7 +4,13 @@
  */
 package com.comwe.repositories.impl;
 
+import com.comwe.pojo.Admin;
+import com.comwe.pojo.Faculty;
+import com.comwe.pojo.Lecturer;
+import com.comwe.pojo.Major;
 import com.comwe.pojo.Outline;
+import com.comwe.pojo.Subject;
+import com.comwe.pojo.User;
 import com.comwe.repositories.OutlineRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,17 +40,33 @@ public class OutlineRepositoryImpl implements OutlineRepository {
     public List<Outline> getOutlines(Map<String, String> params) {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder c = s.getCriteriaBuilder();
-        CriteriaQuery q = c.createQuery(Outline.class);
-        Root r = q.from(Outline.class);
-        q.select(r);
+        CriteriaQuery<Object> q = c.createQuery(Object.class);
+        Root rootOutline = q.from(Outline.class);
+        Root rootLecturer = q.from(Lecturer.class);
+        Root rootUser = q.from(User.class);
+        Root rootSubject = q.from(Subject.class);
+        Root rootFaculty = q.from(Faculty.class);
+        
+        q.multiselect(rootOutline.get("id"), rootOutline.get("startedDatetime"), rootOutline.get("expiredDatetime"), 
+                rootOutline.get("description"), rootOutline.get("theoCreditHour"), rootOutline.get("pracCreditHour"), 
+                rootUser.get("name"), 
+                rootSubject.get("name"), 
+                rootFaculty.get("name"));
         
         String title = params.get("name");
         List<Predicate> predicates = new ArrayList<>();
         
+        predicates.add(c.equal(rootOutline.get("lecturerId"), rootLecturer.get("id")));
+        predicates.add(c.equal(rootLecturer.get("id"), rootUser.get("id")));
+        predicates.add(c.equal(rootOutline.get("subjectId"), rootSubject.get("id")));
+        predicates.add(c.equal(rootLecturer.get("facultyId"), rootFaculty.get("id")));
+        
         if(title != null && !title.isEmpty()) {
-            predicates.add(c.like(r.get("title"), String.format("%%%s%%", title)));
+            predicates.add(c.like(rootOutline.get("title"), String.format("%%%s%%", title)));
         }
+        
         q.where(predicates.toArray(Predicate[]::new));
+        q.orderBy(c.asc(rootOutline.get("id")));
         
         Query qr = s.createQuery(q);
         

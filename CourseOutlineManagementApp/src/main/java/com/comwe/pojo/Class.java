@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "class")
@@ -39,10 +39,10 @@ public class Class implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Size(max = 30)
-    @Column(name = "name", length = 30)
+    @Column(name = "name")
     private String name;
     @OneToMany(mappedBy = "classId")
     private Set<Student> studentSet;
