@@ -16,6 +16,7 @@ import javax.persistence.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,9 @@ public class UserRepositoryImpl implements UserRepository {
     @Autowired
     private Cloudinary cloudinary;
 
+    @Autowired
+    private BCryptPasswordEncoder passEncoder;
+    
     @Override
     public User getUserByUsername(String username) {
         Session s = this.factory.getObject().getCurrentSession();
@@ -43,6 +47,13 @@ public class UserRepositoryImpl implements UserRepository {
     public void addUser(User user) {
         Session s = this.factory.getObject().getCurrentSession();
         s.save(user);
+    }
+
+    @Override
+    public boolean authUser(String username, String password) {
+        User u = this.getUserByUsername(username);
+        
+        return this.passEncoder.matches(password, u.getPassword());
     }
     
 }

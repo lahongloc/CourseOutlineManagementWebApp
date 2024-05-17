@@ -29,6 +29,7 @@ com\comwe\pojo\Score_.class
 com\comwe\services\UserService.class
 com\comwe\pojo\OutlineSubject_.class
 com\comwe\pojo\OutlineSubject.class
+com\comwe\controllers\UserController.class
 com\comwe\repositories\OutlineRepository.class
 com\comwe\configs\HibernateConfig.class
 com\comwe\repositories\impl\UserRepositoryImpl.class

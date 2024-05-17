@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -30,6 +31,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
     "com.comwe.repositories",
     "com.comwe.services"
 })
+@Order(2)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -51,7 +53,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http)
             throws Exception {
-        http.formLogin()
+        http.formLogin().loginPage("/login")
                 .usernameParameter("username")
                 .passwordParameter("password");
         http.formLogin().defaultSuccessUrl("/")
@@ -61,9 +63,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .accessDeniedPage("/login?accessDenied");
         http.authorizeRequests().antMatchers("/").permitAll()
                 .antMatchers("/**/add")
-                .access("hasRole('ADMIN')");
+                .access("hasRole('ROLE_ADMIN')");
 //        .antMatchers("/**/pay")
-//                .access("hasAnyRole('ADMIN', 'LECTURER')");
+//                .access("hasAnyRole('ROLE_ADMIN', 'LECTURER')");
         http.csrf().disable();
     }
     
