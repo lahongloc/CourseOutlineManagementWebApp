@@ -4,7 +4,6 @@
  */
 package com.comwe.services.impl;
 
-import com.comwe.pojo.Outline;
 import com.comwe.repositories.OutlineRepository;
 import com.comwe.services.OutlineService;
 import java.util.List;
@@ -20,10 +19,12 @@ import org.springframework.stereotype.Service;
 public class OutlineServiceImpl implements OutlineService {
     @Autowired
     private OutlineRepository outlineRepo;
-    
+
     @Override
-    public List<Outline> getOutlines(Map<String, String> params) {
+    public List<Object> getOutlines(Map<String, String> params) {
         return this.outlineRepo.getOutlines(params);
     }
+    
+    
     
 }

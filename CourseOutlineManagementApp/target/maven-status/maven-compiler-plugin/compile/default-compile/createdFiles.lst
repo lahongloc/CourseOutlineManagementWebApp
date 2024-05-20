@@ -1,4 +1,5 @@
 com\comwe\controllers\ApiOutlineController.class
+com\comwe\filters\RestAuthenticationEntryPoint.class
 com\comwe\pojo\Faculty.class
 com\comwe\pojo\AcademicYear.class
 com\comwe\services\OutlineService.class
@@ -34,11 +35,13 @@ com\comwe\repositories\OutlineRepository.class
 com\comwe\configs\HibernateConfig.class
 com\comwe\repositories\impl\UserRepositoryImpl.class
 com\comwe\repositories\UserRepository.class
+com\comwe\filters\JwtAuthenticationTokenFilter.class
 com\comwe\pojo\AcademicYear_.class
 com\comwe\pojo\OutlineScore.class
 com\comwe\pojo\User.class
 com\comwe\pojo\Student.class
 com\comwe\pojo\Student_.class
+com\comwe\components\JwtService.class
 com\comwe\pojo\Class.class
 com\comwe\configs\SecurityWebApplicationInitializer.class
 com\comwe\pojo\Subject.class
@@ -53,5 +56,7 @@ com\comwe\configs\TilesConfig.class
 com\comwe\pojo\Major_.class
 com\comwe\pojo\Admin.class
 com\comwe\pojo\Outline_.class
+com\comwe\configs\JwtSecurityConfig.class
+com\comwe\filters\CustomAccessDeniedHandler.class
 com\comwe\pojo\OutlineAcademicYear.class
 com\comwe\repositories\FacultyRepository.class

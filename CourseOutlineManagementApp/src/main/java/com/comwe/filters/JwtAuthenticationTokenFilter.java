@@ -3,17 +3,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.comwe.filters;
+
 import com.comwe.components.JwtService;
+import com.comwe.configs.SpringSecurityConfig;
 import com.comwe.pojo.User;
 import com.comwe.services.UserService;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,11 +27,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+
 /**
  *
  * @author lahon
  */
 public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthenticationFilter {
+
     private final static String TOKEN_HEADER = "authorization";
     @Autowired
     private JwtService jwtService;
@@ -46,10 +53,10 @@ public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthentication
                 boolean accountNonExpired = true;
                 boolean credentialsNonExpired = true;
                 boolean accountNonLocked = true;
-                
+
                 Set<GrantedAuthority> authorities = new HashSet<>();
                 authorities.add(new SimpleGrantedAuthority(user.getRole()));
-                
+
                 UserDetails userDetail = new org.springframework.security.core.userdetails.User(username, user.getPassword(), enabled, accountNonExpired,
                         credentialsNonExpired, accountNonLocked, authorities);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail,
@@ -60,5 +67,7 @@ public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthentication
         }
         chain.doFilter(request, response);
     }
+
+    
 
 }

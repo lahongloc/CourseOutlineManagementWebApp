@@ -67,7 +67,7 @@ public class User implements Serializable {
     private Date birthday;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 500)
     @Column(name = "password")
     private String password;
     @Basic(optional = false)
@@ -85,7 +85,7 @@ public class User implements Serializable {
     @Size(max = 20)
     @Column(name = "hotline")
     private String hotline;
-    @Size(max = 50)
+    @Size(max = 500)
     @Column(name = "avatar")
     private String avatar;
     @Column(name = "is_active")

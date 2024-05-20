@@ -29,8 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserRepositoryImpl implements UserRepository {
     @Autowired
     private LocalSessionFactoryBean factory;
-    @Autowired
-    private Cloudinary cloudinary;
 
     @Autowired
     private BCryptPasswordEncoder passEncoder;
@@ -44,16 +42,17 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void addUser(User user) {
+    public User addUser(User user) {
         Session s = this.factory.getObject().getCurrentSession();
         s.save(user);
+        return user;
     }
 
     @Override
     public boolean authUser(String username, String password) {
         User u = this.getUserByUsername(username);
         
-        return this.passEncoder.matches(password, u.getPassword());
+        return this.passEncoder.matches(password, u.getPassword()) && u.getIsActive();
     }
     
 }

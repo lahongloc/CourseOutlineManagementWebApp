@@ -8,7 +8,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<h1>FOOTER NÈ!</h1>
+<h1>HEADER NÈ!</h1>
 <div class="container">
     <c:choose>
         <c:when test="${pageContext.request.userPrincipal.name != null}">

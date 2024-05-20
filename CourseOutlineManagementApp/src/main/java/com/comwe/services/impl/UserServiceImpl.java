@@ -6,11 +6,18 @@ package com.comwe.services.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.comwe.controllers.ApiUserController;
 import com.comwe.pojo.User;
 import com.comwe.repositories.UserRepository;
 import com.comwe.repositories.impl.UserRepositoryImpl;
 import com.comwe.services.UserService;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +30,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -30,12 +38,13 @@ import org.springframework.stereotype.Service;
  */
 @Service("userDetailsService")
 public class UserServiceImpl implements UserService {
+
     @Autowired
     private UserRepository userRepo;
-    
+
     @Autowired
     private Cloudinary cloudinary;
-    
+
     @Autowired
     private BCryptPasswordEncoder encoder;
 
@@ -44,24 +53,11 @@ public class UserServiceImpl implements UserService {
         return this.userRepo.getUserByUsername(username);
     }
 
-    @Override
-    public void addUser(User user) {
-        user.setPassword(this.encoder.encode(user.getPassword()));
-        if (!user.getFile().isEmpty()) {
-            try {
-                Map res = this.cloudinary.uploader().upload(user.getFile().getBytes(), ObjectUtils.asMap("resources_type", "auto"));
-                user.setAvatar(res.get("secure_url").toString());
-                this.userRepo.addUser(user);
-            } catch (IOException ex) {
-                Logger.getLogger(UserRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User u = this.userRepo.getUserByUsername(username);
-        if (u == null) {
+        if (u == null || !u.getRole().equals("ROLE_ADMIN")) {
             throw new UsernameNotFoundException("User not existed!");
         }
 
@@ -74,6 +70,47 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean authUser(String username, String password) {
         return this.userRepo.authUser(username, password);
+    }
+
+    @Override
+    public User addUser(Map<String, String> params, MultipartFile avatar) {
+        User user = new User();
+        user.setUsername(params.get("username"));
+        user.setSex(Boolean.TRUE);
+
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+        Date birthday;
+        try {
+            birthday = df.parse(params.get("birthday"));
+            user.setBirthday(birthday);
+
+            LocalDate today = LocalDate.now();
+            Instant instant = today.atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant();
+            Date created_date = Date.from(instant);
+            user.setCreatedDatetime(created_date);
+        } catch (ParseException ex) {
+            Logger.getLogger(ApiUserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        user.setPassword(this.encoder.encode(params.get("password")));
+        user.setName(params.get("name"));
+        user.setRole("ROLE_ADMIN");
+        user.setEmail(params.get("email"));
+        user.setHotline(params.get("hotline"));
+        
+        if(!avatar.isEmpty()) {
+            try {
+                Map res = this.cloudinary.uploader().upload(avatar.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
+                user.setAvatar(res.get("secure_url").toString());
+            } catch (IOException ex) {
+                Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        user.setIsActive(Boolean.TRUE);
+        this.userRepo.addUser(user);
+        
+        return user;
     }
 
 }

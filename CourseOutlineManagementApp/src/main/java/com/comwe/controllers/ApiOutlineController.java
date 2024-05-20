@@ -4,7 +4,6 @@
  */
 package com.comwe.controllers;
 
-import com.comwe.pojo.Outline;
 import com.comwe.services.OutlineService;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +27,7 @@ public class ApiOutlineController {
     @Autowired
     private OutlineService outlineService;
     @GetMapping("/getOutlines/")
-    public ResponseEntity<List<Outline>> list(@RequestParam Map<String, String> params) {
+    public ResponseEntity<List<Object>> list(@RequestParam Map<String, String> params) {
         return new ResponseEntity<>(this.outlineService.getOutlines(params), HttpStatus.OK);
     }
 }

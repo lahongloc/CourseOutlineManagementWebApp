@@ -4,7 +4,6 @@
  */
 package com.comwe.repositories;
 
-import com.comwe.pojo.Outline;
 import java.util.List;
 import java.util.Map;
 
@@ -13,5 +12,5 @@ import java.util.Map;
  * @author lahon
  */
 public interface OutlineRepository {
-    List<Outline> getOutlines(Map<String, String> params);
+    List<Object> getOutlines(Map<String, String> params);
 }

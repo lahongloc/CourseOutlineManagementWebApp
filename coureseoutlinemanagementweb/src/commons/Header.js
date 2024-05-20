@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
-import { Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
+import { useContext, useEffect, useState } from "react";
+import { Button, Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
 import APIs, { endpoints } from "../configs/APIs";
 import { Link } from "react-router-dom";
+import { UserContext } from "../App";
+import { LOGOUT } from "../reducers/Actions";
 
 const Header = () => {
 	const [faculty, setFaculty] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [user, dispatch] = useContext(UserContext);
 
 	const loadFaculty = async () => {
 		try {
@@ -18,6 +21,12 @@ const Header = () => {
 		} finally {
 			setLoading(false);
 		}
+	};
+
+	const logout = () => {
+		dispatch({
+			type: LOGOUT,
+		});
 	};
 
 	useEffect(() => {
@@ -35,9 +44,19 @@ const Header = () => {
 					<Navbar.Collapse id="basic-navbar-nav">
 						<Nav className="me-auto">
 							<Nav.Link href="#home">Trang chủ</Nav.Link>
-							<Link className="nav-link text-danger" to="/login">
-								Đăng nhập
-							</Link>
+							{user === null ? (
+								<Link
+									className="nav-link text-danger"
+									to="/login"
+								>
+									Đăng nhập
+								</Link>
+							) : (
+								<Button onClick={logout} variant="info">
+									Đăng Xuất {user.name}
+								</Button>
+							)}
+
 							<NavDropdown
 								title="Khoa - Ban"
 								id="basic-nav-dropdown"

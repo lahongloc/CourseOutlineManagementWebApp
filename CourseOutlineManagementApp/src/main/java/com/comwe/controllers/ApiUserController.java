@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,55 +53,41 @@ public class ApiUserController {
     @CrossOrigin
     @ResponseStatus(HttpStatus.CREATED)
     public void addUser(@RequestParam Map<String, String> params, @RequestPart MultipartFile[] files) {
-        User user = new User();
-        user.setUsername(params.get("username"));
-        user.setSex(Boolean.TRUE);
-
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-        Date birthday;
-        try {
-            birthday = df.parse(params.get("birthday"));
-            user.setBirthday(birthday);
-
-            LocalDate today = LocalDate.now();
-            Instant instant = today.atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant();
-            Date created_date = Date.from(instant);
-            user.setCreatedDatetime(created_date);
-        } catch (ParseException ex) {
-            Logger.getLogger(ApiUserController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        user.setPassword(params.get("password"));
-        user.setName(params.get("name"));
-        user.setRole("ADMIN");
-        user.setEmail(params.get("email"));
-        user.setHotline(params.get("hotline"));
-        user.setFile(files[0]);
-        user.setIsActive(Boolean.TRUE);
-        this.userService.addUser(user);
+        this.userService.addUser(params, files[0]);
     }
     
-    @PostMapping("/login/")
     @CrossOrigin
-    public ResponseEntity<String> login(@RequestBody User user) {
+    @PostMapping("/login/")
+    public ResponseEntity<Object> login(@RequestBody User user) {
         if(this.userService.authUser(user.getUsername(), user.getPassword()) == true) {
             String token = this.jwtService.generateTokenLogin(user.getUsername());
+            User u = this.userService.getUserByUsername(user.getUsername());
             
-            return new ResponseEntity<>(token, HttpStatus.OK);
+            HashMap<String, Object> responses = new HashMap<>();
+            responses.put("token", token);
+            responses.put("currentUser", u);
+            
+            return new ResponseEntity<>(responses, HttpStatus.OK);
         }
         return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
     }
     
-    @PostMapping("/test/")
-    @CrossOrigin(origins = {"127.0.0.1:5500"})
-    public ResponseEntity<String> test(Principal pricipal) {
-        return new ResponseEntity<>("SUCCESSFUL", HttpStatus.OK);
+    
+    @CrossOrigin
+    @PostMapping(path = "/users/", 
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, 
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<User> addUser(@RequestParam Map<String, String> params, @RequestPart MultipartFile avatar) {
+        User user = this.userService.addUser(params, avatar);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
     
-    @GetMapping(path = "/current-user/", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
-    public ResponseEntity<User> details(Principal user) {
-        User u = this.userService.getUserByUsername(user.getName());
-        return new ResponseEntity<>(u, HttpStatus.OK);
+    @GetMapping(path = "/current-user/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String details(Principal user) {
+        
+        
+        User u = this.userService.getUserByUsername("locla");
+        return user.getName();
     }
 }
