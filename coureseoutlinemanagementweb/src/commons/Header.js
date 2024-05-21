@@ -6,15 +6,15 @@ import { UserContext } from "../App";
 import { LOGOUT } from "../reducers/Actions";
 
 const Header = () => {
-	const [faculty, setFaculty] = useState([]);
+	const [faculties, setFaculties] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [user, dispatch] = useContext(UserContext);
 
-	const loadFaculty = async () => {
+	const loadFaculties = async () => {
 		try {
 			let url = `${endpoints["getFaculties"]}`;
 			let res = await APIs.get(url);
-			setFaculty(res.data);
+			setFaculties(res.data);
 			console.log(res.data);
 		} catch (ex) {
 			console.error(ex);
@@ -30,7 +30,7 @@ const Header = () => {
 	};
 
 	useEffect(() => {
-		loadFaculty();
+		loadFaculties();
 	}, []);
 
 	return (
@@ -61,7 +61,7 @@ const Header = () => {
 								title="Khoa - Ban"
 								id="basic-nav-dropdown"
 							>
-								{faculty.map((f) => (
+								{faculties.map((f) => (
 									<NavDropdown.Item href="/" key={f.id}>
 										{f.name}
 									</NavDropdown.Item>

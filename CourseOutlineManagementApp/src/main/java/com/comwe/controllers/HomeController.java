@@ -6,6 +6,8 @@ package com.comwe.controllers;
 
 import com.comwe.pojo.User;
 import com.comwe.services.OutlineService;
+import com.comwe.services.UserService;
+import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
@@ -15,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -26,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class HomeController {
     @Autowired
     private OutlineService outlineService;
+    @Autowired
+    private UserService userService;
     
     private static final AuthenticationTrustResolver authenticationTrustResolver = new AuthenticationTrustResolverImpl();
 
@@ -45,5 +50,11 @@ public class HomeController {
         }
 
         return "index";
+    }
+    
+    @GetMapping("/users-manager/")
+    public String lecturerManagement(@RequestParam Map<String, String> params, Model model) {
+        model.addAttribute("users", this.userService.getNonAdminUsers(params));
+        return "user";
     }
 }

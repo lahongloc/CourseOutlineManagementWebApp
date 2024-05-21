@@ -8,23 +8,17 @@ import com.comwe.components.JwtService;
 import com.comwe.pojo.User;
 import com.comwe.services.UserService;
 import java.security.Principal;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -89,5 +83,11 @@ public class ApiUserController {
         
         User u = this.userService.getUserByUsername("locla");
         return user.getName();
+    }
+    
+    @PostMapping("/user-approvement/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void userApprove(@PathVariable int userId) {
+        this.userService.userApprove(userId);
     }
 }

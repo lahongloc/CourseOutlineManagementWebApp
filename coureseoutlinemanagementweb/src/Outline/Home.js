@@ -12,7 +12,6 @@ const Home = () => {
 			let url = `${endpoints["getOutlines"]}`;
 			let res = await APIs.get(url);
 			setOutline(res.data);
-			console.log(res.data);
 		} catch (ex) {
 			console.error(ex);
 		} finally {

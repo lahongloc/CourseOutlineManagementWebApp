@@ -19,6 +19,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -76,7 +77,7 @@ public class UserServiceImpl implements UserService {
     public User addUser(Map<String, String> params, MultipartFile avatar) {
         User user = new User();
         user.setUsername(params.get("username"));
-        user.setSex(Boolean.TRUE);
+        user.setSex(Boolean.valueOf(params.get("sex")));
 
         DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
         Date birthday;
@@ -94,7 +95,7 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(this.encoder.encode(params.get("password")));
         user.setName(params.get("name"));
-        user.setRole("ROLE_ADMIN");
+        user.setRole(params.get("role"));
         user.setEmail(params.get("email"));
         user.setHotline(params.get("hotline"));
         
@@ -107,10 +108,18 @@ public class UserServiceImpl implements UserService {
             }
         }
         
-        user.setIsActive(Boolean.TRUE);
-        this.userRepo.addUser(user);
-        
-        return user;
+        user.setIsActive(Boolean.FALSE);
+        return this.userRepo.addUser(user);
+    }
+
+    @Override
+    public List<User> getNonAdminUsers(Map<String, String> params) {
+        return this.userRepo.getNonAdminUsers(params);
+    }
+
+    @Override
+    public void userApprove(int id) {
+        this.userRepo.userApprove(id);
     }
 
 }

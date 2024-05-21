@@ -2,11 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import APIs, { authApi, endpoints } from "../configs/APIs";
 import cookie from "react-cookies";
-import UserReducer from "../reducers/UserReducer";
 import { LOGIN } from "../reducers/Actions";
 import { Navigate, useSearchParams } from "react-router-dom";
 import { UserContext } from "../App";
-import { render } from "@testing-library/react";
 
 const Login = () => {
 	const [user, dispatch] = useContext(UserContext);

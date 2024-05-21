@@ -5,6 +5,8 @@
 package com.comwe.repositories;
 
 import com.comwe.pojo.User;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -14,4 +16,6 @@ public interface UserRepository {
     User getUserByUsername(String username);
     boolean authUser(String username, String password);
     User addUser(User user);
+    List<User> getNonAdminUsers(Map<String, String> params);
+    void userApprove(int id);
 }
