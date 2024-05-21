@@ -1,7 +1,9 @@
 import {
+	Alert,
 	Avatar,
 	Box,
 	Button,
+	CircularProgress,
 	Container,
 	CssBaseline,
 	FormControl,
@@ -10,6 +12,7 @@ import {
 	Grid,
 	Input,
 	InputLabel,
+	Paper,
 	Radio,
 	RadioGroup,
 	TextField,
@@ -18,10 +21,15 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import APIs, { endpoints } from "../configs/APIs";
 import ControlledOpenSelect from "../UI components/ControlledOpenSelect";
 import { Form } from "react-bootstrap";
+import { parse, format } from "date-fns";
 
 const SignUp = () => {
 	const [value, setValue] = useState("female");
 	const [faculties, setFaculties] = useState([]);
+	const [message, setMessage] = useState({
+		success: false,
+		error: false,
+	});
 
 	const [lecturer, setLecturer] = useState({ role: "ROLE_LECTURER" });
 	const [preview, setPreview] = useState(null);
@@ -42,6 +50,10 @@ const SignUp = () => {
 		loadFaculties();
 	}, []);
 
+	useEffect(() => {
+		console.log(lecturer);
+	});
+
 	const handleFacultyChange = useCallback((value) => {
 		setLecturer((prev) => {
 			return { ...prev, facultyId: value };
@@ -56,12 +68,25 @@ const SignUp = () => {
 				form.append(field, lecturer[field]);
 			}
 
+			form.set("birthday", format(form.get("birthday"), "yyyy/MM/dd"));
+
 			form.append("files", avatar.current.files[0]);
 
 			try {
 				let res = await APIs.post(endpoints["register"], form);
-				console.log(res.data);
+				if (res.status === 201) {
+					setMessage((prev) => {
+						return { error: false, success: true };
+					});
+				} else {
+					setMessage((prev) => {
+						return { success: false, error: true };
+					});
+				}
 			} catch (err) {
+				setMessage((prev) => {
+					return { success: false, error: true };
+				});
 				console.error(err);
 			}
 		};
@@ -71,11 +96,69 @@ const SignUp = () => {
 
 	return (
 		<>
-			<Container component="main" maxWidth="xs">
+			<div
+				className="d-flex justify-content-center align-items-center full-height mt-5"
+				style={{ flexDirection: "column" }}
+			>
+				<Avatar
+					alt="Remy Sharp"
+					src={preview || ""}
+					sx={{
+						mb: 2,
+						width: 100,
+						height: 100,
+					}}
+				/>
+
+				<Form.Group style={{ width: "10rem" }} className="mt-3">
+					<Form.Control
+						onChange={(e) => {
+							const selectedFile = e.target.files[0];
+							const reader = new FileReader();
+							reader.onloadend = () => {
+								setPreview(reader.result);
+							};
+							reader.readAsDataURL(selectedFile);
+						}}
+						type="file"
+						ref={avatar}
+					/>
+				</Form.Group>
+				{message.success && (
+					<Alert
+						sx={{
+							marginTop: 5,
+						}}
+						severity="info"
+					>
+						Đăng ký thành công, tài khoản của bạn sẽ được phê duyệt
+						bởi quản trị viên!
+					</Alert>
+				)}
+				{message.error && (
+					<Alert
+						sx={{
+							marginTop: 5,
+						}}
+						severity="error"
+					>
+						Đăng ký thất bại, hãy đảm bảo các thông tin bạn nhập là
+						chính xác!
+					</Alert>
+				)}
+			</div>
+
+			<Container
+				sx={{
+					marginBottom: "15rem",
+				}}
+				component="main"
+				maxWidth="md"
+			>
 				<CssBaseline />
 				<Box
 					sx={{
-						marginTop: 8,
+						marginTop: 2,
 						display: "flex",
 						flexDirection: "column",
 						alignItems: "center",
@@ -84,50 +167,18 @@ const SignUp = () => {
 					<Box
 						component="form"
 						noValidate
-						// onSubmit={handleSubmit}
-						sx={{ mt: 3 }}
+						// onSubmit={register}
+						sx={{
+							mt: 3,
+							display: "flex",
+							justifyContent: "space-between",
+						}}
 					>
 						<Grid container spacing={2}>
-							<Grid
-								sx={{
-									display: "flex",
-									alignItems: "center",
-								}}
-								item
-								xs={12}
-							>
-								<Avatar
-									alt="Remy Sharp"
-									src={preview || ""}
-									sx={{
-										mb: 3,
-										width: 70,
-										height: 70,
-									}}
-								/>
-							</Grid>
-							<Grid item xs={12}>
-								<Form.Group className="mb-3">
-									<Form.Label>Ảnh đại diện</Form.Label>
-									<Form.Control
-										onChange={(e) => {
-											const selectedFile =
-												e.target.files[0];
-											const reader = new FileReader();
-											reader.onloadend = () => {
-												setPreview(reader.result);
-											};
-											reader.readAsDataURL(selectedFile);
-										}}
-										type="file"
-										ref={avatar}
-									/>
-								</Form.Group>
-							</Grid>
-							<Grid item xs={12}>
+							<Grid item xs={11}>
 								<TextField
-									required
 									fullWidth
+									required
 									id="name"
 									label="Họ và tên"
 									autoFocus
@@ -142,7 +193,7 @@ const SignUp = () => {
 									}
 								/>
 							</Grid>
-							<Grid item xs={12} sm={6}>
+							<Grid item xs={11} sm={6}>
 								<InputLabel htmlFor="component-simple">
 									Ngày sinh
 								</InputLabel>
@@ -204,7 +255,7 @@ const SignUp = () => {
 									</RadioGroup>
 								</FormControl>
 							</Grid>
-							<Grid item xs={12}>
+							<Grid item xs={11}>
 								<TextField
 									required
 									fullWidth
@@ -222,7 +273,9 @@ const SignUp = () => {
 									}
 								/>
 							</Grid>
-							<Grid item xs={12}>
+						</Grid>
+						<Grid container spacing={2}>
+							<Grid item xs={11}>
 								<TextField
 									required
 									fullWidth
@@ -240,7 +293,7 @@ const SignUp = () => {
 									}
 								/>
 							</Grid>
-							<Grid item xs={12}>
+							<Grid item xs={11}>
 								<TextField
 									required
 									fullWidth
@@ -257,7 +310,7 @@ const SignUp = () => {
 									}
 								/>
 							</Grid>
-							<Grid item xs={12}>
+							<Grid item xs={11}>
 								<TextField
 									required
 									fullWidth
@@ -274,27 +327,35 @@ const SignUp = () => {
 										})
 									}
 								/>
+								{/* <Button
+									// onClick={register}
+									type="submit"
+									fullWidth
+									variant="contained"
+									// sx={{ mt: 3, mb: 2 }}
+								>
+									Sign Up
+								</Button> */}
 							</Grid>
-							{/* <Grid item xs={12}>
-								<ControlledOpenSelect
-									onChociceChange={handleFacultyChange}
-									label={"Khoa"}
-									names={faculties}
-								/>
-							</Grid> */}
 						</Grid>
-
-						<Button
-							onClick={register}
-							type="submit"
-							fullWidth
-							variant="contained"
-							sx={{ mt: 3, mb: 2 }}
-						>
-							Sign Up
-						</Button>
 					</Box>
 				</Box>
+				<Button
+					onClick={register}
+					type="submit"
+					// fullWidth
+					variant="contained"
+					sx={{
+						mt: 5,
+						mb: 2,
+						position: "absolute",
+						left: "50%",
+						transform: "translate(0, -50%)",
+						width: "24.5rem",
+					}}
+				>
+					Sign Up
+				</Button>
 			</Container>
 		</>
 	);

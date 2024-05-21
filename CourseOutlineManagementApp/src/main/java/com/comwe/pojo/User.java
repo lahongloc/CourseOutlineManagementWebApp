@@ -24,6 +24,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -64,6 +65,7 @@ public class User implements Serializable {
     private Boolean sex;
     @Column(name = "birthday")
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
     private Date birthday;
     @Basic(optional = false)
     @NotNull
@@ -92,6 +94,7 @@ public class User implements Serializable {
     private Boolean isActive;
     @Column(name = "created_datetime")
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
     private Date createdDatetime;
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
