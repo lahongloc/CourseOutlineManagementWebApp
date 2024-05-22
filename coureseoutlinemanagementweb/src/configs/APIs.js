@@ -1,19 +1,20 @@
 import axios from "axios";
 import cookie from "react-cookies";
 
-const BASE_URL = " http://localhost:8080/CourseOutlineManagementWebApp";
+const BASE_URL = " http://localhost:8080/CourseOutlineManagementWebApp/";
 
 export const endpoints = {
 	getOutlines: "/api/getOutlines/",
 	getFaculties: "/api/getFaculties/",
 	login: "/api/login/",
-	register: "/api/addUser/",
+	"current-user": "/api/current-user/",
+	"lecturer-register": "/api/lecturer-register/",
 };
 
 export const authApi = () => {
 	return axios.create({
 		baseURL: BASE_URL,
-		header: {
+		headers: {
 			Authorization: cookie.load("token"),
 		},
 	});

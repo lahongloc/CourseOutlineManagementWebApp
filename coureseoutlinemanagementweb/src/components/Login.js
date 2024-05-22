@@ -41,31 +41,44 @@ const defaultTheme = createTheme();
 
 const Login = () => {
 	const [user, dispatch] = useContext(UserContext);
-	const [username, setUsername] = useState("");
-	const [password, setPassword] = useState("");
+	const [userInfo, setUserInfo] = useState({});
 
 	const [q] = useSearchParams();
 
-	useEffect(() => {
-		console.log("cookie of user: ", cookie.load("token"));
-		console.log("current user: ", user);
-	});
+	const fields = [
+		{
+			id: "username",
+			label: "Tên đăng nhập",
+		},
+		{
+			id: "password",
+			label: "Mật khẩu",
+		},
+	];
+
+	const handleFieldChange = (e, field) => {
+		setUserInfo((prev) => {
+			return { ...prev, [field]: e.target.value };
+		});
+	};
 
 	const login = (evt) => {
 		evt.preventDefault();
+
 		const process = async () => {
 			try {
-				let res = await APIs.post(endpoints["login"], {
-					username,
-					password,
-				});
+				let res = await APIs.post(endpoints["login"], { ...userInfo });
 				console.log(res.data);
-				cookie.save("token", res.data.token);
-				cookie.save("user", res.data.currentUser);
+				cookie.save("token", res.data);
+
+				let currentUser = await authApi().get(
+					endpoints["current-user"],
+				);
+				cookie.save("user", currentUser.data);
 
 				dispatch({
 					type: LOGIN,
-					payload: res.data.currentUser,
+					payload: currentUser.data,
 				});
 			} catch (err) {
 				console.error(err);
@@ -104,28 +117,24 @@ const Login = () => {
 						noValidate
 						sx={{ mt: 1 }}
 					>
-						<TextField
-							margin="normal"
-							required
-							fullWidth
-							id="username"
-							label="Tên đăng nhập"
-							autoComplete="username"
-							autoFocus
-							value={username}
-							onChange={(e) => setUsername(e.target.value)}
-						/>
-						<TextField
-							margin="normal"
-							required
-							fullWidth
-							label="Mật khẩu"
-							type="password"
-							id="password"
-							autoComplete="current-password"
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-						/>
+						{fields.map((field, index) => {
+							return (
+								<TextField
+									margin="normal"
+									required
+									fullWidth
+									id={field.id}
+									label={field.label}
+									autoComplete={field.id}
+									autoFocus
+									value={userInfo[field.id]}
+									onChange={(e) =>
+										handleFieldChange(e, field.id)
+									}
+								/>
+							);
+						})}
+
 						<FormControlLabel
 							control={
 								<Checkbox value="remember" color="primary" />
@@ -157,42 +166,6 @@ const Login = () => {
 				<Copyright sx={{ mt: 8, mb: 4 }} />
 			</Container>
 		</ThemeProvider>
-		// <>
-		// 	<h1 className="text-center text-info">ĐĂNG NHẬP NGƯỜI DÙNG</h1>
-
-		// 	<Form onSubmit={login}>
-		// 		<Form.Group
-		// 			className="mb-3"
-		// 			controlId="exampleForm.ControlInput1"
-		// 		>
-		// 			<Form.Label>Tên đăng nhập</Form.Label>
-		// 			<Form.Control
-		// 				onChange={(e) => setUsername(e.target.value)}
-		// 				type="text"
-		// 				placeholder="Tên đăng nhập"
-		// 			/>
-		// 		</Form.Group>
-		// 		<Form.Group
-		// 			className="mb-3"
-		// 			controlId="exampleForm.ControlInput1"
-		// 		>
-		// 			<Form.Label>Mật khẩu</Form.Label>
-		// 			<Form.Control
-		// 				onChange={(e) => setPassword(e.target.value)}
-		// 				type="password"
-		// 				placeholder="Mật khẩu"
-		// 			/>
-		// 		</Form.Group>
-		// 		<Form.Group
-		// 			className="mb-3"
-		// 			controlId="exampleForm.ControlInput1"
-		// 		>
-		// 			<Button variant="info" type="submit">
-		// 				Đăng nhập
-		// 			</Button>
-		// 		</Form.Group>
-		// 	</Form>
-		// </>
 	);
 };
 

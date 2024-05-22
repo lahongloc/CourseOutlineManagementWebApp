@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,7 +39,7 @@ public class ApiUserController {
     @Autowired
     private JwtService jwtService;
 
-    @PostMapping(path = "/addUser/", consumes = {
+    @PostMapping(path = "/lecturer-register/", consumes = {
         MediaType.APPLICATION_JSON_VALUE,
         MediaType.MULTIPART_FORM_DATA_VALUE
     })
@@ -52,16 +51,11 @@ public class ApiUserController {
     
     @CrossOrigin
     @PostMapping("/login/")
-    public ResponseEntity<Object> login(@RequestBody User user) {
+    public ResponseEntity<String> login(@RequestBody User user) {
         if(this.userService.authUser(user.getUsername(), user.getPassword()) == true) {
             String token = this.jwtService.generateTokenLogin(user.getUsername());
-            User u = this.userService.getUserByUsername(user.getUsername());
             
-            HashMap<String, Object> responses = new HashMap<>();
-            responses.put("token", token);
-            responses.put("currentUser", u);
-            
-            return new ResponseEntity<>(responses, HttpStatus.OK);
+            return new ResponseEntity<>(token, HttpStatus.OK);
         }
         return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
     }
@@ -78,11 +72,9 @@ public class ApiUserController {
     
     @CrossOrigin
     @GetMapping(path = "/current-user/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String details(Principal user) {
-        
-        
-        User u = this.userService.getUserByUsername("locla");
-        return user.getName();
+    public ResponseEntity<User> details(Principal user) {
+        User u = this.userService.getUserByUsername(user.getName());
+        return new ResponseEntity<>(u, HttpStatus.OK);
     }
     
     @PostMapping("/user-approvement/{userId}")

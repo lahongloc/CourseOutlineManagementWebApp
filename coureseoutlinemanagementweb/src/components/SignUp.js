@@ -12,6 +12,7 @@ import {
 	Grid,
 	Input,
 	InputLabel,
+	LinearProgress,
 	Paper,
 	Radio,
 	RadioGroup,
@@ -24,12 +25,13 @@ import { Form } from "react-bootstrap";
 import { parse, format } from "date-fns";
 
 const SignUp = () => {
-	const [value, setValue] = useState("female");
 	const [faculties, setFaculties] = useState([]);
 	const [message, setMessage] = useState({
 		success: false,
 		error: false,
 	});
+
+	const [loading, setLoading] = useState(false);
 
 	const [lecturer, setLecturer] = useState({ role: "ROLE_LECTURER" });
 	const [preview, setPreview] = useState(null);
@@ -62,7 +64,9 @@ const SignUp = () => {
 
 	const register = (evt) => {
 		evt.preventDefault();
+
 		const process = async () => {
+			setLoading(true);
 			let form = new FormData();
 			for (let field in lecturer) {
 				form.append(field, lecturer[field]);
@@ -73,7 +77,7 @@ const SignUp = () => {
 			form.append("files", avatar.current.files[0]);
 
 			try {
-				let res = await APIs.post(endpoints["register"], form);
+				let res = await APIs.post(endpoints["lecturer-register"], form);
 				if (res.status === 201) {
 					setMessage((prev) => {
 						return { error: false, success: true };
@@ -88,6 +92,8 @@ const SignUp = () => {
 					return { success: false, error: true };
 				});
 				console.error(err);
+			} finally {
+				setLoading(false);
 			}
 		};
 
@@ -96,21 +102,27 @@ const SignUp = () => {
 
 	return (
 		<>
+			{loading && <LinearProgress />}
 			<div
 				className="d-flex justify-content-center align-items-center full-height mt-5"
 				style={{ flexDirection: "column" }}
 			>
 				<Avatar
+					onClick={() => avatar.current.click()}
 					alt="Remy Sharp"
 					src={preview || ""}
 					sx={{
 						mb: 2,
 						width: 100,
 						height: 100,
+						cursor: "pointer",
 					}}
 				/>
 
-				<Form.Group style={{ width: "10rem" }} className="mt-3">
+				<Form.Group
+					style={{ width: "10rem", display: "none" }}
+					className="mt-3"
+				>
 					<Form.Control
 						onChange={(e) => {
 							const selectedFile = e.target.files[0];
@@ -174,9 +186,10 @@ const SignUp = () => {
 							justifyContent: "space-between",
 						}}
 					>
-						<Grid container spacing={2}>
+						<Grid container spacing={4}>
 							<Grid item xs={11}>
 								<TextField
+									variant="standard"
 									fullWidth
 									required
 									id="name"
@@ -193,14 +206,15 @@ const SignUp = () => {
 									}
 								/>
 							</Grid>
-							<Grid item xs={11} sm={6}>
-								<InputLabel htmlFor="component-simple">
+							<Grid item xs={11} sm={5}>
+								<InputLabel htmlFor="birthday">
 									Ngày sinh
 								</InputLabel>
-								<Input
+								<TextField
+									variant="standard"
 									fullWidth
 									autoFocus
-									id="component-simple"
+									id="birthday"
 									type="date"
 									value={lecturer.birthday || ""}
 									onChange={(e) =>
@@ -218,7 +232,7 @@ const SignUp = () => {
 									marginLeft: 4.2,
 								}}
 								item
-								xs={12}
+								xs={11}
 								sm={5}
 							>
 								<FormControl>
@@ -257,6 +271,7 @@ const SignUp = () => {
 							</Grid>
 							<Grid item xs={11}>
 								<TextField
+									variant="standard"
 									required
 									fullWidth
 									id="email"
@@ -273,10 +288,18 @@ const SignUp = () => {
 									}
 								/>
 							</Grid>
+							<Grid item xs={11}>
+								<ControlledOpenSelect
+									label={"Khoa"}
+									onChociceChange={handleFacultyChange}
+									names={faculties}
+								/>
+							</Grid>
 						</Grid>
 						<Grid container spacing={2}>
 							<Grid item xs={11}>
 								<TextField
+									variant="standard"
 									required
 									fullWidth
 									id="hotline"
@@ -295,6 +318,7 @@ const SignUp = () => {
 							</Grid>
 							<Grid item xs={11}>
 								<TextField
+									variant="standard"
 									required
 									fullWidth
 									id="username"
@@ -312,6 +336,7 @@ const SignUp = () => {
 							</Grid>
 							<Grid item xs={11}>
 								<TextField
+									variant="standard"
 									required
 									fullWidth
 									id="password"
@@ -327,20 +352,24 @@ const SignUp = () => {
 										})
 									}
 								/>
-								{/* <Button
-									// onClick={register}
+							</Grid>
+							<Grid item xs={11}>
+								<Button
+									onClick={register}
 									type="submit"
-									fullWidth
 									variant="contained"
-									// sx={{ mt: 3, mb: 2 }}
+									sx={{
+										marginLeft: 37,
+									}}
+									disabled={loading}
 								>
 									Sign Up
-								</Button> */}
+								</Button>
 							</Grid>
 						</Grid>
 					</Box>
 				</Box>
-				<Button
+				{/* <Button
 					onClick={register}
 					type="submit"
 					// fullWidth
@@ -355,7 +384,7 @@ const SignUp = () => {
 					}}
 				>
 					Sign Up
-				</Button>
+				</Button> */}
 			</Container>
 		</>
 	);

@@ -19,7 +19,7 @@ function ControlledOpenSelect({ onChociceChange, names, ...props }) {
 
 	return (
 		<div>
-			<FormControl fullWidth sx={{ minWidth: 120 }}>
+			<FormControl variant="standard" fullWidth sx={{ minWidth: 120 }}>
 				<InputLabel id="demo-controlled-open-select-label">
 					{props.label}
 				</InputLabel>
