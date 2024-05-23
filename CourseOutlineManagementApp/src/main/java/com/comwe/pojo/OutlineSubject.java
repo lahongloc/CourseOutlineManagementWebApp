@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author kitj3
+ * @author lahon
  */
 @Entity
 @Table(name = "outline_subject")

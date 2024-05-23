@@ -7,7 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<h1>Hello ${username}</h1>
+<!--<h1>Hello ${username}</h1>-->
 <table class="table mt-3 mb-3">
     <tr>
         <th>Tên đề cương</th>

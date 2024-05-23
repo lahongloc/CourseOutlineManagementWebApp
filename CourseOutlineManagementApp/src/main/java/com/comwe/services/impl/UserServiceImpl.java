@@ -7,7 +7,9 @@ package com.comwe.services.impl;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.comwe.controllers.ApiUserController;
+import com.comwe.pojo.Lecturer;
 import com.comwe.pojo.User;
+import com.comwe.repositories.LecturerRepository;
 import com.comwe.repositories.UserRepository;
 import com.comwe.repositories.impl.UserRepositoryImpl;
 import com.comwe.services.UserService;
@@ -48,6 +50,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private BCryptPasswordEncoder encoder;
+    
 
     @Override
     public User getUserByUsername(String username) {

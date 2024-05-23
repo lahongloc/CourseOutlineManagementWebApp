@@ -14,4 +14,5 @@ import java.util.Map;
  */
 public interface FacultyService {
     List<Faculty> getFaculties(Map<String, String> params);
+    Faculty getFacultyById(int id);
 }

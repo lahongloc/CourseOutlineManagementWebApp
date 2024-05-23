@@ -17,7 +17,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Button } from "@mui/material";
+import { Alert, Button } from "@mui/material";
+import LinearBuffer from "../UI components/LinearBuffer";
+import "animate.css";
 
 function Copyright(props) {
 	return (
@@ -42,6 +44,8 @@ const defaultTheme = createTheme();
 const Login = () => {
 	const [user, dispatch] = useContext(UserContext);
 	const [userInfo, setUserInfo] = useState({});
+	const [loading, setLoading] = useState(false);
+	const [success, setSuccess] = useState(true);
 
 	const [q] = useSearchParams();
 
@@ -49,10 +53,12 @@ const Login = () => {
 		{
 			id: "username",
 			label: "Tên đăng nhập",
+			type: "text",
 		},
 		{
 			id: "password",
 			label: "Mật khẩu",
+			type: "password",
 		},
 	];
 
@@ -66,6 +72,7 @@ const Login = () => {
 		evt.preventDefault();
 
 		const process = async () => {
+			setLoading(true);
 			try {
 				let res = await APIs.post(endpoints["login"], { ...userInfo });
 				console.log(res.data);
@@ -80,8 +87,15 @@ const Login = () => {
 					type: LOGIN,
 					payload: currentUser.data,
 				});
+				setSuccess(true);
 			} catch (err) {
+				setSuccess(false);
 				console.error(err);
+			} finally {
+				setLoading(false);
+				setTimeout(() => {
+					setSuccess(true);
+				}, 5000);
 			}
 		};
 
@@ -95,6 +109,8 @@ const Login = () => {
 
 	return (
 		<ThemeProvider theme={defaultTheme}>
+			{loading && <LinearBuffer />}
+
 			<Container component="main" maxWidth="xs">
 				<CssBaseline />
 				<Box
@@ -111,6 +127,19 @@ const Login = () => {
 					<Typography component="h1" variant="h5">
 						Đăng nhập
 					</Typography>
+					{success || (
+						<Alert
+							className="animate__animated animate__wobble"
+							sx={{
+								marginTop: 5,
+								marginBottom: 5,
+							}}
+							severity="warning"
+						>
+							Tên đăng nhập hoặc mật khẩu không chính xác! Hoặc
+							tài khoản của bạn chưa được kích hoạt, vui lòng chờ!
+						</Alert>
+					)}
 					<Box
 						component="form"
 						onSubmit={login}
@@ -123,6 +152,7 @@ const Login = () => {
 									margin="normal"
 									required
 									fullWidth
+									type={field.type}
 									id={field.id}
 									label={field.label}
 									autoComplete={field.id}
@@ -144,6 +174,7 @@ const Login = () => {
 						<Button
 							type="submit"
 							fullWidth
+							disabled={loading}
 							variant="contained"
 							sx={{ mt: 3, mb: 2 }}
 						>

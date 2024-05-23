@@ -33,5 +33,12 @@ public class FacultyRepositoryImpl implements FacultyRepository {
         
         return q.getResultList();
     }
+
+    @Override
+    public Faculty getFacultyById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Faculty f = s.get(Faculty.class, id);
+        return f;
+    }
     
 }

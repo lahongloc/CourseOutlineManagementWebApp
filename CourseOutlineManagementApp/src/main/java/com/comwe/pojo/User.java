@@ -7,8 +7,8 @@ package com.comwe.pojo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,12 +24,13 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author kitj3
+ * @author lahon
  */
 @Entity
 @Table(name = "user")
@@ -97,14 +98,15 @@ public class User implements Serializable {
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private Date createdDatetime;
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    private Student student;
+    @OneToMany(mappedBy = "userId")
+    private Set<Student> studentSet;
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    private Admin admin;
+    @OneToMany(mappedBy = "userId")
+    private Set<Admin> adminSet;
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    private Lecturer lecturer;
+    @OneToMany(mappedBy = "userId")
+    private Set<Lecturer> lecturerSet;
+    
     @Transient
     private MultipartFile file;
 
@@ -218,28 +220,31 @@ public class User implements Serializable {
         this.createdDatetime = createdDatetime;
     }
 
-    public Student getStudent() {
-        return student;
+    @XmlTransient
+    public Set<Student> getStudentSet() {
+        return studentSet;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setStudentSet(Set<Student> studentSet) {
+        this.studentSet = studentSet;
     }
 
-    public Admin getAdmin() {
-        return admin;
+    @XmlTransient
+    public Set<Admin> getAdminSet() {
+        return adminSet;
     }
 
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
+    public void setAdminSet(Set<Admin> adminSet) {
+        this.adminSet = adminSet;
     }
 
-    public Lecturer getLecturer() {
-        return lecturer;
+    @XmlTransient
+    public Set<Lecturer> getLecturerSet() {
+        return lecturerSet;
     }
 
-    public void setLecturer(Lecturer lecturer) {
-        this.lecturer = lecturer;
+    public void setLecturerSet(Set<Lecturer> lecturerSet) {
+        this.lecturerSet = lecturerSet;
     }
 
     @Override

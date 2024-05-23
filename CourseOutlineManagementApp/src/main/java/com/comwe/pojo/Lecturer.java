@@ -17,14 +17,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author kitj3
+ * @author lahon
  */
 @Entity
 @Table(name = "lecturer")
@@ -43,9 +42,9 @@ public class Lecturer implements Serializable {
     @JoinColumn(name = "faculty_id", referencedColumnName = "id")
     @ManyToOne
     private Faculty facultyId;
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private User user;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne
+    private User userId;
     @OneToMany(mappedBy = "lecturerId")
     private Set<Outline> outlineSet;
 
@@ -72,12 +71,12 @@ public class Lecturer implements Serializable {
         this.facultyId = facultyId;
     }
 
-    public User getUser() {
-        return user;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     @XmlTransient

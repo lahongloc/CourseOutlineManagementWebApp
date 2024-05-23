@@ -24,10 +24,12 @@ com\comwe\configs\DispatcherServletInit.class
 com\comwe\controllers\ApiUserController.class
 com\comwe\pojo\Semester.class
 com\comwe\pojo\Score.class
+com\comwe\repositories\LecturerRepository.class
 com\comwe\pojo\Feedback_.class
 com\comwe\configs\WebAppContextConfig.class
 com\comwe\pojo\Score_.class
 com\comwe\services\UserService.class
+com\comwe\services\LecturerService.class
 com\comwe\pojo\OutlineSubject_.class
 com\comwe\pojo\OutlineSubject.class
 com\comwe\controllers\UserController.class
@@ -39,10 +41,12 @@ com\comwe\filters\JwtAuthenticationTokenFilter.class
 com\comwe\pojo\AcademicYear_.class
 com\comwe\pojo\OutlineScore.class
 com\comwe\pojo\User.class
+com\comwe\repositories\impl\LecturerRepositoryImpl.class
 com\comwe\pojo\Student.class
 com\comwe\pojo\Student_.class
 com\comwe\components\JwtService.class
 com\comwe\pojo\Class.class
+com\comwe\services\impl\LecturerServiceImpl.class
 com\comwe\configs\SecurityWebApplicationInitializer.class
 com\comwe\pojo\Subject.class
 com\comwe\pojo\Faculty_.class

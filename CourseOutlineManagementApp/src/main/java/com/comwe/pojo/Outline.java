@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author kitj3
+ * @author lahon
  */
 @Entity
 @Table(name = "outline")
@@ -74,32 +74,32 @@ public class Outline implements Serializable {
     private int pracCreditHour;
     @Column(name = "status")
     private Boolean status;
-    @OneToMany(mappedBy = "outlineId")
     @JsonIgnore
+    @OneToMany(mappedBy = "outlineId")
     private Set<OutlineSubject> outlineSubjectSet;
-    @OneToMany(mappedBy = "outlineId")
     @JsonIgnore
+    @OneToMany(mappedBy = "outlineId")
     private Set<Feedback> feedbackSet;
-    @OneToMany(mappedBy = "outlineId")
     @JsonIgnore
+    @OneToMany(mappedBy = "outlineId")
     private Set<OutlineScore> outlineScoreSet;
     @JoinColumn(name = "approver_id", referencedColumnName = "id")
-    @ManyToOne
     @JsonIgnore
+    @ManyToOne
     private Admin approverId;
     @JoinColumn(name = "lecturer_id", referencedColumnName = "id")
-    @ManyToOne
     @JsonIgnore
+    @ManyToOne
     private Lecturer lecturerId;
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
+    @JsonIgnore
     @ManyToOne
-    @JsonIgnore
     private Subject subjectId;
-    @OneToMany(mappedBy = "outlineId")
     @JsonIgnore
+    @OneToMany(mappedBy = "outlineId")
     private Set<Comment> commentSet;
-    @OneToMany(mappedBy = "outlineId")
     @JsonIgnore
+    @OneToMany(mappedBy = "outlineId")
     private Set<OutlineAcademicYear> outlineAcademicYearSet;
 
     public Outline() {

@@ -12,7 +12,6 @@ import {
 	Grid,
 	Input,
 	InputLabel,
-	LinearProgress,
 	Paper,
 	Radio,
 	RadioGroup,
@@ -23,6 +22,8 @@ import APIs, { endpoints } from "../configs/APIs";
 import ControlledOpenSelect from "../UI components/ControlledOpenSelect";
 import { Form } from "react-bootstrap";
 import { parse, format } from "date-fns";
+import LinearBuffer from "../UI components/LinearBuffer";
+import "animate.css";
 
 const SignUp = () => {
 	const [faculties, setFaculties] = useState([]);
@@ -67,16 +68,20 @@ const SignUp = () => {
 
 		const process = async () => {
 			setLoading(true);
-			let form = new FormData();
-			for (let field in lecturer) {
-				form.append(field, lecturer[field]);
-			}
-
-			form.set("birthday", format(form.get("birthday"), "yyyy/MM/dd"));
-
-			form.append("files", avatar.current.files[0]);
 
 			try {
+				let form = new FormData();
+				for (let field in lecturer) {
+					form.append(field, lecturer[field]);
+				}
+
+				form.set(
+					"birthday",
+					format(form.get("birthday"), "yyyy/MM/dd"),
+				);
+
+				form.append("files", avatar.current.files[0]);
+
 				let res = await APIs.post(endpoints["lecturer-register"], form);
 				if (res.status === 201) {
 					setMessage((prev) => {
@@ -94,6 +99,12 @@ const SignUp = () => {
 				console.error(err);
 			} finally {
 				setLoading(false);
+				setTimeout(() => {
+					setMessage({
+						success: false,
+						error: false,
+					});
+				}, 5000);
 			}
 		};
 
@@ -102,7 +113,7 @@ const SignUp = () => {
 
 	return (
 		<>
-			{loading && <LinearProgress />}
+			{loading && <LinearBuffer />}
 			<div
 				className="d-flex justify-content-center align-items-center full-height mt-5"
 				style={{ flexDirection: "column" }}
@@ -138,6 +149,7 @@ const SignUp = () => {
 				</Form.Group>
 				{message.success && (
 					<Alert
+						className="animate__animated animate__tada"
 						sx={{
 							marginTop: 5,
 						}}
@@ -149,6 +161,7 @@ const SignUp = () => {
 				)}
 				{message.error && (
 					<Alert
+						className="animate__animated animate__wobble"
 						sx={{
 							marginTop: 5,
 						}}
@@ -179,7 +192,7 @@ const SignUp = () => {
 					<Box
 						component="form"
 						noValidate
-						// onSubmit={register}
+						onSubmit={register}
 						sx={{
 							mt: 3,
 							display: "flex",
@@ -211,6 +224,7 @@ const SignUp = () => {
 									Ngày sinh
 								</InputLabel>
 								<TextField
+									required
 									variant="standard"
 									fullWidth
 									autoFocus
@@ -336,6 +350,9 @@ const SignUp = () => {
 							</Grid>
 							<Grid item xs={11}>
 								<TextField
+									sx={{
+										marginTop: 2.5,
+									}}
 									variant="standard"
 									required
 									fullWidth
@@ -355,7 +372,6 @@ const SignUp = () => {
 							</Grid>
 							<Grid item xs={11}>
 								<Button
-									onClick={register}
 									type="submit"
 									variant="contained"
 									sx={{
@@ -369,22 +385,6 @@ const SignUp = () => {
 						</Grid>
 					</Box>
 				</Box>
-				{/* <Button
-					onClick={register}
-					type="submit"
-					// fullWidth
-					variant="contained"
-					sx={{
-						mt: 5,
-						mb: 2,
-						position: "absolute",
-						left: "50%",
-						transform: "translate(0, -50%)",
-						width: "24.5rem",
-					}}
-				>
-					Sign Up
-				</Button> */}
 			</Container>
 		</>
 	);

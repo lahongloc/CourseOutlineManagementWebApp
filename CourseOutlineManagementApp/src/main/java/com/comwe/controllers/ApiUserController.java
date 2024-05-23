@@ -6,6 +6,7 @@ package com.comwe.controllers;
 
 import com.comwe.components.JwtService;
 import com.comwe.pojo.User;
+import com.comwe.services.LecturerService;
 import com.comwe.services.UserService;
 import java.security.Principal;
 import java.util.HashMap;
@@ -37,6 +38,9 @@ public class ApiUserController {
     private UserService userService;
     
     @Autowired
+    private LecturerService lecturerService;
+    
+    @Autowired
     private JwtService jwtService;
 
     @PostMapping(path = "/lecturer-register/", consumes = {
@@ -46,7 +50,8 @@ public class ApiUserController {
     @CrossOrigin
     @ResponseStatus(HttpStatus.CREATED)
     public void addUser(@RequestParam Map<String, String> params, @RequestPart MultipartFile[] files) {
-        this.userService.addUser(params, files[0]);
+        this.lecturerService.addLecturer(params, files[0]);
+//        this.userService.addUser(params, files[0]);
     }
     
     @CrossOrigin

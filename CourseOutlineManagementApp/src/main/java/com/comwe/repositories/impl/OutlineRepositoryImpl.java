@@ -92,7 +92,7 @@ public class OutlineRepositoryImpl implements OutlineRepository {
         List<Outline> outlines = qr.getResultList();
         outlines.forEach(o -> {
             HashMap<Object, Object> temp = new HashMap<>();
-            temp.put("lecturer", o.getLecturerId().getUser().getName());
+            temp.put("lecturer", o.getLecturerId().getUserId().getName());
             temp.put("subject", o.getDescription());
             temp.put("faculty", o.getLecturerId().getFacultyId());
             temp.put("startedDate", o.getStartedDatetime());

@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author kitj3
+ * @author lahon
  */
 @Entity
 @Table(name = "faculty")
@@ -46,11 +46,11 @@ public class Faculty implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "facultyId")
     @JsonIgnore
+    @OneToMany(mappedBy = "facultyId")
     private Set<Lecturer> lecturerSet;
-    @OneToMany(mappedBy = "facultyId")
     @JsonIgnore
+    @OneToMany(mappedBy = "facultyId")
     private Set<Major> majorSet;
 
     public Faculty() {
@@ -123,5 +123,5 @@ public class Faculty implements Serializable {
     public String toString() {
         return "com.comwe.pojo.Faculty[ id=" + id + " ]";
     }
-    
+
 }

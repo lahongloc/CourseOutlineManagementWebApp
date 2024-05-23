@@ -7,12 +7,12 @@ import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.7.12.v20230209-rNA", date="2024-05-20T16:43:37")
+@Generated(value="EclipseLink-2.7.12.v20230209-rNA", date="2024-05-23T14:13:45")
 @StaticMetamodel(Admin.class)
 public class Admin_ { 
 
     public static volatile SetAttribute<Admin, Outline> outlineSet;
     public static volatile SingularAttribute<Admin, Integer> id;
-    public static volatile SingularAttribute<Admin, User> user;
+    public static volatile SingularAttribute<Admin, User> userId;
 
 }
