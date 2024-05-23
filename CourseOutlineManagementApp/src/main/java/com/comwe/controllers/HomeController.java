@@ -4,12 +4,12 @@
  */
 package com.comwe.controllers;
 
-import com.comwe.pojo.User;
 import com.comwe.services.OutlineService;
 import com.comwe.services.UserService;
-import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 import org.springframework.security.core.Authentication;
@@ -31,6 +31,8 @@ public class HomeController {
     private OutlineService outlineService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private JavaMailSender mailSender;
     
     private static final AuthenticationTrustResolver authenticationTrustResolver = new AuthenticationTrustResolverImpl();
 
@@ -55,6 +57,17 @@ public class HomeController {
     @GetMapping("/users-manager/")
     public String lecturerManagement(@RequestParam Map<String, String> params, Model model) {
         model.addAttribute("users", this.userService.getNonAdminUsers(params));
+//        sendMail("locla2405@gmail.com", "2151053036loc@ou.edu.vn", "Hello", "Day laf mail gui thu xem duocj khong!");
         return "user";
+    }
+    
+    public void sendMail(String from, String to, String subject, String content) {
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom(from);
+        mailMessage.setTo(to);
+        mailMessage.setSubject(subject);
+        mailMessage.setText(content);
+        
+        this.mailSender.send(mailMessage);
     }
 }
