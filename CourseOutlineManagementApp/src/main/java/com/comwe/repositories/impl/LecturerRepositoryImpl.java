@@ -20,12 +20,19 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -40,38 +47,38 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Repository
 public class LecturerRepositoryImpl implements LecturerRepository {
-    
+
     @Autowired
     private LocalSessionFactoryBean factory;
-    
+
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private FacultyService facultyService;
-    
+
     @Autowired
     private Cloudinary cloudinary;
-    
+
     @Autowired
     private BCryptPasswordEncoder encoder;
-    
+
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public boolean addLecturer(Map<String, String> params, MultipartFile avatar) {
         Session s = this.factory.getObject().getCurrentSession();
-        
+
         try {
             User user = new User();
             user.setUsername(params.get("username"));
             user.setSex(Boolean.valueOf(params.get("sex")));
-            
+
             DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
             Date birthday;
             try {
                 birthday = df.parse(params.get("birthday"));
                 user.setBirthday(birthday);
-                
+
                 LocalDate today = LocalDate.now();
                 Instant instant = today.atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant();
                 Date created_date = Date.from(instant);
@@ -79,13 +86,13 @@ public class LecturerRepositoryImpl implements LecturerRepository {
             } catch (ParseException ex) {
                 Logger.getLogger(ApiUserController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             user.setPassword(this.encoder.encode(params.get("password")));
             user.setName(params.get("name"));
             user.setRole(params.get("role"));
             user.setEmail(params.get("email"));
             user.setHotline(params.get("hotline"));
-            
+
             if (!avatar.isEmpty()) {
                 try {
                     Map res = this.cloudinary.uploader().upload(avatar.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
@@ -94,10 +101,10 @@ public class LecturerRepositoryImpl implements LecturerRepository {
                     Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
+
             user.setIsActive(Boolean.FALSE);
             s.save(user);
-            
+
             String facultyId = params.get("facultyId");
 //            if (facultyId != null && !facultyId.isEmpty()) {
             Faculty f = this.facultyService.getFacultyById(Integer.parseInt(facultyId));
@@ -105,7 +112,7 @@ public class LecturerRepositoryImpl implements LecturerRepository {
             Lecturer lecturer = new Lecturer();
             lecturer.setUserId(user);
             lecturer.setFacultyId(f);
-            
+
             s.save(lecturer);
 //            }
 
@@ -114,5 +121,6 @@ public class LecturerRepositoryImpl implements LecturerRepository {
             return false;
         }
     }
-    
+
+
 }

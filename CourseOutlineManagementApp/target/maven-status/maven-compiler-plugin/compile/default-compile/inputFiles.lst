@@ -1,5 +1,6 @@
 D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\configs\SecurityWebApplicationInitializer.java
 D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\LecturerService.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\LecturerServiceQuery.java
 D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\OutlineSubject.java
 D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\ApiUserController.java
 D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\FacultyService.java
@@ -21,8 +22,10 @@ D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\Cours
 D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\OutlineService.java
 D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\UserServiceImpl.java
 D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\filters\CustomAccessDeniedHandler.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\LecturerRepositoryQuery.java
 D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\User.java
 D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Semester.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\LecturerRepositoryQueryImpl.java
 D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\UserRepositoryImpl.java
 D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\UserController.java
 D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\LecturerRepositoryImpl.java
@@ -32,6 +35,7 @@ D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\Cours
 D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\UserRepository.java
 D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Comment.java
 D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Lecturer.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\LecturerServiceQueryImpl.java
 D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\OutlineRepository.java
 D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Feedback.java
 D:\MINE\WEB SYSTEM DEVELOPMENT\COURSEOUTLINE\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\OutlineRepositoryImpl.java

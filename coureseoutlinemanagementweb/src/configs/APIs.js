@@ -9,6 +9,7 @@ export const endpoints = {
 	login: "/api/login/",
 	"current-user": "/api/current-user/",
 	"lecturer-register": "/api/lecturer-register/",
+	getLecturers: "/api/getLecturers/",
 };
 
 export const authApi = () => {

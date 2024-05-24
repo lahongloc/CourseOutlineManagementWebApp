@@ -5,7 +5,12 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
 
-function ControlledOpenSelect({ onChociceChange, names, ...props }) {
+function ControlledOpenSelect({
+	onChociceChange,
+	names,
+	fieldSelected = null,
+	...props
+}) {
 	const [value, setValue] = React.useState("");
 	const [open, setOpen] = React.useState(false);
 

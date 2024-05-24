@@ -32,5 +32,7 @@ public class ApiFacultyController {
     public ResponseEntity<List<Faculty>> list(@RequestParam Map<String, String> params) {
         return new ResponseEntity<>(this.facultyService.getFaculties(params), HttpStatus.OK);
     }
+    
+    
 
 }

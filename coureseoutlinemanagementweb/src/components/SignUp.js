@@ -17,16 +17,17 @@ import {
 	RadioGroup,
 	TextField,
 } from "@mui/material";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import APIs, { endpoints } from "../configs/APIs";
 import ControlledOpenSelect from "../UI components/ControlledOpenSelect";
 import { Form } from "react-bootstrap";
 import { parse, format } from "date-fns";
 import LinearBuffer from "../UI components/LinearBuffer";
 import "animate.css";
+import { FacultyContext } from "../App";
 
 const SignUp = () => {
-	const [faculties, setFaculties] = useState([]);
+	const faculties = useContext(FacultyContext);
 	const [message, setMessage] = useState({
 		success: false,
 		error: false,
@@ -37,21 +38,6 @@ const SignUp = () => {
 	const [lecturer, setLecturer] = useState({ role: "ROLE_LECTURER" });
 	const [preview, setPreview] = useState(null);
 	const avatar = useRef();
-
-	const loadFaculties = async () => {
-		try {
-			let url = `${endpoints["getFaculties"]}`;
-			let res = await APIs.get(url);
-
-			setFaculties(res.data);
-		} catch (ex) {
-			console.error(ex);
-		}
-	};
-
-	useEffect(() => {
-		loadFaculties();
-	}, []);
 
 	useEffect(() => {
 		console.log(lecturer);
