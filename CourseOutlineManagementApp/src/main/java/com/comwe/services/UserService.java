@@ -20,4 +20,5 @@ public interface UserService extends UserDetailsService {
     User addUser(Map<String, String> params, MultipartFile avatar);
     List<User> getNonAdminUsers(Map<String, String> params);
     void userApprove(int id);
+    User getUserById(int id);
 }

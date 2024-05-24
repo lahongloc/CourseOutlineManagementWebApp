@@ -19,7 +19,8 @@
     </head>
     <body>
         <tiles:insertAttribute name="header" />
-        <div class="container">
+        <tiles:insertAttribute name="intro" />
+        <div style="margin-top: 7rem" class="container">
             <tiles:insertAttribute name="content" />
         </div>
         <tiles:insertAttribute name="footer" />

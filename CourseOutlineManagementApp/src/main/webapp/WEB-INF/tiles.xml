@@ -6,19 +6,25 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
     <definition name="baseLayout" template="/WEB-INF/layouts/base.jsp">
         <put-attribute name="title" value="" />
         <put-attribute name="content" value="" />
+        <put-attribute name="intro" value="" />
         <put-attribute name="header" value="/WEB-INF/layouts/header.jsp" />
         <put-attribute name="footer" value="/WEB-INF/layouts/footer.jsp" />
     </definition>
     <definition name="index" extends="baseLayout">
         <put-attribute name="title" value="Home" />
         <put-attribute name="content" value="/WEB-INF/pages/index.jsp" />
+        <put-attribute name="intro" value="/WEB-INF/layouts/introduce.jsp" />
     </definition>
     <definition name="login" extends="baseLayout">
         <put-attribute name="title" value="Đăng nhập" />
         <put-attribute name="content" value="/WEB-INF/pages/login.jsp" />
     </definition>
     <definition name="user" extends="baseLayout">
-        <put-attribute name="title" value="User manager" />
+        <put-attribute name="title" value="Quản lý tài khoản" />
         <put-attribute name="content" value="/WEB-INF/pages/user.jsp" />
+    </definition>
+    <definition name="userDetails" extends="baseLayout">
+        <put-attribute name="title" value="Chi tiết tài khoản" />
+        <put-attribute name="content" value="/WEB-INF/pages/userDetails.jsp" />
     </definition>
 </tiles-definitions>

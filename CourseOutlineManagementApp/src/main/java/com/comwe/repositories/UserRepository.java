@@ -18,4 +18,5 @@ public interface UserRepository {
     User addUser(User user);
     List<User> getNonAdminUsers(Map<String, String> params);
     void userApprove(int id);
+    User getUserById(int id);
 }

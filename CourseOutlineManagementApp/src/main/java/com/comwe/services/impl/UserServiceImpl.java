@@ -125,4 +125,9 @@ public class UserServiceImpl implements UserService {
         this.userRepo.userApprove(id);
     }
 
+    @Override
+    public User getUserById(int id) {
+        return this.userRepo.getUserById(id);
+    }
+
 }

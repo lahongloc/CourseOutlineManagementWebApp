@@ -96,4 +96,11 @@ public class UserRepositoryImpl implements UserRepository {
         user.setIsActive(Boolean.TRUE);
     }
 
+    @Override
+    public User getUserById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        User u = s.get(User.class, id);
+        return u;
+    }
+
 }
