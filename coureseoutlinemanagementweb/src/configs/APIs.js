@@ -10,6 +10,7 @@ export const endpoints = {
 	"current-user": "/api/current-user/",
 	"lecturer-register": "/api/lecturer-register/",
 	getLecturers: "/api/getLecturers/",
+	"update-lecturer": "/api/lecturer-update/",
 };
 
 export const authApi = () => {

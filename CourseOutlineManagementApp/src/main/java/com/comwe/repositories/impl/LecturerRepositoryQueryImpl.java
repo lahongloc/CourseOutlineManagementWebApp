@@ -5,11 +5,13 @@
 package com.comwe.repositories.impl;
 
 import com.comwe.pojo.Lecturer;
+import com.comwe.pojo.User;
 import com.comwe.repositories.LecturerRepositoryQuery;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -58,13 +60,28 @@ public class LecturerRepositoryQueryImpl implements LecturerRepositoryQuery {
             temp.put("id", l.getId());
             temp.put("userId", l.getUserId().getId());
             temp.put("facultyId", l.getFacultyId().getId());
-            
+
             lecturersInfo.add(temp);
         });
-        
-        
-        
+
         return lecturersInfo;
+    }
+
+    @Override
+    public Lecturer getLecturerByUserId(int userId) {
+        System.out.println("dang truy van");
+
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createQuery("SELECT l FROM Lecturer l WHERE l.userId.id = :userId");
+        q.setParameter("userId", userId);
+
+        try {
+            return (Lecturer) q.getSingleResult();
+        } catch (NoResultException e) {
+            System.out.println("lecturer nulllll do");
+            return null; // Return null if no user is found
+        }
+
     }
 
 }

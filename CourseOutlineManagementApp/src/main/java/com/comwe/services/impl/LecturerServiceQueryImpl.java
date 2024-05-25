@@ -26,5 +26,10 @@ public class LecturerServiceQueryImpl implements LecturerServiceQuery {
     public List<Object> getLecturers(Map<String, String> params) {
         return this.lecturerRepoQuery.getLecturers(params);
     }
+
+    @Override
+    public Lecturer getLecturerByUserId(int userId) {
+        return this.lecturerRepoQuery.getLecturerByUserId(userId);
+    }
     
 }

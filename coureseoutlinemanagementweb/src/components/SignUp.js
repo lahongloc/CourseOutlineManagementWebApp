@@ -66,9 +66,17 @@ const SignUp = () => {
 					format(form.get("birthday"), "yyyy/MM/dd"),
 				);
 
-				form.append("files", avatar.current.files[0]);
+				form.append("files", avatar.current.files[0] || "");
 
-				let res = await APIs.post(endpoints["lecturer-register"], form);
+				let res = await APIs.post(
+					endpoints["lecturer-register"],
+					form,
+					{
+						headers: {
+							"Content-Type": "multipart/form-data",
+						},
+					},
+				);
 				if (res.status === 201) {
 					setMessage((prev) => {
 						return { error: false, success: true };

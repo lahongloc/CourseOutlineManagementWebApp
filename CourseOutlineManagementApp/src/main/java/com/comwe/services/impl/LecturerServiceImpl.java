@@ -26,6 +26,11 @@ public class LecturerServiceImpl implements LecturerService {
     public boolean addLecturer(Map<String, String> params, MultipartFile avatar) {
         return this.lecturerRepo.addLecturer(params, avatar);
     }
+
+    @Override
+    public boolean updateLecturer(Map<String, String> params, MultipartFile avatar) {
+        return this.lecturerRepo.updateLecturer(params, avatar);
+    }
     
 }
  

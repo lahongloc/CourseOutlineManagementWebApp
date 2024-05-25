@@ -12,6 +12,7 @@ import com.comwe.pojo.Lecturer;
 import com.comwe.pojo.User;
 import com.comwe.repositories.LecturerRepository;
 import com.comwe.services.FacultyService;
+import com.comwe.services.LecturerServiceQuery;
 import com.comwe.services.UserService;
 import com.comwe.services.impl.UserServiceImpl;
 import java.io.IOException;
@@ -20,12 +21,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.NoResultException;
+import javax.persistence.TemporalType;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -57,64 +61,22 @@ public class LecturerRepositoryImpl implements LecturerRepository {
     @Autowired
     private FacultyService facultyService;
 
-    @Autowired
-    private Cloudinary cloudinary;
-
-    @Autowired
-    private BCryptPasswordEncoder encoder;
-
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public boolean addLecturer(Map<String, String> params, MultipartFile avatar) {
         Session s = this.factory.getObject().getCurrentSession();
 
         try {
-            User user = new User();
-            user.setUsername(params.get("username"));
-            user.setSex(Boolean.valueOf(params.get("sex")));
-
-            DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-            Date birthday;
-            try {
-                birthday = df.parse(params.get("birthday"));
-                user.setBirthday(birthday);
-
-                LocalDate today = LocalDate.now();
-                Instant instant = today.atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant();
-                Date created_date = Date.from(instant);
-                user.setCreatedDatetime(created_date);
-            } catch (ParseException ex) {
-                Logger.getLogger(ApiUserController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            user.setPassword(this.encoder.encode(params.get("password")));
-            user.setName(params.get("name"));
-            user.setRole(params.get("role"));
-            user.setEmail(params.get("email"));
-            user.setHotline(params.get("hotline"));
-
-            if (!avatar.isEmpty()) {
-                try {
-                    Map res = this.cloudinary.uploader().upload(avatar.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
-                    user.setAvatar(res.get("secure_url").toString());
-                } catch (IOException ex) {
-                    Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            user.setIsActive(Boolean.FALSE);
-            s.save(user);
-
+            User user = this.userService.addUser(params, avatar);
             String facultyId = params.get("facultyId");
-//            if (facultyId != null && !facultyId.isEmpty()) {
-            Faculty f = this.facultyService.getFacultyById(Integer.parseInt(facultyId));
-//
-            Lecturer lecturer = new Lecturer();
-            lecturer.setUserId(user);
-            lecturer.setFacultyId(f);
+            if (facultyId != null && !facultyId.isEmpty()) {
+                Faculty f = this.facultyService.getFacultyById(Integer.parseInt(facultyId));
 
-            s.save(lecturer);
-//            }
+                Lecturer lecturer = new Lecturer();
+                lecturer.setUserId(user);
+                lecturer.setFacultyId(f);
+                s.save(lecturer);
+            }
 
             return true;
         } catch (HibernateException ex) {
@@ -122,5 +84,49 @@ public class LecturerRepositoryImpl implements LecturerRepository {
         }
     }
 
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean updateLecturer(Map<String, String> params, MultipartFile avatar) {
+        System.out.print("startttt");
+        Session s = this.factory.getObject().getCurrentSession();
+        try {
+            User user = this.userService.updateUser(params, avatar);
+            String facultyId = params.get("facultyId");
+            if (facultyId != null && !facultyId.isEmpty()) {
+                System.out.print("truy van khoa");
+                Faculty f = this.facultyService.getFacultyById(Integer.parseInt(facultyId));
+
+                Lecturer lecturer;
+                try {
+                    // update an existed lecturer
+                    System.out.print("Truy van lecturer");
+                    Query q = s.createQuery("SELECT l FROM Lecturer l WHERE l.userId.id = :userId");
+                    q.setParameter("userId", user.getId());
+                    lecturer = (Lecturer) q.getSingleResult();
+                    
+                    lecturer.setFacultyId(f);
+                    s.update(lecturer);
+                } catch (NoResultException e) {
+                    // add a new lecturer from user
+                    lecturer = null;
+                }
+                
+                if(lecturer == null) {
+                    System.out.print("chua co lecturer san!");
+                    Lecturer l = new Lecturer();
+                    l.setUserId(user);
+                    l.setFacultyId(f);
+                    s.save(l);
+                } else {
+                    System.out.print("da co lecturer san!");
+                }
+            }
+
+            return true;
+        } catch (HibernateException ex) {
+            System.out.print("co loiii");
+            return false;
+        }
+    }
 
 }

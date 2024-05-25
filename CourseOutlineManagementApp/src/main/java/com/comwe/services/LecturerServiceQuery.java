@@ -4,6 +4,7 @@
  */
 package com.comwe.services;
 
+import com.comwe.pojo.Lecturer;
 import java.util.List;
 import java.util.Map;
 
@@ -13,4 +14,5 @@ import java.util.Map;
  */
 public interface LecturerServiceQuery {
     List<Object> getLecturers(Map<String, String> params);
+    Lecturer getLecturerByUserId(int userId);
 }

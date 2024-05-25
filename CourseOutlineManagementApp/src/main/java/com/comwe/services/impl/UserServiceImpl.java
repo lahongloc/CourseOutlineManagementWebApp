@@ -78,41 +78,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addUser(Map<String, String> params, MultipartFile avatar) {
-        User user = new User();
-        user.setUsername(params.get("username"));
-        user.setSex(Boolean.valueOf(params.get("sex")));
-
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-        Date birthday;
-        try {
-            birthday = df.parse(params.get("birthday"));
-            user.setBirthday(birthday);
-
-            LocalDate today = LocalDate.now();
-            Instant instant = today.atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant();
-            Date created_date = Date.from(instant);
-            user.setCreatedDatetime(created_date);
-        } catch (ParseException ex) {
-            Logger.getLogger(ApiUserController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        user.setPassword(this.encoder.encode(params.get("password")));
-        user.setName(params.get("name"));
-        user.setRole(params.get("role"));
-        user.setEmail(params.get("email"));
-        user.setHotline(params.get("hotline"));
-        
-        if(!avatar.isEmpty()) {
-            try {
-                Map res = this.cloudinary.uploader().upload(avatar.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
-                user.setAvatar(res.get("secure_url").toString());
-            } catch (IOException ex) {
-                Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        
-        user.setIsActive(Boolean.FALSE);
-        return this.userRepo.addUser(user);
+        return this.userRepo.addUser(params, avatar);
     }
 
     @Override
@@ -128,6 +94,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(int id) {
         return this.userRepo.getUserById(id);
+    }
+
+    @Override
+    public User updateUser(Map<String, String> params, MultipartFile avatar) {
+        return this.userRepo.updateUser(params, avatar);
     }
 
 }

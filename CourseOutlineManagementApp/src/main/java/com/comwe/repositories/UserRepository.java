@@ -7,6 +7,7 @@ package com.comwe.repositories;
 import com.comwe.pojo.User;
 import java.util.List;
 import java.util.Map;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -19,4 +20,6 @@ public interface UserRepository {
     List<User> getNonAdminUsers(Map<String, String> params);
     void userApprove(int id);
     User getUserById(int id);
+    User addUser(Map<String, String> params, MultipartFile avatar);
+    User updateUser(Map<String, String> params, MultipartFile avatar);
 }

@@ -15,4 +15,5 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface LecturerService {
     boolean addLecturer(Map<String, String> params, MultipartFile avatar);
+    boolean updateLecturer(Map<String, String> params, MultipartFile avatar);
 }

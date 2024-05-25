@@ -9,8 +9,8 @@ import com.comwe.pojo.User;
 import com.comwe.services.LecturerService;
 import com.comwe.services.UserService;
 import java.security.Principal;
-import java.util.HashMap;
 import java.util.Map;
+import org.graalvm.compiler.core.common.type.ArithmeticOpTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,12 +35,13 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/api")
 public class ApiUserController {
+
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private LecturerService lecturerService;
-    
+
     @Autowired
     private JwtService jwtService;
 
@@ -49,39 +51,51 @@ public class ApiUserController {
     })
     @CrossOrigin
     @ResponseStatus(HttpStatus.CREATED)
-    public void addUser(@RequestParam Map<String, String> params, @RequestPart MultipartFile[] files) {
+    public void addLecturer(@RequestParam Map<String, String> params, @RequestPart MultipartFile[] files) {
         this.lecturerService.addLecturer(params, files[0]);
 //        this.userService.addUser(params, files[0]);
     }
+
+    @PostMapping(path = "/lecturer-update/", consumes = {
+        MediaType.APPLICATION_JSON_VALUE,
+        MediaType.MULTIPART_FORM_DATA_VALUE
+    })
+    @CrossOrigin
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateLecturer(@RequestParam Map<String, String> params, @RequestPart MultipartFile[] files) {
+        this.lecturerService.updateLecturer(params, files[0]);
+    }
     
+    
+    
+
     @CrossOrigin
     @PostMapping("/login/")
     public ResponseEntity<String> login(@RequestBody User user) {
-        if(this.userService.authUser(user.getUsername(), user.getPassword()) == true) {
+        if (this.userService.authUser(user.getUsername(), user.getPassword()) == true) {
             String token = this.jwtService.generateTokenLogin(user.getUsername());
-            
+
             return new ResponseEntity<>(token, HttpStatus.OK);
         }
         return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
     }
-    
-    
+
     @CrossOrigin
-    @PostMapping(path = "/users/", 
-            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, 
+    @PostMapping(path = "/users/",
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<User> addUser(@RequestParam Map<String, String> params, @RequestPart MultipartFile avatar) {
         User user = this.userService.addUser(params, avatar);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
-    
+
     @CrossOrigin
     @GetMapping(path = "/current-user/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> details(Principal user) {
         User u = this.userService.getUserByUsername(user.getName());
         return new ResponseEntity<>(u, HttpStatus.OK);
     }
-    
+
     @PostMapping("/user-approvement/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public void userApprove(@PathVariable int userId) {
