@@ -1,7 +1,7 @@
 import axios from "axios";
 import cookie from "react-cookies";
 
-const BASE_URL = " http://localhost:8080/CourseOutlineManagementWebApp/";
+const BASE_URL = " http://localhost:8085/CourseOutlineManagementWebApp/";
 
 export const endpoints = {
 	getOutlines: "/api/getOutlines/",
