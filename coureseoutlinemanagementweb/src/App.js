@@ -13,6 +13,8 @@ import LecturerRegister from "./components/LecturerRegister";
 import SignUp from "./components/SignUp";
 import AccountDetails from "./components/AccountDetails";
 import APIs, { endpoints } from "./configs/APIs";
+import ResponsiveAppBar from "./UI components/ResponsiveAppBar";
+import BasicSimpleTreeView from "./UI components/BasicSimpleTreeView";
 
 export const UserContext = createContext();
 export const FacultyContext = createContext();
@@ -46,7 +48,9 @@ const App = () => {
 		<UserContext.Provider value={[user, dispatch]}>
 			<FacultyContext.Provider value={faculties}>
 				<BrowserRouter>
-					<Header />
+					{/* <Header /> */}
+					<ResponsiveAppBar />
+					<BasicSimpleTreeView />
 					<Container>
 						<Routes>
 							<Route

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import APIs, { endpoints } from "../configs/APIs";
 import { Badge, Card, Container, ListGroup, Row } from "react-bootstrap";
+import BasicSimpleTreeView from "../UI components/BasicSimpleTreeView";
 
 const Home = () => {
 	const [outline, setOutline] = useState([]);
