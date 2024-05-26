@@ -8,17 +8,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <c:choose>
-    <c:when test="${param.pageLecturer == null}">
-        <c:set var="currentPageLecturer" value="1"/>
-    </c:when>
     <c:when test="${param.pageLecturer != null}">
         <c:set var="currentPageLecturer" value="${param.pageLecturer}"/>
     </c:when>
 </c:choose>
 <c:choose>
-    <c:when test="${param.pageStudent == null}">
-        <c:set var="currentPageStudent" value="1"/>
-    </c:when>
     <c:when test="${param.pageStudent != null}">
         <c:set var="currentPageStudent" value="${param.pageStudent}"/>
     </c:when>
@@ -41,7 +35,7 @@
                 <th>Ngày sinh</th>
                 <th>Giới tính</th>
                 <th>Email</th>
-                <th>Chúc v?</th>
+                <th>Chúc vụ</th>
                 <th>Trạng thái phê duyệt</th>
                 <th></th>
             </tr>
