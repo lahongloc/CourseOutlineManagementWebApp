@@ -1,4 +1,5 @@
 import {
+	Alert,
 	Avatar,
 	Button,
 	Container,
@@ -11,7 +12,14 @@ import {
 	RadioGroup,
 	TextField,
 } from "@mui/material";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import {
+	Fragment,
+	useCallback,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import { FacultyContext, UserContext } from "../App";
 import { PANO } from "../static/images/pano";
 import AvatarCustom from "../UI components/BadgeAvatars";
@@ -23,6 +31,7 @@ import cookie from "react-cookies";
 import MyNativeSelect from "../UI components/MyNativeSelect";
 import LinearBuffer from "../UI components/LinearBuffer";
 import { LOGIN } from "../reducers/Actions";
+import CustomSeparator from "../UI components/CustomeSeparator";
 
 const AccountDetails = () => {
 	const [user, dispatch] = useContext(UserContext);
@@ -30,6 +39,7 @@ const AccountDetails = () => {
 	const [currentFaculty, setCurrentFaculty] = useState(null);
 	const [isDisabled, setIsDisabled] = useState(true);
 	const avt = useRef();
+	const [message, setMessage] = useState({});
 
 	const [loading, setLoading] = useState(false);
 
@@ -67,13 +77,6 @@ const AccountDetails = () => {
 			}
 
 			form.set("birthday", format(form.get("birthday"), "yyyy/MM/dd"));
-			// const emptyFile = new File(
-			// 	["fijRKjhudDjiokDhg1524164151"],
-			// 	"../img/Products/fijRKjhudDjiokDhg1524164151.jpg",
-			// 	{ type: "image/jpg" },
-			// );
-			// let temp = avt.current.files[0] || emptyFile;
-			// console.log(temp);
 
 			if (avt.current.files[0]) {
 				form.set("files", avt.current.files[0], []);
@@ -83,8 +86,6 @@ const AccountDetails = () => {
 				const emptyFile = new File([emptyBlob], "empty.txt");
 				form.append("files", emptyFile);
 			}
-
-			console.log(avt.current.files[0]);
 
 			let res = await APIs.post(endpoints["update-lecturer"], form, {
 				headers: {
@@ -100,12 +101,22 @@ const AccountDetails = () => {
 				payload: currentUser.data,
 			});
 
-			console.log(form);
-			console.log(res.data);
+			setMessage((prev) => {
+				return { success: true, error: false };
+			});
 		} catch (err) {
+			setMessage((prev) => {
+				return { success: false, error: true };
+			});
 			console.error(err);
 		} finally {
 			setLoading(false);
+			setTimeout(() => {
+				setMessage({
+					success: false,
+					error: false,
+				});
+			}, 5000);
 		}
 	};
 
@@ -135,14 +146,47 @@ const AccountDetails = () => {
 		loadLecturer();
 	}, []);
 
-	// useEffect(() => {
-	// 	console.log("curr: ", userInfo);
-	// });
+	const levels = [
+		{
+			name: "Trang chủ",
+			link: "/",
+		},
+		{
+			name: "Hồ sơ",
+			link: "/account-details",
+		},
+	];
 
 	return (
 		<>
-			<Container sx={{ marginBottom: 15, marginTop: 10 }}>
-				{loading && <LinearBuffer />}
+			{loading && <LinearBuffer />}
+			<div style={{ marginTop: "1.5rem", marginBottom: 0 }}>
+				<CustomSeparator levels={levels} />
+			</div>
+
+			{message.success && (
+				<Alert
+					className="animate__animated animate__tada"
+					sx={{
+						marginTop: 5,
+					}}
+					severity="success"
+				>
+					Đã cập nhật hồ sơ thành công!
+				</Alert>
+			)}
+			{message.error && (
+				<Alert
+					className="animate__animated animate__wobble"
+					sx={{
+						marginTop: 5,
+					}}
+					severity="error"
+				>
+					Cập nhật hồ sơ thất bại! Vui lòng kiểm tra lại thông tin!
+				</Alert>
+			)}
+			<Container sx={{ marginBottom: 15, marginTop: 3 }}>
 				<Grid sx={{ flexGrow: 1 }} container spacing={2}>
 					<Grid item xs={12}>
 						<Grid
@@ -176,7 +220,9 @@ const AccountDetails = () => {
 										field === "files" ||
 										field === "sex"
 									) {
-										return <></>;
+										return (
+											<Fragment key={field}></Fragment>
+										);
 									}
 									return (
 										<Grid key={index} item xs={12} sm={6}>
@@ -242,12 +288,6 @@ const AccountDetails = () => {
 								</FormControl>
 
 								<Grid item xs={12} sm={6}>
-									{/* <ControlledOpenSelect
-										fieldSelected={currentFaculty}
-										label={"Khoa"}
-										onChociceChange={handleFacultyChange}
-										names={faculties}
-									/> */}
 									<MyNativeSelect
 										disabled={isDisabled}
 										fieldSelected={currentFaculty}
@@ -264,7 +304,6 @@ const AccountDetails = () => {
 									padding: 5,
 									flexDirection: "column",
 									alignItems: "center",
-									// justifyContent: "flex-start",
 								}}
 							>
 								<Avatar
@@ -301,20 +340,19 @@ const AccountDetails = () => {
 								/>
 								<Grid sx={{ marginTop: 5 }} item>
 									<Button
-										onClick={() => setIsDisabled(false)}
-										sx={{ marginRight: 2 }}
-										variant="outlined"
-									>
-										Sửa
-									</Button>
-									<Button
 										onClick={() => {
-											setIsDisabled(true);
-											handleUpdate();
+											setIsDisabled(!isDisabled);
+											if (!isDisabled) {
+												handleUpdate();
+											}
 										}}
-										variant="contained"
+										variant={
+											isDisabled
+												? "outlined"
+												: "contained"
+										}
 									>
-										Cập nhật
+										{isDisabled ? "Sửa" : "Cập nhật"}
 									</Button>
 								</Grid>
 							</Grid>

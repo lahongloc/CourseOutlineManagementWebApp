@@ -147,7 +147,7 @@ const SignUp = () => {
 						sx={{
 							marginTop: 5,
 						}}
-						severity="info"
+						severity="success"
 					>
 						Đăng ký thành công, tài khoản của bạn sẽ được phê duyệt
 						bởi quản trị viên!
