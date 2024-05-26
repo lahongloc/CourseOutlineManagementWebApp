@@ -46,14 +46,14 @@
                     <c:choose>
                         <c:when test="${not empty user.avatar}">
                             <img src="${user.avatar}"
-                                 alt="Avatar" class="img-fluid my-5 rounded-circle" style="width: 100px; height: 100px;" /> 
+                                 alt="Avatar" class="img-fluid my-5 rounded-circle" style="bject-fit: cover; width: 150px; height: 150px; border: 6px solid red; border-radius: 50%;" /> 
                         </c:when>
                         <c:otherwise>
                             <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
                                  alt="Avatar" class="img-fluid my-5 rounded-circle" style="width: 100px; height: 100px;" />
                         </c:otherwise>
                     </c:choose>
-                    <h3>${user.name}</h3>
+                    <h4>${user.name}</h4>
                     <p><i>@${user.username}</i></p>
                     <h6>Trạng thái: 
                         <c:choose>
@@ -83,7 +83,7 @@
                         </div>
                         <div class="row pt-1">
                             <div class="col-6 mb-3">
-                                <h6>Loại</h6>
+                                <h6>Chức vụ</h6>
                                 <p class="text-muted">
                                     <c:choose>
                                         <c:when test="${user.role eq 'ROLE_ADMIN'}">

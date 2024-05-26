@@ -6,6 +6,7 @@ const BASE_URL = " http://localhost:8085/CourseOutlineManagementWebApp/";
 export const endpoints = {
 	getOutlines: "/api/getOutlines/",
 	getFaculties: "/api/getFaculties/",
+	getHomeClient: "/api/getHomeClient/",
 	login: "/api/login/",
 	"current-user": "/api/current-user/",
 	"lecturer-register": "/api/lecturer-register/",

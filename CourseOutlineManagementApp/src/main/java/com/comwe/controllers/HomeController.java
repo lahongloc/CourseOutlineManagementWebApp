@@ -4,11 +4,15 @@
  */
 package com.comwe.controllers;
 
+import com.comwe.pojo.User;
 import com.comwe.services.OutlineService;
 import com.comwe.services.UserService;
+import java.util.List;
 import java.util.Map;
 import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
@@ -29,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author lahon
  */
 @Controller
+@PropertySource("classpath:configs.properties")
 public class HomeController {
 
     @Autowired
@@ -37,6 +42,8 @@ public class HomeController {
     private UserService userService;
     @Autowired
     private JavaMailSender mailSender;
+    @Autowired
+    private Environment env;
 
     private static final AuthenticationTrustResolver authenticationTrustResolver = new AuthenticationTrustResolverImpl();
 
@@ -60,8 +67,20 @@ public class HomeController {
 
     @GetMapping("/users-manager/")
     public String lecturerManagement(@RequestParam Map<String, String> params, Model model) {
-        model.addAttribute("users", this.userService.getNonAdminUsers(params));
-//        sendMail("locla2405@gmail.com", "2151053036loc@ou.edu.vn", "Hello", "Day laf mail gui thu xem duocj khong!");
+        params.put("role", "ROLE_LECTURER");
+        int totalPageLecturer = (int) Math.ceil((double) this.userService.getNonAdminUsers(params).size() / Integer.parseInt(this.env.getProperty("pageSizeUser")));
+        params.put("page", params.get("pageLecturer"));
+        model.addAttribute("pageSizeLecturer", totalPageLecturer);
+        model.addAttribute("lecturers", this.userService.getNonAdminUsers(params));
+        
+        
+        
+        params.replace("role", "ROLE_STUDENT");
+        params.replace("page", null);
+        int totalPageStudent = (int) Math.ceil((double) this.userService.getNonAdminUsers(params).size() / Integer.parseInt(this.env.getProperty("pageSizeUser")));
+        params.replace("page", params.get("pageStudent"));
+        model.addAttribute("pageSizeStudent", totalPageStudent);
+        model.addAttribute("students", this.userService.getNonAdminUsers(params));
         return "user";
     }
 

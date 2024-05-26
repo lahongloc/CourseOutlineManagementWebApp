@@ -23,8 +23,5 @@ public class OutlineServiceImpl implements OutlineService {
     @Override
     public List<Object> getOutlines(Map<String, String> params) {
         return this.outlineRepo.getOutlines(params);
-    }
-    
-    
-    
+    }    
 }
