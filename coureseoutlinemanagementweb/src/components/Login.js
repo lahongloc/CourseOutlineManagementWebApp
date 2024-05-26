@@ -75,7 +75,7 @@ const Login = () => {
 			setLoading(true);
 			try {
 				let res = await APIs.post(endpoints["login"], { ...userInfo });
-				console.log(res.data);
+				console.log("data la: ", res.data);
 				cookie.save("token", res.data);
 
 				let currentUser = await authApi().get(

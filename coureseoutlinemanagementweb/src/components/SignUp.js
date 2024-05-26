@@ -40,7 +40,7 @@ const SignUp = () => {
 	const avatar = useRef();
 
 	useEffect(() => {
-		console.log(lecturer);
+		console.log(faculties);
 	});
 
 	const handleFacultyChange = useCallback((value) => {

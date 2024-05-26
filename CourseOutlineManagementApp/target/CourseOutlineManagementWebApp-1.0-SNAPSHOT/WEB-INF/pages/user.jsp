@@ -50,10 +50,10 @@
                     <td>
                         <c:choose>
                             <c:when test="${l.sex == false}">
-                                Nam
+                                Nữ
                             </c:when>
                             <c:otherwise>
-                                Nữ
+                                Nam
                             </c:otherwise>
                         </c:choose>
                     </td>

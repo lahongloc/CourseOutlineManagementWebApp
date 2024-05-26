@@ -103,10 +103,10 @@
                                 <p class="text-muted">
                                     <c:choose>
                                         <c:when test="${user.sex eq '1'}">
-                                            Nam
+                                            Nữ
                                         </c:when>
                                         <c:otherwise>
-                                            Nữ
+                                            Nam
                                         </c:otherwise>
                                     </c:choose>
                                 </p>

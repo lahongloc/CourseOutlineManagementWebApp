@@ -34,6 +34,9 @@ const App = () => {
 	};
 
 	useEffect(() => {
+		console.log(faculties);
+	});
+	useEffect(() => {
 		loadFaculties();
 	}, []);
 
@@ -41,8 +44,6 @@ const App = () => {
 		UserReducer,
 		cookie.load("user") || null,
 	);
-
-	const a = { name: "ljk", age: 17 };
 
 	return (
 		<UserContext.Provider value={[user, dispatch]}>
