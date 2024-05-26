@@ -32,6 +32,8 @@ import javax.persistence.criteria.Root;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -44,10 +46,14 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Repository
 @Transactional
+@PropertySource("classpath:configs.properties")
 public class UserRepositoryImpl implements UserRepository {
 
     @Autowired
     private LocalSessionFactoryBean factory;
+
+    @Autowired
+    private Environment env;
 
     @Autowired
     private BCryptPasswordEncoder passEncoder;
@@ -92,6 +98,8 @@ public class UserRepositoryImpl implements UserRepository {
         Root r = q.from(User.class);
         q.select(r);
 
+        String page = params.get("page");
+
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(c.notEqual(r.get("role"), "ROLE_ADMIN"));
 
@@ -101,14 +109,29 @@ public class UserRepositoryImpl implements UserRepository {
         }
         q.where(predicates.toArray(Predicate[]::new));
 
-        return s.createQuery(q).getResultList();
+        Query qr = s.createQuery(q);
+
+        if (page != null && !page.isEmpty()) {
+            int pageSize = Integer.parseInt(this.env.getProperty("pageSizeUser"));
+
+            qr.setMaxResults(pageSize);
+            qr.setFirstResult((Integer.parseInt(page) - 1) * pageSize);
+        }
+
+        List<User> listUsers = qr.getResultList();
+
+        return listUsers;
     }
 
     @Override
     public void userApprove(int id) {
         Session s = this.factory.getObject().getCurrentSession();
         User user = s.get(User.class, id);
-
+        if (user.getRole().equals("ROLE_LECTURER")) {
+            Lecturer l = new Lecturer();
+            l.setId(id);
+            s.save(l);
+        }
         user.setIsActive(Boolean.TRUE);
         s.update(user);
     }

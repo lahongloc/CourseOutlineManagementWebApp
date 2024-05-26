@@ -1,18 +1,33 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import APIs, { endpoints } from "../configs/APIs";
 import { Badge, Card, Container, ListGroup, Row } from "react-bootstrap";
-import BasicSimpleTreeView from "../UI components/BasicSimpleTreeView";
+import PaginationControlled from "../UI components/PaginationControlled";
 
 const Home = () => {
-	const [outline, setOutline] = useState([]);
+	const [outlines, setOutlines] = useState([]);
+	const [page, setPage] = useState(null)
 	const [loading, setLoading] = useState(false);
+	let pageSize = useRef()
 
-	const loadOutline = async () => {
+	
+
+	const handleSetPage = useCallback((e, value) => {
+		setPage(value)
+	})
+
+	
+
+	const loadOutlines = async () => {
 		setLoading(true);
 		try {
 			let url = `${endpoints["getOutlines"]}`;
+			if(page) url = `${url}?page=${page}`
 			let res = await APIs.get(url);
-			setOutline(res.data);
+			setOutlines(res.data);
+			if(page === null) {
+				pageSize.current = res.data.length
+				setPage(1)
+			}
 		} catch (ex) {
 			console.error(ex);
 		} finally {
@@ -21,51 +36,56 @@ const Home = () => {
 	};
 
 	useEffect(() => {
-		loadOutline();
-	}, []);
+		loadOutlines();
+	}, [page]);
+
+	
+
 
 	return (
 		<>
 			<Container>
+			<PaginationControlled count={pageSize.current} page={page || 1} pageChange={handleSetPage} />
+
 				<Row className="mt-2">
-					{outline.map((outline) => (
-						<Card key={outline[0]} className="mb-3">
+					{outlines.map((outline) => (
+						<Card key={outline.outlineId} className="mb-3">
 							<Card.Header>
-								<h5>Mã đề cương: {outline[0]}</h5>
+								<h5>Mã đề cương: {outline.outlineId}</h5>
 							</Card.Header>
 							<Card.Body>
 								<ListGroup variant="flush">
-									<ListGroup.Item>
+										<ListGroup.Item>
 										<strong>Giảng viên:</strong>{" "}
-										{outline[6]}
+										{outline.lecturer}
 									</ListGroup.Item>
 									<ListGroup.Item>
-										<strong>Môn học:</strong> {outline[7]}
+										<strong>Môn học:</strong> {outline.subject}
 									</ListGroup.Item>
 									<ListGroup.Item>
 										<strong>Khoa quản lý:</strong>{" "}
-										{outline[8]}
+										{outline.faculty}
 									</ListGroup.Item>
 									<ListGroup.Item>
 										<strong>Ngày bắt đầu:</strong>{" "}
 										{new Date(
-											outline[1],
+											outline.startedDate,
 										).toLocaleDateString()}
 									</ListGroup.Item>
 									<ListGroup.Item>
 										<strong>Ngày kết thúc:</strong>{" "}
 										{new Date(
-											outline[2],
+											outline.expiredDate,
 										).toLocaleDateString()}
 									</ListGroup.Item>
 									<ListGroup.Item>
-										<strong>Mô tả:</strong> {outline[3]}
+										<strong>Mô tả:</strong> {outline.description}
 									</ListGroup.Item>
 									<ListGroup.Item>
-										<strong>Lý thuyết:</strong> {outline[4]}
+										<strong>Lý thuyết:</strong> {outline.theory}
 									</ListGroup.Item>
 									<ListGroup.Item>
-										<strong>Thực hành:</strong> {outline[5]}
+										<strong>Thực hành:</strong> {outline.practice}
 									</ListGroup.Item>
 								</ListGroup>
 							</Card.Body>
