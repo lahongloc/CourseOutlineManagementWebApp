@@ -45,6 +45,13 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Outline.findByStatus", query = "SELECT o FROM Outline o WHERE o.status = :status")})
 public class Outline implements Serializable {
 
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,8 +79,10 @@ public class Outline implements Serializable {
     @NotNull
     @Column(name = "prac_credit_hour")
     private int pracCreditHour;
+//    @Column(name = "status")
+//    private Boolean status;
     @Column(name = "status")
-    private Boolean status;
+    private String status;
     @JsonIgnore
     @OneToMany(mappedBy = "outlineId")
     private Set<OutlineSubject> outlineSubjectSet;
@@ -165,13 +174,13 @@ public class Outline implements Serializable {
         this.pracCreditHour = pracCreditHour;
     }
 
-    public Boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(Boolean status) {
-        this.status = status;
-    }
+//    public Boolean getStatus() {
+//        return status;
+//    }
+//
+//    public void setStatus(Boolean status) {
+//        this.setStatus(status);
+//    }
 
     @XmlTransient
     public Set<OutlineSubject> getOutlineSubjectSet() {

@@ -1,7 +1,7 @@
 import axios from "axios";
 import cookie from "react-cookies";
 
-const BASE_URL = " http://localhost:8080/CourseOutlineManagementWebApp/";
+const BASE_URL = "http://localhost:8080/CourseOutlineManagementWebApp/";
 
 export const endpoints = {
 	getOutlines: "/api/getOutlines/",
@@ -12,6 +12,8 @@ export const endpoints = {
 	"lecturer-register": "/api/lecturer-register/",
 	getLecturers: "/api/getLecturers/",
 	"update-lecturer": "/api/lecturer-update/",
+	getSubjetcs: "/api/getSubjects/",
+	"save-outline": "/api/add-outline/",
 };
 
 export const authApi = () => {

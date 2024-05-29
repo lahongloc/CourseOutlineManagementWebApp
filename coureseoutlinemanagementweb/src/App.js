@@ -14,7 +14,9 @@ import SignUp from "./components/SignUp";
 import AccountDetails from "./components/AccountDetails";
 import APIs, { endpoints } from "./configs/APIs";
 import ResponsiveAppBar from "./UI components/ResponsiveAppBar";
-import BasicSimpleTreeView from "./UI components/BasicSimpleTreeView";
+import Content from "./commons/Content";
+import MyOutline from "./components/MyOutlines";
+import Outlinecompilation from "./components/Outlinecompilation";
 
 export const UserContext = createContext();
 export const FacultyContext = createContext();
@@ -51,25 +53,35 @@ const App = () => {
 				<BrowserRouter>
 					{/* <Header /> */}
 					<ResponsiveAppBar />
-					<BasicSimpleTreeView />
-					<Container>
-						<Routes>
-							<Route
-								path="/lecturer-signup"
-								element={<SignUp />}
-							/>
-							<Route
-								path="/account-details"
-								element={<AccountDetails />}
-							/>
-							<Route
-								path="/lecturer-register"
-								element={<LecturerRegister />}
-							/>
-							<Route path="/" element={<Home />} />
-							<Route path="/login" element={<Login />} />
-						</Routes>
-					</Container>
+
+					{/* <Container> */}
+					<Routes>
+						<Route path="/lecturer-signup" element={<SignUp />} />
+						<Route
+							path="/account-details"
+							element={<AccountDetails />}
+						/>
+						<Route
+							path="/lecturer-register"
+							element={<LecturerRegister />}
+						/>
+						{/* <Route path="/" element={<Home />} /> */}
+						<Route path="/" element={<Content />} />
+						<Route path="/login" element={<Login />} />
+						<Route
+							path="/my-outlines"
+							element={<MyOutline status={"ACCEPTED"} />}
+						/>
+						<Route
+							path="/my-workspace"
+							element={<MyOutline status={"HOLDING"} />}
+						/>
+						<Route
+							path="/outline-compiling"
+							element={<Outlinecompilation />}
+						/>
+					</Routes>
+					{/* </Container> */}
 					<Footer />
 				</BrowserRouter>
 			</FacultyContext.Provider>

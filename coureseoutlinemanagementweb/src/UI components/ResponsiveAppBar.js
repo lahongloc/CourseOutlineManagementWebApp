@@ -16,10 +16,25 @@ import { UserContext } from "../App";
 import { LOGOUT } from "../reducers/Actions";
 import { useNavigate } from "react-router-dom";
 import LoginIcon from "@mui/icons-material/Login";
+import AvatarChip from "./AvatarChip";
 
 function ResponsiveAppBar() {
 	const [user, dispatch] = React.useContext(UserContext);
-	const pages = ["Trang chủ", "Workspace", "Đề cương của tôi"];
+	// const pages = ["Trang chủ", "Workspace", "Đề cương của tôi"];
+	const pages = [
+		{
+			name: "Trang chủ",
+			link: "/",
+		},
+		{
+			name: "Workspaces",
+			link: "/my-workspace",
+		},
+		{
+			name: "Đề cương của tôi",
+			link: "/my-outlines",
+		},
+	];
 	const nav = useNavigate();
 	const settings = [
 		{
@@ -55,173 +70,119 @@ function ResponsiveAppBar() {
 	};
 
 	return (
-		<AppBar sx={{ marginBottom: 2 }} position="static">
-			<Container maxWidth="xl">
-				<Toolbar disableGutters>
-					<AdbIcon
-						sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
-					/>
-					<Typography
-						variant="h6"
-						noWrap
-						component="a"
-						href="#app-bar-with-responsive-menu"
-						sx={{
-							mr: 2,
-							display: { xs: "none", md: "flex" },
-							fontFamily: "monospace",
-							fontWeight: 700,
-							letterSpacing: ".3rem",
-							color: "inherit",
-							textDecoration: "none",
-						}}
-					>
-						LOGO
-					</Typography>
-
-					<Box
-						sx={{
-							flexGrow: 1,
-							display: { xs: "flex", md: "none" },
-						}}
-					>
-						<IconButton
-							size="large"
-							aria-label="account of current user"
-							aria-controls="menu-appbar"
-							aria-haspopup="true"
-							onClick={handleOpenNavMenu}
-							color="inherit"
-						>
-							<MenuIcon />
-						</IconButton>
-						<Menu
-							id="menu-appbar"
-							anchorEl={anchorElNav}
-							anchorOrigin={{
-								vertical: "bottom",
-								horizontal: "left",
-							}}
-							keepMounted
-							transformOrigin={{
-								vertical: "top",
-								horizontal: "left",
-							}}
-							open={Boolean(anchorElNav)}
-							onClose={handleCloseNavMenu}
+		<Box sx={{ mb: 8.75 }}>
+			<AppBar position="fixed">
+				<Container maxWidth="xl">
+					<Toolbar disableGutters>
+						<AdbIcon
+							sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+						/>
+						<Typography
+							variant="h6"
+							noWrap
+							component="a"
+							href="#app-bar-with-responsive-menu"
 							sx={{
-								display: { xs: "block", md: "none" },
+								mr: 2,
+								display: { xs: "none", md: "flex" },
+								fontFamily: "monospace",
+								fontWeight: 700,
+								letterSpacing: ".3rem",
+								color: "inherit",
+								textDecoration: "none",
 							}}
 						>
-							{pages.map((page) => (
-								<MenuItem
-									key={page}
-									onClick={handleCloseNavMenu}
-								>
-									<Typography textAlign="center">
-										{page}
-									</Typography>
-								</MenuItem>
-							))}
-						</Menu>
-					</Box>
-					<AdbIcon
-						sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
-					/>
-					<Typography
-						variant="h5"
-						noWrap
-						component="a"
-						href="#app-bar-with-responsive-menu"
-						sx={{
-							mr: 2,
-							display: { xs: "flex", md: "none" },
-							flexGrow: 1,
-							fontFamily: "monospace",
-							fontWeight: 700,
-							letterSpacing: ".3rem",
-							color: "inherit",
-							textDecoration: "none",
-						}}
-					>
-						LOGO
-					</Typography>
-					<Box
-						sx={{
-							flexGrow: 1,
-							display: { xs: "none", md: "flex" },
-						}}
-					>
-						{pages.map((page) => (
-							<Button
-								key={page}
-								onClick={handleCloseNavMenu}
-								sx={{ my: 2, color: "white", display: "block" }}
-							>
-								{page}
-							</Button>
-						))}
-					</Box>
+							LOGO
+						</Typography>
 
-					{user ? (
-						<Box sx={{ flexGrow: 0 }}>
-							<Tooltip title="Open settings">
-								<IconButton
-									onClick={handleOpenUserMenu}
-									sx={{ p: 0 }}
+						<Box
+							sx={{
+								flexGrow: 1,
+								display: { xs: "none", md: "flex" },
+							}}
+						>
+							{pages.map((page, index) => (
+								<Button
+									key={index}
+									onClick={() => {
+										nav(page.link);
+									}}
+									sx={{
+										my: 2,
+										color: "white",
+										display: "block",
+									}}
 								>
-									<Avatar
+									{page.name}
+								</Button>
+							))}
+						</Box>
+
+						{user ? (
+							<Box sx={{ flexGrow: 0 }}>
+								<Tooltip title={user.name}>
+									<IconButton
+										onClick={handleOpenUserMenu}
+										sx={{ p: 0 }}
+									>
+										<AvatarChip
+											avatar={user.avatar}
+											name={user.name}
+										/>
+										{/* <Avatar
 										alt="Remy Sharp"
 										src={user.avatar}
-									/>
-								</IconButton>
-							</Tooltip>
-							<Menu
-								sx={{ mt: "45px" }}
-								id="menu-appbar"
-								anchorEl={anchorElUser}
-								anchorOrigin={{
-									vertical: "top",
-									horizontal: "right",
+									/> */}
+									</IconButton>
+								</Tooltip>
+								<Menu
+									sx={{ mt: "45px" }}
+									id="menu-appbar"
+									anchorEl={anchorElUser}
+									anchorOrigin={{
+										vertical: "top",
+										horizontal: "right",
+									}}
+									keepMounted
+									transformOrigin={{
+										vertical: "top",
+										horizontal: "right",
+									}}
+									open={Boolean(anchorElUser)}
+									onClose={handleCloseUserMenu}
+								>
+									{settings.map((setting) => (
+										<MenuItem
+											key={setting.name}
+											onClick={() => {
+												handleCloseUserMenu();
+												if (setting.link)
+													nav(setting.link);
+												else setting.call();
+											}}
+										>
+											<Typography textAlign="center">
+												{setting.name}
+											</Typography>
+										</MenuItem>
+									))}
+								</Menu>
+							</Box>
+						) : (
+							<Button
+								onClick={() => {
+									nav("/login");
 								}}
-								keepMounted
-								transformOrigin={{
-									vertical: "top",
-									horizontal: "right",
-								}}
-								open={Boolean(anchorElUser)}
-								onClose={handleCloseUserMenu}
+								variant="secondary"
+								startIcon={<LoginIcon />}
 							>
-								{settings.map((setting) => (
-									<MenuItem
-										key={setting.name}
-										onClick={() => {
-											handleCloseUserMenu();
-											if (setting.link) nav(setting.link);
-											else setting.call();
-										}}
-									>
-										<Typography textAlign="center">
-											{setting.name}
-										</Typography>
-									</MenuItem>
-								))}
-							</Menu>
-						</Box>
-					) : (
-						<Button
-							onClick={() => {
-								nav("/login");
-							}}
-							variant="secondary"
-							startIcon={<LoginIcon />}
-						>
-							Đăng nhập
-						</Button>
-					)}
-				</Toolbar>
-			</Container>
-		</AppBar>
+								Đăng nhập
+							</Button>
+						)}
+					</Toolbar>
+				</Container>
+			</AppBar>
+		</Box>
 	);
 }
 export default ResponsiveAppBar;

@@ -5,28 +5,31 @@ import PaginationControlled from "../UI components/PaginationControlled";
 
 const Home = () => {
 	const [outlines, setOutlines] = useState([]);
-	const [page, setPage] = useState(null)
+	const [page, setPage] = useState(null);
 	const [loading, setLoading] = useState(false);
-	let pageSize = useRef()
-
-	
+	let pageSize = useRef();
 
 	const handleSetPage = useCallback((e, value) => {
-		setPage(value)
-	})
+		setPage(value);
+	});
 
-	
+	// useEffect(() => {
+	// 	console.log("A");
+	// 	// console.log("Trang hiện tại: ", page);
+	// 	// console.log("Tổng tất cả trang: ", pageSize.current);
+	// });
 
 	const loadOutlines = async () => {
 		setLoading(true);
 		try {
+			// console.log("B");
 			let url = `${endpoints["getOutlines"]}`;
-			if(page) url = `${url}?page=${page}`
+			if (page) url = `${url}?page=${page}`;
 			let res = await APIs.get(url);
 			setOutlines(res.data);
-			if(page === null) {
-				pageSize.current = res.data.length
-				setPage(1)
+			if (page === null) {
+				pageSize.current = Math.ceil(res.data.length / 4);
+				setPage(1);
 			}
 		} catch (ex) {
 			console.error(ex);
@@ -36,16 +39,18 @@ const Home = () => {
 	};
 
 	useEffect(() => {
+		// console.log("C");
 		loadOutlines();
 	}, [page]);
-
-	
-
 
 	return (
 		<>
 			<Container>
-			<PaginationControlled count={pageSize.current} page={page || 1} pageChange={handleSetPage} />
+				<PaginationControlled
+					count={pageSize.current}
+					page={page || 1}
+					pageChange={handleSetPage}
+				/>
 
 				<Row className="mt-2">
 					{outlines.map((outline) => (
@@ -55,12 +60,13 @@ const Home = () => {
 							</Card.Header>
 							<Card.Body>
 								<ListGroup variant="flush">
-										<ListGroup.Item>
+									<ListGroup.Item>
 										<strong>Giảng viên:</strong>{" "}
 										{outline.lecturer}
 									</ListGroup.Item>
 									<ListGroup.Item>
-										<strong>Môn học:</strong> {outline.subject}
+										<strong>Môn học:</strong>{" "}
+										{outline.subject}
 									</ListGroup.Item>
 									<ListGroup.Item>
 										<strong>Khoa quản lý:</strong>{" "}
@@ -79,13 +85,16 @@ const Home = () => {
 										).toLocaleDateString()}
 									</ListGroup.Item>
 									<ListGroup.Item>
-										<strong>Mô tả:</strong> {outline.description}
+										<strong>Mô tả:</strong>{" "}
+										{outline.description}
 									</ListGroup.Item>
 									<ListGroup.Item>
-										<strong>Lý thuyết:</strong> {outline.theory}
+										<strong>Lý thuyết:</strong>{" "}
+										{outline.theory}
 									</ListGroup.Item>
 									<ListGroup.Item>
-										<strong>Thực hành:</strong> {outline.practice}
+										<strong>Thực hành:</strong>{" "}
+										{outline.practice}
 									</ListGroup.Item>
 								</ListGroup>
 							</Card.Body>

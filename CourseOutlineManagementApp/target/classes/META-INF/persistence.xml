@@ -21,6 +21,8 @@
     <class>com.comwe.pojo.AcademicYear</class>
     <class>com.comwe.pojo.Major</class>
     <class>com.comwe.pojo.OutlineScore</class>
+    <class>com.comwe.temp.StudentOutlineDownload</class>
+    <class>com.comwe.pojo.StudentOutlineDownload</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/courseoutlinedb?zeroDateTimeBehavior=CONVERT_TO_NULL"/>

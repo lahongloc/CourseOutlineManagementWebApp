@@ -117,6 +117,7 @@ const SignUp = () => {
 					alt="Remy Sharp"
 					src={preview || ""}
 					sx={{
+						mt: 10,
 						mb: 2,
 						width: 100,
 						height: 100,
@@ -196,7 +197,7 @@ const SignUp = () => {
 						<Grid container spacing={4}>
 							<Grid item xs={11}>
 								<TextField
-									variant="standard"
+									variant="outlined"
 									fullWidth
 									required
 									id="name"
@@ -219,7 +220,7 @@ const SignUp = () => {
 								</InputLabel>
 								<TextField
 									required
-									variant="standard"
+									variant="outlined"
 									fullWidth
 									autoFocus
 									id="birthday"
@@ -279,7 +280,7 @@ const SignUp = () => {
 							</Grid>
 							<Grid item xs={11}>
 								<TextField
-									variant="standard"
+									variant="outlined"
 									required
 									fullWidth
 									id="email"
@@ -307,7 +308,7 @@ const SignUp = () => {
 						<Grid container spacing={2}>
 							<Grid item xs={11}>
 								<TextField
-									variant="standard"
+									variant="outlined"
 									required
 									fullWidth
 									id="hotline"
@@ -326,7 +327,7 @@ const SignUp = () => {
 							</Grid>
 							<Grid item xs={11}>
 								<TextField
-									variant="standard"
+									variant="outlined"
 									required
 									fullWidth
 									id="username"
@@ -347,7 +348,7 @@ const SignUp = () => {
 									sx={{
 										marginTop: 2.5,
 									}}
-									variant="standard"
+									variant="outlined"
 									required
 									fullWidth
 									id="password"

@@ -7,6 +7,7 @@ import com.comwe.pojo.Lecturer;
 import com.comwe.pojo.OutlineAcademicYear;
 import com.comwe.pojo.OutlineScore;
 import com.comwe.pojo.OutlineSubject;
+import com.comwe.pojo.StudentOutlineDownload;
 import com.comwe.pojo.Subject;
 import java.util.Date;
 import javax.annotation.Generated;
@@ -14,7 +15,7 @@ import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.7.12.v20230209-rNA", date="2024-05-26T19:34:33")
+@Generated(value="EclipseLink-2.7.12.v20230209-rNA", date="2024-05-28T19:38:08")
 @StaticMetamodel(Outline.class)
 public class Outline_ { 
 
@@ -31,7 +32,8 @@ public class Outline_ {
     public static volatile SetAttribute<Outline, Comment> commentSet;
     public static volatile SingularAttribute<Outline, Date> startedDatetime;
     public static volatile SingularAttribute<Outline, Integer> theoCreditHour;
+    public static volatile SetAttribute<Outline, StudentOutlineDownload> studentOutlineDownloadSet;
     public static volatile SingularAttribute<Outline, Integer> id;
-    public static volatile SingularAttribute<Outline, Boolean> status;
+    public static volatile SingularAttribute<Outline, String> status;
 
 }

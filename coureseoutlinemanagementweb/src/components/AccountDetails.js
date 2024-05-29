@@ -20,6 +20,7 @@ import {
 	useRef,
 	useState,
 } from "react";
+import Box from "@mui/material/Box";
 import { FacultyContext, UserContext } from "../App";
 import { PANO } from "../static/images/pano";
 import AvatarCustom from "../UI components/BadgeAvatars";
@@ -160,9 +161,9 @@ const AccountDetails = () => {
 	return (
 		<>
 			{loading && <LinearBuffer />}
-			<div style={{ marginTop: "1.5rem", marginBottom: 0 }}>
+			{/* <div style={{ marginTop: "3rem", marginBottom: 0, marginLeft: 20 }}>
 				<CustomSeparator levels={levels} />
-			</div>
+			</div> */}
 
 			{message.success && (
 				<Alert
@@ -186,180 +187,197 @@ const AccountDetails = () => {
 					Cập nhật hồ sơ thất bại! Vui lòng kiểm tra lại thông tin!
 				</Alert>
 			)}
-			<Container sx={{ marginBottom: 15, marginTop: 3 }}>
-				<Grid sx={{ flexGrow: 1 }} container spacing={2}>
-					<Grid item xs={12}>
-						<Grid
-							sx={{
-								boxShadow:
-									"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-								height: 500,
-								borderRadius: "16px",
-								overflow: "hidden",
-								padding: 3,
-							}}
-							container
-							// justifyContent="center"
-							spacing={0}
-						>
-							<Grid
-								justifyContent="center"
-								sx={{
-									width: "70%",
-									display: "flex",
-									flexWrap: "wrap",
-									alignItems: "center",
-									justifyContent: "space-between",
-									padding: 2,
-								}}
-							>
-								{Object.keys(userInfo).map((field, index) => {
-									if (
-										field === "facultyId" ||
-										field === "avatar" ||
-										field === "files" ||
-										field === "sex"
-									) {
-										return (
-											<Fragment key={field}></Fragment>
-										);
-									}
-									return (
-										<Grid key={index} item xs={12} sm={6}>
-											<InputLabel htmlFor={field}>
-												{fields[index]}
-											</InputLabel>
-											<TextField
-												type={
-													field === "birthday"
-														? "date"
-														: "text"
-												}
-												id={field}
-												variant="standard"
-												value={userInfo[field]}
-												onChange={(e) =>
-													handleFieldChange(e, field)
-												}
-												disabled={
-													field === "role" ||
-													field === "username"
-														? true
-														: isDisabled
-												}
-											/>
-										</Grid>
-									);
-								})}
-
-								<FormControl>
-									<FormLabel id="demo-controlled-radio-buttons-group">
-										Giới tính
-									</FormLabel>
-									<RadioGroup
-										sx={{
-											display: "flex",
-											flexDirection: "row",
-										}}
-										aria-labelledby="demo-controlled-radio-buttons-group"
-										value={userInfo.sex || ""}
-										onChange={(e) =>
-											setUserInfo((prev) => {
-												return {
-													...prev,
-													sex: e.target.value,
-												};
-											})
-										}
-									>
-										<FormControlLabel
-											disabled={isDisabled}
-											value="True"
-											control={<Radio />}
-											label="Nam"
-										/>
-										<FormControlLabel
-											disabled={isDisabled}
-											value="False"
-											control={<Radio />}
-											label="Nữ"
-										/>
-									</RadioGroup>
-								</FormControl>
-
-								<Grid item xs={12} sm={6}>
-									<MyNativeSelect
-										disabled={isDisabled}
-										fieldSelected={currentFaculty}
-										names={faculties}
-										onChociceChange={handleFacultyChange}
-										label={"Khoa"}
-									/>
-								</Grid>
-							</Grid>
+			<Box style={{ marginTop: "8rem" }}>
+				<Container sx={{ marginBottom: 15 }}>
+					<Grid sx={{ flexGrow: 1 }} container spacing={2}>
+						<Grid item xs={12}>
 							<Grid
 								sx={{
-									width: "30%",
-									display: "flex",
-									padding: 5,
-									flexDirection: "column",
-									alignItems: "center",
+									boxShadow:
+										"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+									height: 500,
+									borderRadius: "16px",
+									overflow: "hidden",
+									padding: 3,
 								}}
+								container
+								// justifyContent="center"
+								spacing={0}
 							>
-								<Avatar
-									onClick={() => avt.current.click()}
+								<Grid
+									justifyContent="center"
 									sx={{
-										cursor: "pointer",
-										width: 230,
-										height: 230,
-										marginTop: 5,
-										boxShadow:
-											"rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
+										width: "70%",
+										display: "flex",
+										flexWrap: "wrap",
+										alignItems: "center",
+										justifyContent: "space-between",
+										padding: 2,
 									}}
-									alt="Remy Sharp"
-									src={userInfo.avatar}
-								/>
-								<input
-									disabled={isDisabled}
-									type="file"
-									ref={avt}
-									style={{ display: "none" }}
-									onChange={(e) => {
-										const selectedFile = e.target.files[0];
-										const reader = new FileReader();
-										reader.onloadend = () => {
-											setUserInfo((prev) => {
-												return {
-													...prev,
-													avatar: reader.result,
-												};
-											});
-										};
-										reader.readAsDataURL(selectedFile);
-									}}
-								/>
-								<Grid sx={{ marginTop: 5 }} item>
-									<Button
-										onClick={() => {
-											setIsDisabled(!isDisabled);
-											if (!isDisabled) {
-												handleUpdate();
+								>
+									{Object.keys(userInfo).map(
+										(field, index) => {
+											if (
+												field === "facultyId" ||
+												field === "avatar" ||
+												field === "files" ||
+												field === "sex"
+											) {
+												return (
+													<Fragment
+														key={field}
+													></Fragment>
+												);
 											}
+											return (
+												<Grid
+													key={index}
+													item
+													xs={12}
+													sm={6}
+												>
+													<InputLabel htmlFor={field}>
+														{fields[index]}
+													</InputLabel>
+													<TextField
+														type={
+															field === "birthday"
+																? "date"
+																: "text"
+														}
+														id={field}
+														variant="standard"
+														value={userInfo[field]}
+														onChange={(e) =>
+															handleFieldChange(
+																e,
+																field,
+															)
+														}
+														disabled={
+															field === "role" ||
+															field === "username"
+																? true
+																: isDisabled
+														}
+													/>
+												</Grid>
+											);
+										},
+									)}
+
+									<FormControl>
+										<FormLabel id="demo-controlled-radio-buttons-group">
+											Giới tính
+										</FormLabel>
+										<RadioGroup
+											sx={{
+												display: "flex",
+												flexDirection: "row",
+											}}
+											aria-labelledby="demo-controlled-radio-buttons-group"
+											value={userInfo.sex || ""}
+											onChange={(e) =>
+												setUserInfo((prev) => {
+													return {
+														...prev,
+														sex: e.target.value,
+													};
+												})
+											}
+										>
+											<FormControlLabel
+												disabled={isDisabled}
+												value="True"
+												control={<Radio />}
+												label="Nam"
+											/>
+											<FormControlLabel
+												disabled={isDisabled}
+												value="False"
+												control={<Radio />}
+												label="Nữ"
+											/>
+										</RadioGroup>
+									</FormControl>
+
+									<Grid item xs={12} sm={6}>
+										<MyNativeSelect
+											disabled={isDisabled}
+											fieldSelected={currentFaculty}
+											names={faculties}
+											onChociceChange={
+												handleFacultyChange
+											}
+											label={"Khoa"}
+										/>
+									</Grid>
+								</Grid>
+								<Grid
+									sx={{
+										width: "30%",
+										display: "flex",
+										padding: 5,
+										flexDirection: "column",
+										alignItems: "center",
+									}}
+								>
+									<Avatar
+										onClick={() => avt.current.click()}
+										sx={{
+											cursor: "pointer",
+											width: 230,
+											height: 230,
+											marginTop: 5,
+											boxShadow:
+												"rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
 										}}
-										variant={
-											isDisabled
-												? "outlined"
-												: "contained"
-										}
-									>
-										{isDisabled ? "Sửa" : "Cập nhật"}
-									</Button>
+										alt="Remy Sharp"
+										src={userInfo.avatar}
+									/>
+									<input
+										disabled={isDisabled}
+										type="file"
+										ref={avt}
+										style={{ display: "none" }}
+										onChange={(e) => {
+											const selectedFile =
+												e.target.files[0];
+											const reader = new FileReader();
+											reader.onloadend = () => {
+												setUserInfo((prev) => {
+													return {
+														...prev,
+														avatar: reader.result,
+													};
+												});
+											};
+											reader.readAsDataURL(selectedFile);
+										}}
+									/>
+									<Grid sx={{ marginTop: 5 }} item>
+										<Button
+											onClick={() => {
+												setIsDisabled(!isDisabled);
+												if (!isDisabled) {
+													handleUpdate();
+												}
+											}}
+											variant={
+												isDisabled
+													? "outlined"
+													: "contained"
+											}
+										>
+											{isDisabled ? "Sửa" : "Cập nhật"}
+										</Button>
+									</Grid>
 								</Grid>
 							</Grid>
 						</Grid>
-					</Grid>
-				</Grid>{" "}
-			</Container>
+					</Grid>{" "}
+				</Container>
+			</Box>
 		</>
 	);
 };

@@ -20,7 +20,7 @@ export default function BasicSimpleTreeView({}) {
 			],
 		},
 		{
-			name: "Các môn học cần soạn đề cương",
+			name: "Các môn học",
 			levels: [
 				{
 					name: "Toán cao cấp",
@@ -32,7 +32,7 @@ export default function BasicSimpleTreeView({}) {
 		},
 	];
 	return (
-		<Box sx={{ height: 220, flexGrow: 1, maxWidth: 300 }}>
+		<Box position="fixed" sx={{ height: 220, flexGrow: 1, maxWidth: 300 }}>
 			<SimpleTreeView>
 				{tree.map((item, index) => {
 					return (

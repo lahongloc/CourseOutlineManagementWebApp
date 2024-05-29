@@ -24,7 +24,7 @@ function ControlledOpenSelect({
 
 	return (
 		<div>
-			<FormControl variant="standard" fullWidth sx={{ minWidth: 120 }}>
+			<FormControl variant="outlined" fullWidth sx={{ minWidth: 120 }}>
 				<InputLabel id="demo-controlled-open-select-label">
 					{props.label}
 				</InputLabel>

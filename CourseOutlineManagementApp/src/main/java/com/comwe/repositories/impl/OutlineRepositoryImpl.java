@@ -9,6 +9,7 @@ import com.comwe.pojo.Faculty;
 import com.comwe.pojo.Lecturer;
 import com.comwe.pojo.Major;
 import com.comwe.pojo.Outline;
+import com.comwe.pojo.OutlineSubject;
 import com.comwe.pojo.Subject;
 import com.comwe.pojo.User;
 import com.comwe.repositories.OutlineRepository;
@@ -40,7 +41,7 @@ public class OutlineRepositoryImpl implements OutlineRepository {
 
     @Autowired
     private LocalSessionFactoryBean factory;
-    
+
     @Autowired
     private Environment env;
 
@@ -53,25 +54,45 @@ public class OutlineRepositoryImpl implements OutlineRepository {
         q.select(r);
         String kw = params.get("kw");
         String page = params.get("page");
+        String lecturerId = params.get("lecturerId");
+        String status = params.get("status");
+        String outlineId = params.get("outlineId");
+
         List<Predicate> predicates = new ArrayList<>();
 
         if (kw != null && !kw.isEmpty()) {
             predicates.add(c.like(r.get("description"), String.format("%%%s%%", kw)));
         }
 
+        if (lecturerId != null && !lecturerId.isEmpty()) {
+            predicates.add(c.equal(r.get("lecturerId").get("userId"), Integer.parseInt(lecturerId)));
+        }
+
+        if (status != null && !status.isEmpty()) {
+            predicates.add(c.like(r.get("status"), status));
+        }
+
+        if (outlineId != null && !outlineId.isEmpty()) {
+            predicates.add(c.equal(r.get("id"), Integer.parseInt(outlineId)));
+        }
+
         q.where(predicates.toArray(Predicate[]::new));
 
         Query qr = s.createQuery(q);
         List<Object> outlinesInfo = new ArrayList<>();
-        
-        if (page != null && !page.isEmpty())
-        {
+
+        if (page != null && !page.isEmpty()) {
             int pageSize = Integer.parseInt(this.env.getProperty("pageSize"));
-            
+
             qr.setMaxResults(pageSize);
             qr.setFirstResult((Integer.parseInt(page) - 1) * pageSize);
         }
 
+        CriteriaQuery<Object> qS = c.createQuery(Object.class);
+        Root rS = qS.from(OutlineSubject.class);
+        qS.select(rS.get("subjectId"));
+        List<Predicate> pres = new ArrayList<>();
+        
         List<Outline> outlines = qr.getResultList();
         outlines.forEach(o -> {
             HashMap<Object, Object> temp = new HashMap<>();
@@ -85,11 +106,15 @@ public class OutlineRepositoryImpl implements OutlineRepository {
             temp.put("theory", o.getTheoCreditHour());
             temp.put("practice", o.getPracCreditHour());
 
+            pres.add(c.equal(rS.get("outlineId"), o.getId()));
+            qS.where(pres.toArray(Predicate[]::new));
+            Query qrS = s.createQuery(qS);
+            List<OutlineSubject> outlineSubjects = qrS.getResultList();
+            temp.put("preSubjects", outlineSubjects);
+
             outlinesInfo.add(temp);
         });
-        
-        
-        
+
         return outlinesInfo;
     }
 }
