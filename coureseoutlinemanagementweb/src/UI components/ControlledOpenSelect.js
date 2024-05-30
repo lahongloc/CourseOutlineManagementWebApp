@@ -34,7 +34,13 @@ function ControlledOpenSelect({
 					open={open}
 					onClose={handleClose}
 					onOpen={handleOpen}
-					value={value}
+					value={props.scoreItem ? props.scoreItem : value}
+					// value
+					// props.score1
+					// 	? props.score1
+					// 	: props.score2
+					// 	? props.score2
+					// 	: value
 					label={props.label}
 					onChange={(e) => {
 						onChociceChange(e.target.value);

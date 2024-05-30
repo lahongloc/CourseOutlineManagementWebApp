@@ -9,14 +9,18 @@ import Paper from "@mui/material/Paper";
 import { Button, IconButton, TextField } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
+import ControlledOpenSelect from "./ControlledOpenSelect";
 
 const IncreaseTable = ({
 	cells,
 	fields,
-	handleFieldChange,
+	handleScoreChange,
 	addField,
 	deleteField,
+	...props
 }) => {
+	const [assessment, setAssessment] = React.useState("");
+
 	return (
 		<TableContainer sx={{ marginTop: 2 }} component={Paper}>
 			<Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -35,7 +39,90 @@ const IncreaseTable = ({
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{fields.map((field, index) => {
+					{fields.map((item, index) => {
+						return (
+							<TableRow
+								sx={{
+									"&:last-child td, &:last-child th": {
+										border: 0,
+									},
+								}}
+								key={index}
+							>
+								<TableCell component="th" scope="row">
+									<ControlledOpenSelect
+										label={"Cột điểm"}
+										scoreItem={item.id}
+										names={props.scores}
+										onChociceChange={(value) => {
+											handleScoreChange(
+												index,
+												"id",
+												value,
+											);
+
+											const assessment =
+												props.scores.find(
+													(element) =>
+														element.id === value,
+												)?.assessment;
+
+											handleScoreChange(
+												index,
+												"assessment",
+												assessment,
+											);
+
+											const name = props.scores.find(
+												(element) =>
+													element.id === value,
+											)?.name;
+
+											handleScoreChange(
+												index,
+												"name",
+												assessment,
+											);
+										}}
+									/>
+								</TableCell>
+								<TableCell align="right">
+									{item.assessment}
+								</TableCell>
+								<TableCell align="right">
+									<TextField
+										id="standard-basic"
+										variant="standard"
+										value={item.percent ?? ""}
+										onChange={(e) => {
+											handleScoreChange(
+												index,
+												"percent",
+												e.target.value,
+											);
+										}}
+									/>
+									%
+								</TableCell>
+								{index > 1 && (
+									<TableCell align="right">
+										<IconButton
+											color="secondary"
+											aria-label="add an alarm"
+											sx={{ padding: 1 }}
+											onClick={() => deleteField(index)}
+										>
+											<FontAwesomeIcon
+												icon={faXmark}
+												style={{ color: "#6e51c8" }}
+											/>
+										</IconButton>
+									</TableCell>
+								)}
+							</TableRow>
+						);
+					})}
+					{/* {fields.map((field, index) => {
 						return (
 							<TableRow
 								sx={{
@@ -89,31 +176,30 @@ const IncreaseTable = ({
 									/>
 									%
 								</TableCell>
-								{index > 1 && (
-									<TableCell align="right">
-										<IconButton
-											color="secondary"
-											aria-label="add an alarm"
-											sx={{ padding: 1 }}
-											// onClick={() =>
-											// 	setFields((prev) => {
-											// 		return prev.filter(
-											// 			(f, i) => i !== index,
-											// 		);
-											// 	})
-											// }
-											onClick={() => deleteField(index)}
-										>
-											<FontAwesomeIcon
-												icon={faXmark}
-												style={{ color: "#6e51c8" }}
-											/>
-										</IconButton>
-									</TableCell>
-								)}
+
+								<TableCell align="right">
+									<IconButton
+										color="secondary"
+										aria-label="add an alarm"
+										sx={{ padding: 1 }}
+										// onClick={() =>
+										// 	setFields((prev) => {
+										// 		return prev.filter(
+										// 			(f, i) => i !== index,
+										// 		);
+										// 	})
+										// }
+										onClick={() => deleteField(index)}
+									>
+										<FontAwesomeIcon
+											icon={faXmark}
+											style={{ color: "#6e51c8" }}
+										/>
+									</IconButton>
+								</TableCell>
 							</TableRow>
 						);
-					})}
+					})} */}
 
 					<TableRow
 						sx={{

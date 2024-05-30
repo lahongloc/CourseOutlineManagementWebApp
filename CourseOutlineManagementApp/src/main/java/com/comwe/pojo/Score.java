@@ -4,6 +4,7 @@
  */
 package com.comwe.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -46,6 +47,7 @@ public class Score implements Serializable {
     @Size(max = 300)
     @Column(name = "assessment")
     private String assessment;
+    @JsonIgnore
     @OneToMany(mappedBy = "scoreId")
     private Set<OutlineScore> outlineScoreSet;
 

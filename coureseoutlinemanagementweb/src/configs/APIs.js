@@ -14,6 +14,7 @@ export const endpoints = {
 	"update-lecturer": "/api/lecturer-update/",
 	getSubjetcs: "/api/getSubjects/",
 	"save-outline": "/api/add-outline/",
+	getScores: "/api/getScores/",
 };
 
 export const authApi = () => {

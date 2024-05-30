@@ -30,9 +30,10 @@ const Outlinecompilation = () => {
 	const [currentOutline, setCurrentOutline] = useState(null);
 	const [q] = useSearchParams();
 	const [subjects, setSujects] = useState([]);
+	const [scores, setScores] = useState([]);
 
+	// states needed to post API
 	const [timeRange, setTimeRange] = useState([null, null]);
-
 	const [timeRangeFormat, setTimeRangeFormat] = useState([
 		{
 			start: null,
@@ -42,27 +43,32 @@ const Outlinecompilation = () => {
 	const [preSubs, setPreSubs] = useState([]);
 	const [theory, setTheory] = useState("");
 	const [prac, setPrac] = useState("");
-	const [fields, setFields] = useState([
+	const [outlineScores, setOutlineScores] = useState([
 		{
-			name: "",
-			assessment: "",
-			percent: 0.0,
+			id: null,
+			percent: null,
+			assessment: null,
 		},
 		{
-			name: "",
-			assessment: "",
-			percent: 0.0,
+			id: null,
+			percent: null,
+			assessment: null,
 		},
 	]);
 
+	useEffect(() => {
+		console.log("hbnjnnda: ", outlineScores);
+	});
+
+	// post API to save an outline
 	const saveOutline = async () => {
 		try {
 			let myForm = {
-				time: { ...timeRangeFormat },
-				preSubs: [...preSubs],
+				start: timeRangeFormat[0].start,
+				end: timeRangeFormat[0].end,
 				theory: theory,
 				prac: prac,
-				outlineScores: [...fields],
+				preSubs: JSON.stringify(preSubs),
 			};
 
 			let form = new FormData();
@@ -72,7 +78,7 @@ const Outlinecompilation = () => {
 
 			let res = await APIs.post(endpoints["save-outline"], form, {
 				headers: {
-					"Content-Type": "multipart/form-data",
+					"Content-Type": "multipart/form-data; charset=UTF-8",
 				},
 			});
 		} catch (err) {
@@ -80,25 +86,14 @@ const Outlinecompilation = () => {
 		}
 	};
 
-	useEffect(() => {
-		let myForm = {
-			time: { ...timeRangeFormat },
-			preSubs: [...preSubs],
-			theory: theory,
-			prac: prac,
-			outlineScores: [...fields],
-		};
-
-		console.log(myForm);
-	});
-
+	// handling functions
 	const outlineId = q.get("outlineId");
 
-	const handleFieldChange = (index, key, value) => {
-		setFields((prevFields) => {
-			const newFields = [...prevFields];
-			newFields[index][key] = value;
-			return newFields;
+	const handleScoreChange = (index, field, value) => {
+		setOutlineScores((prev) => {
+			const updatedScores = [...prev];
+			updatedScores[index] = { ...updatedScores[index], [field]: value };
+			return updatedScores;
 		});
 	};
 
@@ -110,24 +105,44 @@ const Outlinecompilation = () => {
 	});
 
 	const addField = () => {
-		setFields((prev) => {
+		setOutlineScores((prev) => {
 			return [
 				...prev,
 				{
-					name: "",
-					assessment: "",
-					percent: 0.0,
+					id: null,
+					percent: null,
 				},
 			];
 		});
 	};
 
 	const deleteField = (index) => {
-		setFields((prev) => {
+		console.log("index la: ", index);
+		setOutlineScores((prev) => {
 			return prev.filter((f, i) => i !== index);
 		});
 	};
 
+	const handleDateChange = (newValue) => {
+		setTimeRange(newValue);
+	};
+
+	const formatDate = (date) => {
+		return date ? dayjs(date).format("YYYY/MM/DD") : "";
+	};
+
+	useEffect(() => {
+		if (timeRange[0] && timeRange[1]) {
+			setTimeRangeFormat([
+				{
+					start: formatDate(timeRange[0]),
+					end: formatDate(timeRange[1]),
+				},
+			]);
+		}
+	}, [timeRange]);
+
+	// data loading function to initialize the page
 	const loadSubjects = async () => {
 		try {
 			let res = await APIs.get(endpoints["getSubjetcs"]);
@@ -151,24 +166,46 @@ const Outlinecompilation = () => {
 		}
 	};
 
+	const loadScores = async () => {
+		try {
+			let res = await APIs.get(endpoints["getScores"]);
+			if (res.status === 200) {
+				setScores(res.data);
+			}
+			console.log("so cola: ", res.data);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
 	useEffect(() => {
 		loadSubjects();
 		loadCurrentOutline();
+		loadScores();
 	}, []);
 
-	//=================LOCAL STORAGE
+	// loacal storage to temporarily save the data
 	useEffect(() => {
 		if (outlineId) {
 			const savedTheory = localStorage.getItem(
 				`theoryCredits_${outlineId}`,
 			);
 			const savedPrac = localStorage.getItem(`pracCredits_${outlineId}`);
+			const savedPreSubs = localStorage.getItem(`preSubs_${outlineId}`);
+			const savedDates = localStorage.getItem(`dateRange_${outlineId}`);
+			const savedScores = localStorage.getItem(
+				`outlineScores_${outlineId}`,
+			);
 
-			if (savedTheory) {
-				setTheory(savedTheory);
+			if (savedTheory) setTheory(savedTheory);
+			if (savedPrac) setPrac(savedPrac);
+			if (savedPreSubs) setPreSubs(JSON.parse(savedPreSubs));
+			if (savedDates) {
+				const parsedDates = JSON.parse(savedDates);
+				setTimeRange([dayjs(parsedDates[0]), dayjs(parsedDates[1])]);
 			}
-			if (savedPrac) {
-				setPrac(savedPrac);
+			if (savedScores) {
+				setOutlineScores(JSON.parse(savedScores));
 			}
 		}
 	}, [outlineId]);
@@ -185,16 +222,6 @@ const Outlinecompilation = () => {
 		}
 	}, [prac, outlineId]);
 
-	//===
-	useEffect(() => {
-		if (outlineId) {
-			const savedPreSubs = localStorage.getItem(`preSubs_${outlineId}`);
-			if (savedPreSubs) {
-				setPreSubs(JSON.parse(savedPreSubs));
-			}
-		}
-	}, [outlineId]);
-
 	useEffect(() => {
 		if (outlineId) {
 			localStorage.setItem(
@@ -203,34 +230,6 @@ const Outlinecompilation = () => {
 			);
 		}
 	}, [preSubs, outlineId]);
-
-	//======
-	useEffect(() => {
-		if (outlineId) {
-			const savedFields = localStorage.getItem(`fields_${outlineId}`);
-			if (savedFields) {
-				setFields(JSON.parse(savedFields));
-			}
-		}
-	}, [outlineId]);
-
-	useEffect(() => {
-		if (outlineId) {
-			localStorage.setItem(`fields_${outlineId}`, JSON.stringify(fields));
-		}
-	}, [fields, outlineId]);
-
-	//====DATEEEE
-
-	useEffect(() => {
-		if (outlineId) {
-			const savedDates = localStorage.getItem(`dateRange_${outlineId}`);
-			if (savedDates) {
-				const parsedDates = JSON.parse(savedDates);
-				setTimeRange([dayjs(parsedDates[0]), dayjs(parsedDates[1])]);
-			}
-		}
-	}, [outlineId]);
 
 	useEffect(() => {
 		if (outlineId && timeRange[0] && timeRange[1]) {
@@ -245,24 +244,14 @@ const Outlinecompilation = () => {
 		}
 	}, [timeRange, outlineId]);
 
-	const handleDateChange = (newValue) => {
-		setTimeRange(newValue);
-	};
-
-	const formatDate = (date) => {
-		return date ? dayjs(date).format("YYYY/MM/DD") : "";
-	};
-
 	useEffect(() => {
-		if (timeRange[0] && timeRange[1]) {
-			setTimeRangeFormat([
-				{
-					start: formatDate(timeRange[0]),
-					end: formatDate(timeRange[1]),
-				},
-			]);
+		if (outlineId) {
+			localStorage.setItem(
+				`outlineScores_${outlineId}`,
+				JSON.stringify(outlineScores),
+			);
 		}
-	}, [timeRange]);
+	}, [outlineScores, outlineId]);
 
 	return (
 		<>
@@ -421,10 +410,15 @@ const Outlinecompilation = () => {
 								"Đánh giá",
 								"Phần trăm (%)",
 							]}
-							fields={fields}
-							handleFieldChange={handleFieldChange}
+							fields={outlineScores}
+							handleScoreChange={handleScoreChange}
 							addField={addField}
 							deleteField={deleteField}
+							scores={scores}
+							// handleValueChange1={handleValueChange1}
+							// handleValueChange2={handleValueChange2}
+							// score1={score1}
+							// score2={score2}
 						/>
 
 						<Button
