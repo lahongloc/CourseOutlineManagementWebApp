@@ -59,12 +59,10 @@ public class Outline implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "started_datetime")
     @Temporal(TemporalType.TIMESTAMP)
     private Date startedDatetime;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "expired_datetime")
     @Temporal(TemporalType.TIMESTAMP)
     private Date expiredDatetime;
@@ -72,11 +70,9 @@ public class Outline implements Serializable {
     @Column(name = "description")
     private String description;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "theo_credit_hour")
     private int theoCreditHour;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "prac_credit_hour")
     private int pracCreditHour;
 //    @Column(name = "status")

@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -33,6 +35,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Subject.findById", query = "SELECT s FROM Subject s WHERE s.id = :id"),
     @NamedQuery(name = "Subject.findByName", query = "SELECT s FROM Subject s WHERE s.name = :name")})
 public class Subject implements Serializable {
+
+    @OneToMany(mappedBy = "subjectId")
+    @JsonIgnore
+    private Set<FacultySubject> facultySubjectSet;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -115,5 +121,14 @@ public class Subject implements Serializable {
     public String toString() {
         return "com.comwe.pojo.Subject[ id=" + id + " ]";
     }
-    
+
+    @XmlTransient
+    public Set<FacultySubject> getFacultySubjectSet() {
+        return facultySubjectSet;
+    }
+
+    public void setFacultySubjectSet(Set<FacultySubject> facultySubjectSet) {
+        this.facultySubjectSet = facultySubjectSet;
+    }
+
 }

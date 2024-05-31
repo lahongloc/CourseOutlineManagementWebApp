@@ -14,10 +14,10 @@
     <div class="container-fluid">
         <ul class="navbar-nav" style="margin-left: auto; margin-right: auto">
             <li class="nav-item">
-                <a class="nav-link active" href="<c:url value="/users-manager/" />"<>Quản lý giảng viên sinh viên</a>
+                <a class="nav-link"  href="<c:url value="/users-manager/" />"<>Quản lý giảng viên sinh viên</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Quản lý đề cương</a>
+                <a class="nav-link" href="<c:url value="/outline-management/" />">Quản lý đề cương</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Báo cáo thống kê</a>
@@ -35,6 +35,7 @@
         </ul>
     </div>
 </nav>
+
 
 
 

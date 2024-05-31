@@ -13,4 +13,5 @@ import java.util.Map;
  */
 public interface OutlineService {
     List<Object> getOutlines(Map<String, String> params);
+    void addOutline(int lecturerId, int subjectId, int academicYearId);
 }

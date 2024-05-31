@@ -52,24 +52,7 @@ public class ApiOutlineController {
             System.out.println(k.toString() + " is: " + params.get(k));
         });
 
-//        System.out.println("Start: " + params.get("start"));
-//        System.out.println("End: " + params.get("end"));
-//        System.out.println("Previous subjects: " + params.get("preSubs"));
-//        System.out.println("Theory credits: " + params.get("theory"));
-//        System.out.println("Practice credits: " + params.get("prac"));
-//        System.out.println("Name 1: " + params.get("name0"));
-//        System.out.println("Name 1: " + params.get("name1"));
-//        System.out.println("Name 1: " + params.get("name2"));
-//        System.out.println("Name 1: " + params.get("name0"));
-//        System.out.println("Name 1: " + params.get("name0"));
-//        System.out.println("Name 1: " + params.get("name0"));
-//        System.out.println("Name 1: " + params.get("name0"));
-//        System.out.println("Name 1: " + params.get("name0"));
 
-//        Object scores = params.get("outlineScores");
-//        Class<?> objClass = scores.getClass();
-//        
-//        System.out.println("Class la: " + objClass.getName());
         return new ResponseEntity<>("abc", HttpStatus.OK);
     }
 }

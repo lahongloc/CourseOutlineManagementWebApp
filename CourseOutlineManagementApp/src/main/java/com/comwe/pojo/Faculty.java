@@ -35,6 +35,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Faculty.findByName", query = "SELECT f FROM Faculty f WHERE f.name = :name")})
 public class Faculty implements Serializable {
 
+    @OneToMany(mappedBy = "facultyId")
+    @JsonIgnore
+    private Set<FacultySubject> facultySubjectSet;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -124,4 +128,12 @@ public class Faculty implements Serializable {
         return "com.comwe.pojo.Faculty[ id=" + id + " ]";
     }
 
+    @XmlTransient
+    public Set<FacultySubject> getFacultySubjectSet() {
+        return facultySubjectSet;
+    }
+
+    public void setFacultySubjectSet(Set<FacultySubject> facultySubjectSet) {
+        this.facultySubjectSet = facultySubjectSet;
+    }
 }

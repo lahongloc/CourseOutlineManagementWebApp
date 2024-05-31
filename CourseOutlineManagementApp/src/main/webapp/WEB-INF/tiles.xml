@@ -27,4 +27,12 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
         <put-attribute name="title" value="Chi tiết tài khoản" />
         <put-attribute name="content" value="/WEB-INF/pages/userDetails.jsp" />
     </definition>
+    <definition name="outlineManage" extends="baseLayout">
+        <put-attribute name="title" value="Quản lý đề cương" />
+        <put-attribute name="content" value="/WEB-INF/pages/outlineManage.jsp" />
+    </definition>
+    <definition name="subjectDetails" extends="baseLayout">
+        <put-attribute name="title" value="Chi tiết môn học" />
+        <put-attribute name="content" value="/WEB-INF/pages/subjectDetails.jsp" />
+    </definition>
 </tiles-definitions>

@@ -5,6 +5,7 @@ com\comwe\pojo\User_.class
 com\comwe\pojo\Admin_.class
 com\comwe\pojo\Feedback_.class
 com\comwe\pojo\Score_.class
+com\comwe\pojo\FacultySubject_.class
 com\comwe\pojo\OutlineSubject_.class
 com\comwe\pojo\AcademicYear_.class
 com\comwe\pojo\Student_.class
@@ -14,3 +15,4 @@ com\comwe\pojo\Lecturer_.class
 com\comwe\pojo\OutlineScore_.class
 com\comwe\pojo\Semester_.class
 com\comwe\pojo\Major_.class
+com\comwe\pojo\Outline_.class

@@ -24,4 +24,9 @@ public class OutlineServiceImpl implements OutlineService {
     public List<Object> getOutlines(Map<String, String> params) {
         return this.outlineRepo.getOutlines(params);
     }    
+
+    @Override
+    public void addOutline(int lecturerId, int subjectId, int academicYearId) {
+        this.outlineRepo.addOutline(lecturerId, subjectId, academicYearId);
+    }
 }

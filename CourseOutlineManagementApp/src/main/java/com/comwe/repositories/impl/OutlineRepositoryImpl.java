@@ -4,11 +4,13 @@
  */
 package com.comwe.repositories.impl;
 
+import com.comwe.pojo.AcademicYear;
 import com.comwe.pojo.Admin;
 import com.comwe.pojo.Faculty;
 import com.comwe.pojo.Lecturer;
 import com.comwe.pojo.Major;
 import com.comwe.pojo.Outline;
+import com.comwe.pojo.OutlineAcademicYear;
 import com.comwe.pojo.OutlineSubject;
 import com.comwe.pojo.Subject;
 import com.comwe.pojo.User;
@@ -28,6 +30,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -92,7 +95,7 @@ public class OutlineRepositoryImpl implements OutlineRepository {
         Root rS = qS.from(OutlineSubject.class);
         qS.select(rS.get("subjectId"));
         List<Predicate> pres = new ArrayList<>();
-        
+
         List<Outline> outlines = qr.getResultList();
         outlines.forEach(o -> {
             HashMap<Object, Object> temp = new HashMap<>();
@@ -116,5 +119,29 @@ public class OutlineRepositoryImpl implements OutlineRepository {
         });
 
         return outlinesInfo;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void addOutline(int lecturerId, int subjectId, int academicYearId) {
+        Session s = this.factory.getObject().getCurrentSession();
+
+        User user = s.get(User.class, lecturerId);
+        Lecturer lecturer = user.getLecturerSet().stream().findFirst().get();
+        
+        Subject subject = s.get(Subject.class, subjectId);
+        AcademicYear academicYear = s.get(AcademicYear.class, academicYearId);
+
+        Outline outline = new Outline();
+        outline.setSubjectId(subject);
+        outline.setLecturerId(lecturer);
+        outline.setStatus("HOLDING");
+        s.save(outline);
+        
+        OutlineAcademicYear oc = new OutlineAcademicYear();
+        oc.setAcademicYearId(academicYear);
+        oc.setOutlineId(outline);
+        s.save(oc);
+
     }
 }

@@ -13,5 +13,5 @@ import java.util.Map;
  * @author lahon
  */
 public interface SubjectService {
-    List<Subject> getSubjects(Map<String, String> params);
+    List<Object> getSubjects(Map<String, String> params);
 }

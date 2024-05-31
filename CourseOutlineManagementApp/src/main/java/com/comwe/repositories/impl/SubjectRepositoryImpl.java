@@ -4,6 +4,7 @@
  */
 package com.comwe.repositories.impl;
 
+import com.comwe.pojo.FacultySubject;
 import com.comwe.pojo.Subject;
 import com.comwe.repositories.SubjectRepository;
 import java.util.ArrayList;
@@ -32,37 +33,41 @@ public class SubjectRepositoryImpl implements SubjectRepository {
     private LocalSessionFactoryBean factory;
     
     @Override
-    public List<Subject> getSubjects(Map<String, String> params) {
+    public List<Object> getSubjects(Map<String, String> params) {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder c = s.getCriteriaBuilder();
-        CriteriaQuery q = c.createQuery(Subject.class);
-        Root r = q.from(Subject.class);
-        q.select(r);
-        
+        CriteriaQuery q = c.createQuery(Object[].class);
+        Root rS = q.from(Subject.class);
+        Root rFS = q.from(FacultySubject.class);
+        q.multiselect(rS.get("id"), rS.get("name"), rFS.get("facultyId"));
         List<Predicate> predicates = new ArrayList<>();
-        String lecturerId = params.get("lecturerId");
-        if(lecturerId != null && !lecturerId.isEmpty()) {
-            predicates.add(c.equal(r.get("lecturerId"), Integer.parseInt(lecturerId)));
-        }
+        predicates.add(c.equal(rS.get("id"), rFS.get("subjectId")));
+        
+        
+        
+        String facultyId = params.get("facultyId");
+        if(facultyId != null && !facultyId.isEmpty()) {
+            predicates.add(c.equal(rFS.get("facultyId"), Integer.parseInt(facultyId)));
+        } 
         q.where(predicates.toArray(Predicate[]::new));
+        q.groupBy(rS.get("id"), rS.get("name"), rFS.get("facultyId"));
         
         
         Query qr = s.createQuery(q);
         
-//        List<Object> subjectsInfo = new ArrayList<>();
-//        
-//        List<Subject> subjects = qr.getResultList();
-//        
-//        subjects.forEach(subject -> {
-//            HashMap<Object, Object> temp = new HashMap<>();
-//            temp.put("name", subject.getName());
-//            temp.put("")
-//        });
-//        
+        List<Object[]> subjects = qr.getResultList();
+        List<Object> subjectsInfo = new ArrayList<>();
+        subjects.forEach(sj -> {
+            Map<String, Object> temp = new HashMap<>();
+            temp.put("id",  sj[0]);
+            temp.put("name",  sj[1]);
+            temp.put("facultyId", sj[2]);
+            
+            subjectsInfo.add(temp);
+        });
         
         
-        
-        return qr.getResultList();
+        return subjectsInfo;
     }
     
 }

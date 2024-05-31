@@ -23,7 +23,7 @@ public class SubjectServiceImpl implements SubjectService {
     private SubjectRepository subjectRepo;
 
     @Override
-    public List<Subject> getSubjects(Map<String, String> params) {
+    public List<Object> getSubjects(Map<String, String> params) {
         return this.subjectRepo.getSubjects(params);
     }
     

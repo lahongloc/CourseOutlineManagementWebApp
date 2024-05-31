@@ -9,6 +9,7 @@ import {
 	Container,
 	Paper,
 	TextField,
+	TextareaAutosize,
 	Typography,
 	useRadioGroup,
 } from "@mui/material";
@@ -24,6 +25,8 @@ import { UserContext } from "../App";
 import MultipleSelectChip from "../UI components/MultipleSelectChip";
 import IncreaseTable from "../UI components/IncreaseTable";
 import dayjs from "dayjs";
+import cookie from "react-cookies";
+import MyTextarea from "../UI components/MyTextarea";
 
 const Outlinecompilation = () => {
 	const [user, dispatch] = useContext(UserContext);
@@ -55,6 +58,7 @@ const Outlinecompilation = () => {
 			assessment: null,
 		},
 	]);
+	const [description, setDescription] = useState("");
 
 	useEffect(() => {
 		console.log("hbnjnnda: ", outlineScores);
@@ -63,18 +67,21 @@ const Outlinecompilation = () => {
 	// post API to save an outline
 	const saveOutline = async () => {
 		try {
-			let myForm = {
-				start: timeRangeFormat[0].start,
-				end: timeRangeFormat[0].end,
-				theory: theory,
-				prac: prac,
-				preSubs: JSON.stringify(preSubs),
-			};
-
 			let form = new FormData();
-			for (var f in myForm) {
-				form.append(f, myForm[f]);
-			}
+			// Time Range Format
+			form.append("start", timeRangeFormat[0].start);
+			form.append("end", timeRangeFormat[0].end);
+
+			// Outline Scores
+			outlineScores.forEach((score, index) => {
+				form.append(`outlineScoreId${index + 1}`, score.id);
+				form.append(`percent${index + 1}`, score.percent);
+			});
+
+			form.append("description", description);
+			form.append("prac", prac);
+			form.append("theory", theory);
+			form.append("preSubs", [...preSubs]);
 
 			let res = await APIs.post(endpoints["save-outline"], form, {
 				headers: {
@@ -88,6 +95,10 @@ const Outlinecompilation = () => {
 
 	// handling functions
 	const outlineId = q.get("outlineId");
+
+	const handleDescriptionChange = useCallback((e) => {
+		setDescription(e.target.value);
+	});
 
 	const handleScoreChange = (index, field, value) => {
 		setOutlineScores((prev) => {
@@ -196,6 +207,9 @@ const Outlinecompilation = () => {
 			const savedScores = localStorage.getItem(
 				`outlineScores_${outlineId}`,
 			);
+			const savedDescription = localStorage.getItem(
+				`description_${outlineId}`,
+			);
 
 			if (savedTheory) setTheory(savedTheory);
 			if (savedPrac) setPrac(savedPrac);
@@ -206,6 +220,9 @@ const Outlinecompilation = () => {
 			}
 			if (savedScores) {
 				setOutlineScores(JSON.parse(savedScores));
+			}
+			if (savedDescription) {
+				setDescription(savedDescription);
 			}
 		}
 	}, [outlineId]);
@@ -252,6 +269,12 @@ const Outlinecompilation = () => {
 			);
 		}
 	}, [outlineScores, outlineId]);
+
+	useEffect(() => {
+		if (outlineId && description !== "") {
+			localStorage.setItem(`description_${outlineId}`, description);
+		}
+	}, [description, outlineId]);
 
 	return (
 		<>
@@ -380,6 +403,11 @@ const Outlinecompilation = () => {
 							</span>{" "}
 							{currentOutline[0].description}
 						</Typography>
+						<MyTextarea
+							valueItem={description}
+							handleValueChange={handleDescriptionChange}
+							placeholder={`Mô tả cho môn học ${currentOutline[0].subject}...`}
+						/>
 
 						<Typography
 							sx={{ marginTop: 2, display: "block" }}
