@@ -13,4 +13,5 @@ import java.util.Map;
  */
 public interface OutlineService {
     List<Object> getOutlines(Map<String, String> params);
+    List<Object> getOutlineById(int id);
 }

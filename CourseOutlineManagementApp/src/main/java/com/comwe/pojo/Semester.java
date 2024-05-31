@@ -4,6 +4,7 @@
  */
 package com.comwe.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -21,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "semester")
@@ -43,6 +44,7 @@ public class Semester implements Serializable {
     private String name;
     @JoinColumn(name = "academic_year_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private AcademicYear academicYearId;
 
     public Semester() {

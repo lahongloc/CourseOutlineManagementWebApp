@@ -7,10 +7,10 @@ package com.comwe.controllers;
 import com.comwe.components.JwtService;
 import com.comwe.pojo.User;
 import com.comwe.services.LecturerService;
+import com.comwe.services.StudentService;
 import com.comwe.services.UserService;
 import java.security.Principal;
 import java.util.Map;
-import org.graalvm.compiler.core.common.type.ArithmeticOpTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,6 +40,9 @@ public class ApiUserController {
 
     @Autowired
     private LecturerService lecturerService;
+    
+    @Autowired
+    private StudentService studentService;
 
     @Autowired
     private JwtService jwtService;
@@ -49,7 +51,7 @@ public class ApiUserController {
         MediaType.APPLICATION_JSON_VALUE,
         MediaType.MULTIPART_FORM_DATA_VALUE
     })
-    @CrossOrigin
+    @CrossOrigin                                                                  
     @ResponseStatus(HttpStatus.CREATED)
     public void addLecturer(@RequestParam Map<String, String> params, @RequestPart MultipartFile[] files) {
         this.lecturerService.addLecturer(params, files[0]);

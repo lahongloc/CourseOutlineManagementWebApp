@@ -30,7 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "user")
@@ -97,14 +97,14 @@ public class User implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private Date createdDatetime;
-    @JsonIgnore
     @OneToMany(mappedBy = "userId")
+    @JsonIgnore
     private Set<Student> studentSet;
-    @JsonIgnore
     @OneToMany(mappedBy = "userId")
+    @JsonIgnore
     private Set<Admin> adminSet;
-    @JsonIgnore
     @OneToMany(mappedBy = "userId")
+    @JsonIgnore
     private Set<Lecturer> lecturerSet;
     
     @Transient

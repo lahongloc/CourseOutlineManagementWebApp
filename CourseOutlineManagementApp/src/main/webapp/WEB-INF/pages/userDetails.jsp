@@ -102,7 +102,7 @@
                                 <h6>Giới tính</h6>
                                 <p class="text-muted">
                                     <c:choose>
-                                        <c:when test="${user.sex eq '1'}">
+                                        <c:when test="${user.sex == true}">
                                             Nam
                                         </c:when>
                                         <c:otherwise>

@@ -4,6 +4,7 @@
  */
 package com.comwe.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -20,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "outline_score")
@@ -42,9 +43,11 @@ public class OutlineScore implements Serializable {
     private Float percent;
     @JoinColumn(name = "outline_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Outline outlineId;
     @JoinColumn(name = "score_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Score scoreId;
 
     public OutlineScore() {

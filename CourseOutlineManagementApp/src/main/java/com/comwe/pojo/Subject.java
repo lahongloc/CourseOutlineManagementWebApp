@@ -4,6 +4,7 @@
  */
 package com.comwe.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -22,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "subject")
@@ -43,8 +44,10 @@ public class Subject implements Serializable {
     @Column(name = "name")
     private String name;
     @OneToMany(mappedBy = "subjectId")
+    @JsonIgnore
     private Set<OutlineSubject> outlineSubjectSet;
     @OneToMany(mappedBy = "subjectId")
+    @JsonIgnore
     private Set<Outline> outlineSet;
 
     public Subject() {

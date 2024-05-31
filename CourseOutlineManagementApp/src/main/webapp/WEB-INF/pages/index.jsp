@@ -12,17 +12,17 @@
     <tr>
         <th>Tên đề cương</th>
         <th>Số tín chỉ</th>
-        <th>Ngày hiệu lực</th>
-        <th>Ngày kết thúc</th>
+        <th>Khoa</th>
+        <th>Giảng viên biên soạn</th>
         <th>Nội dung đề cương</th>
     </tr>
     <c:forEach items="${outlines}" var="o">
         <tr>
             <td>${o.subject}</td>
-            <td>${o.expiredDate}</td>
-            <td>${o.startedDate}</td>
+            <td>${o.theory+o.practice}</td>
+            <td>${o.faculty}</td>
+            <td>${o.lecturer}</td>
             <td>${o.description}</td>
-            <td>${o.lecturerId}</td>
         </tr>
     </c:forEach>
 

@@ -2,13 +2,14 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import APIs, { endpoints } from "../configs/APIs";
 import { Badge, Card, Container, ListGroup, Row } from "react-bootstrap";
 import PaginationControlled from "../UI components/PaginationControlled";
+import { render } from "@testing-library/react";
 
 const Home = () => {
 	const [outlines, setOutlines] = useState([]);
 	const [page, setPage] = useState(null)
 	const [loading, setLoading] = useState(false);
 	let pageSize = useRef()
-
+	let checkLoad = useRef(false)
 	
 
 	const handleSetPage = useCallback((e, value) => {
@@ -16,30 +17,29 @@ const Home = () => {
 	})
 
 	
+	useEffect(() => {
+		loadOutlines();
+		// console.log(outlines.length)
+	}, [page])
 
 	const loadOutlines = async () => {
 		setLoading(true);
 		try {
 			let url = `${endpoints["getOutlines"]}`;
-			if(page) url = `${url}?page=${page}`
+			if(page !== null) url = `${url}?page=${page}`
 			let res = await APIs.get(url);
 			setOutlines(res.data);
 			if(page === null) {
-				pageSize.current = res.data.length
+				pageSize.current = Math.ceil(res.data.length / 4)
 				setPage(1)
 			}
+			console.log(url, page)
 		} catch (ex) {
 			console.error(ex);
 		} finally {
 			setLoading(false);
 		}
 	};
-
-	useEffect(() => {
-		loadOutlines();
-	}, [page]);
-
-	
 
 
 	return (

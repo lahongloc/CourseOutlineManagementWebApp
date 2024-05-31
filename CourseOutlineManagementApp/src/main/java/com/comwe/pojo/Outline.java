@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "outline")
@@ -74,32 +75,35 @@ public class Outline implements Serializable {
     private int pracCreditHour;
     @Column(name = "status")
     private Boolean status;
-    @JsonIgnore
     @OneToMany(mappedBy = "outlineId")
+    @JsonIgnore
     private Set<OutlineSubject> outlineSubjectSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "outlineId")
     @JsonIgnore
+    private Set<StudentOutlineDownload> studentOutlineDownloadSet;
     @OneToMany(mappedBy = "outlineId")
+    @JsonIgnore
     private Set<Feedback> feedbackSet;
-    @JsonIgnore
     @OneToMany(mappedBy = "outlineId")
+    @JsonIgnore
     private Set<OutlineScore> outlineScoreSet;
     @JoinColumn(name = "approver_id", referencedColumnName = "id")
-    @JsonIgnore
     @ManyToOne
+    @JsonIgnore
     private Admin approverId;
     @JoinColumn(name = "lecturer_id", referencedColumnName = "id")
-    @JsonIgnore
     @ManyToOne
+    @JsonIgnore
     private Lecturer lecturerId;
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
-    @JsonIgnore
     @ManyToOne
+    @JsonIgnore
     private Subject subjectId;
-    @JsonIgnore
     @OneToMany(mappedBy = "outlineId")
+    @JsonIgnore
     private Set<Comment> commentSet;
-    @JsonIgnore
     @OneToMany(mappedBy = "outlineId")
+    @JsonIgnore
     private Set<OutlineAcademicYear> outlineAcademicYearSet;
 
     public Outline() {
@@ -180,6 +184,15 @@ public class Outline implements Serializable {
 
     public void setOutlineSubjectSet(Set<OutlineSubject> outlineSubjectSet) {
         this.outlineSubjectSet = outlineSubjectSet;
+    }
+
+    @XmlTransient
+    public Set<StudentOutlineDownload> getStudentOutlineDownloadSet() {
+        return studentOutlineDownloadSet;
+    }
+
+    public void setStudentOutlineDownloadSet(Set<StudentOutlineDownload> studentOutlineDownloadSet) {
+        this.studentOutlineDownloadSet = studentOutlineDownloadSet;
     }
 
     @XmlTransient

@@ -4,6 +4,7 @@
  */
 package com.comwe.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -22,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "score")
@@ -47,6 +48,7 @@ public class Score implements Serializable {
     @Column(name = "assessment")
     private String assessment;
     @OneToMany(mappedBy = "scoreId")
+    @JsonIgnore
     private Set<OutlineScore> outlineScoreSet;
 
     public Score() {

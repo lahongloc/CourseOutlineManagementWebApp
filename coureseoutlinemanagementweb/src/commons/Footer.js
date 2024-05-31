@@ -14,7 +14,7 @@ import { width } from "@fortawesome/free-brands-svg-icons/fa42Group";
 const Footer = () => {
 	return (
 		<>
-			<footer className="bg-light text-center text-white">
+			<footer className="bg-light text-center text-white mt-4">
 				<Container className="p-4 pb-0">
 					<section className="mb-4">
 						<Row className="justify-content-center">

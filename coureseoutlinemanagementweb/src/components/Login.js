@@ -156,7 +156,6 @@ const Login = () => {
 									id={field.id}
 									label={field.label}
 									autoComplete={field.id}
-									autoFocus
 									value={userInfo[field.id]}
 									onChange={(e) =>
 										handleFieldChange(e, field.id)

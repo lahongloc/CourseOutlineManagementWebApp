@@ -32,7 +32,7 @@ export default function BasicSimpleTreeView({}) {
 		},
 	];
 	return (
-		<Box sx={{ height: 220, flexGrow: 1, maxWidth: 300 }}>
+		<Box sx={{ height: 0, flexGrow: 1, maxWidth: 300 }}>
 			<SimpleTreeView>
 				{tree.map((item, index) => {
 					return (

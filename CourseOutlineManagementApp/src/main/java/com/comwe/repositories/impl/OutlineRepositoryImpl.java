@@ -40,7 +40,7 @@ public class OutlineRepositoryImpl implements OutlineRepository {
 
     @Autowired
     private LocalSessionFactoryBean factory;
-    
+
     @Autowired
     private Environment env;
 
@@ -63,11 +63,10 @@ public class OutlineRepositoryImpl implements OutlineRepository {
 
         Query qr = s.createQuery(q);
         List<Object> outlinesInfo = new ArrayList<>();
-        
-        if (page != null && !page.isEmpty())
-        {
+
+        if (page != null && !page.isEmpty()) {
             int pageSize = Integer.parseInt(this.env.getProperty("pageSize"));
-            
+
             qr.setMaxResults(pageSize);
             qr.setFirstResult((Integer.parseInt(page) - 1) * pageSize);
         }
@@ -87,9 +86,34 @@ public class OutlineRepositoryImpl implements OutlineRepository {
 
             outlinesInfo.add(temp);
         });
-        
-        
-        
+
         return outlinesInfo;
+    }
+
+    @Override
+    public List<Object> getOutlineById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Outline o = s.get(Outline.class, id);
+
+        List<Object> outline = new ArrayList<>();
+
+        try {
+            HashMap<Object, Object> temp = new HashMap<>();
+            temp.put("outlineId", o.getId());
+            temp.put("lecturer", o.getLecturerId().getUserId().getName());
+            temp.put("subject", o.getSubjectId().getName());
+            temp.put("faculty", o.getLecturerId().getFacultyId().getName());
+            temp.put("startedDate", o.getStartedDatetime());
+            temp.put("expiredDate", o.getExpiredDatetime());
+            temp.put("description", o.getDescription());
+            temp.put("theory", o.getTheoCreditHour());
+            temp.put("practice", o.getPracCreditHour());
+
+            outline.add(temp);
+        } catch (Exception ex) {
+            return null;
+        }
+
+        return outline;
     }
 }

@@ -4,9 +4,11 @@
  */
 package com.comwe.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,19 +20,21 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "student")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Student.findAll", query = "SELECT s FROM Student s"),
-    @NamedQuery(name = "Student.findById", query = "SELECT s FROM Student s WHERE s.id = :id")})
+    @NamedQuery(name = "Student.findById", query = "SELECT s FROM Student s WHERE s.id = :id"),
+    @NamedQuery(name = "Student.findByStudentCode", query = "SELECT s FROM Student s WHERE s.studentCode = :studentCode")})
 public class Student implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,21 +43,33 @@ public class Student implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Size(max = 15)
+    @Column(name = "student_code")
+    private String studentCode;
     @JoinColumn(name = "academic_year_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private AcademicYear academicYearId;
-    @JoinColumn(name = "class_id", referencedColumnName = "id")
+    @JoinColumn(name = "grade_id", referencedColumnName = "id")
     @ManyToOne
-    private Class classId;
+    @JsonIgnore
+    private Grade gradeId;
     @JoinColumn(name = "major_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Major majorId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private User userId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
+    @JsonIgnore
+    private Set<StudentOutlineDownload> studentOutlineDownloadSet;
     @OneToMany(mappedBy = "studentId")
+    @JsonIgnore
     private Set<Feedback> feedbackSet;
     @OneToMany(mappedBy = "studentId")
+    @JsonIgnore
     private Set<Comment> commentSet;
 
     public Student() {
@@ -71,6 +87,14 @@ public class Student implements Serializable {
         this.id = id;
     }
 
+    public String getStudentCode() {
+        return studentCode;
+    }
+
+    public void setStudentCode(String studentCode) {
+        this.studentCode = studentCode;
+    }
+
     public AcademicYear getAcademicYearId() {
         return academicYearId;
     }
@@ -79,12 +103,12 @@ public class Student implements Serializable {
         this.academicYearId = academicYearId;
     }
 
-    public Class getClassId() {
-        return classId;
+    public Grade getGradeId() {
+        return gradeId;
     }
 
-    public void setClassId(Class classId) {
-        this.classId = classId;
+    public void setGradeId(Grade gradeId) {
+        this.gradeId = gradeId;
     }
 
     public Major getMajorId() {
@@ -101,6 +125,15 @@ public class Student implements Serializable {
 
     public void setUserId(User userId) {
         this.userId = userId;
+    }
+
+    @XmlTransient
+    public Set<StudentOutlineDownload> getStudentOutlineDownloadSet() {
+        return studentOutlineDownloadSet;
+    }
+
+    public void setStudentOutlineDownloadSet(Set<StudentOutlineDownload> studentOutlineDownloadSet) {
+        this.studentOutlineDownloadSet = studentOutlineDownloadSet;
     }
 
     @XmlTransient

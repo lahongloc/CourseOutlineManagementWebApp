@@ -69,8 +69,6 @@ public class LecturerRepositoryQueryImpl implements LecturerRepositoryQuery {
 
     @Override
     public Lecturer getLecturerByUserId(int userId) {
-        System.out.println("dang truy van");
-
         Session s = this.factory.getObject().getCurrentSession();
         Query q = s.createQuery("SELECT l FROM Lecturer l WHERE l.userId.id = :userId");
         q.setParameter("userId", userId);
@@ -78,7 +76,6 @@ public class LecturerRepositoryQueryImpl implements LecturerRepositoryQuery {
         try {
             return (Lecturer) q.getSingleResult();
         } catch (NoResultException e) {
-            System.out.println("lecturer nulllll do");
             return null; // Return null if no user is found
         }
 

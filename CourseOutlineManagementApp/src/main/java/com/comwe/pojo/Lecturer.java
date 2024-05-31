@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "lecturer")
@@ -41,15 +41,15 @@ public class Lecturer implements Serializable {
     @Column(name = "id")
     private Integer id;
     @JoinColumn(name = "faculty_id", referencedColumnName = "id")
-    @JsonIgnore
     @ManyToOne
+    @JsonIgnore
     private Faculty facultyId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @JsonIgnore
     @ManyToOne
-    private User userId;
     @JsonIgnore
+    private User userId;
     @OneToMany(mappedBy = "lecturerId")
+    @JsonIgnore
     private Set<Outline> outlineSet;
 
     public Lecturer() {

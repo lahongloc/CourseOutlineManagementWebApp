@@ -7,9 +7,12 @@ package com.comwe.repositories.impl;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.comwe.controllers.ApiUserController;
+import com.comwe.controllers.HomeController;
 import com.comwe.pojo.Lecturer;
+import com.comwe.pojo.Student;
 import com.comwe.pojo.User;
 import com.comwe.repositories.UserRepository;
+import com.comwe.services.StudentService;
 import com.comwe.services.impl.UserServiceImpl;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -53,6 +56,9 @@ public class UserRepositoryImpl implements UserRepository {
     private LocalSessionFactoryBean factory;
 
     @Autowired
+    private StudentService studentService;
+
+    @Autowired
     private Environment env;
 
     @Autowired
@@ -60,6 +66,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Autowired
     private Cloudinary cloudinary;
+
+    @Autowired
+    private HomeController homeController;
 
     @Override
     public User getUserByUsername(String username) {
@@ -131,9 +140,40 @@ public class UserRepositoryImpl implements UserRepository {
             Lecturer l = new Lecturer();
             l.setId(id);
             s.save(l);
+        } else if (user.getRole().equals("ROLE_STUDENT")) {
+            Student student = this.studentService.getStudentByUserId(user.getId());
+
+            String content = String.format(
+                    "<p>Xin chào <strong>%s</strong>,</p>"
+                    + "<p>Bạn cần <i>cập nhật ảnh đại diện (Avatar) và password mới</i> để kích hoạt tài khoản dành cho sinh viên.</p>"
+                    + "<p>Username:<strong> %s</strong></p>"
+                    + "<p><strong>LƯU Ý:</strong> Password KHÔNG ĐƯỢC ĐẶT LÀ:<strong> %s</strong></p>"
+                    + "<p>Link: <a href=\"http://localhost:3000/student-active\"> Tại đây</a></p>"
+                    + "<p>Vui lòng không phản hồi lại gmail này! Cảm ơn bạn!</p>"
+                    + "<p><strong>Admin</strong></p>",
+                    user.getName(), user.getUsername(), "123456"
+            );
+
+            this.homeController.sendMail("2151050219kiet@ou.edu.vn",
+                    "ACCOUNT ACTIVATED FOR STUDENT",
+                    content);
+            return;
         }
         user.setIsActive(Boolean.TRUE);
         s.update(user);
+
+        // Actived account Lecturer
+        String content = String.format(
+                "<p>Xin chào <strong>%s</strong>,</p>"
+                + "<p>Tài khoản của giảng viên %s đã được kích hoạt, bây giờ bạn đã có thể đăng nhập và trải nghiệm hệ thống!</p>"
+                + "<p>Link: <a href=\"http://localhost:3000/login\"> Tại đây</a></p>"
+                + "<p>Vui lòng không phản hồi lại gmail này! Cảm ơn bạn!</p>"
+                + "<p><strong>Admin</strong></p>",
+                user.getUsername(), user.getName()
+        );
+        this.homeController.sendMail("2151050219kiet@ou.edu.vn",
+                "ACCOUNT ACTIVATED FOR LECTURER",
+                content);
     }
 
     @Override
@@ -172,7 +212,7 @@ public class UserRepositoryImpl implements UserRepository {
             user.setHotline(params.get("hotline"));
         }
 
-        if (!avatar.isEmpty()) {
+        if (avatar != null && !avatar.isEmpty()) {
             try {
                 Map res = this.cloudinary.uploader().upload(avatar.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
                 user.setAvatar(res.get("secure_url").toString());
@@ -181,12 +221,13 @@ public class UserRepositoryImpl implements UserRepository {
             }
         }
 
-        String password = params.get("password");
-
-        user.setPassword(this.passEncoder.encode(password));
-        user.setRole(params.get("role"));
+        if (params.get("role").equals("ROLE_LECTURER")) {
+            user.setPassword(this.passEncoder.encode(params.get("password")));
+        } else if (params.get("role").equals("ROLE_STUDENT")) {
+            user.setPassword(this.passEncoder.encode("123456"));
+        }
         user.setIsActive(Boolean.FALSE);
-
+        user.setRole(params.get("role"));
         LocalDate today = LocalDate.now();
         Instant instant = today.atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant();
         Date created_date = Date.from(instant);
@@ -242,10 +283,22 @@ public class UserRepositoryImpl implements UserRepository {
                 user.setHotline(hotline);
             }
 
+            String role = params.get("role");
+            if (role != null && !role.isEmpty() && role.equals("ROLE_STUDENT")) {
+                String password = params.get("password");
+
+                if (password != null && !password.isEmpty()
+                        && !this.passEncoder.matches(password, user.getPassword())) {
+                    user.setPassword(this.passEncoder.encode(password));
+                } else {
+                    return null;
+                }
+            }
+
             // update avatar
             System.out.println("chuan bi luu avatar");
             if (!avatar.isEmpty()) {
-                
+
                 try {
                     System.out.println("dang luu avatar");
                     Map res = this.cloudinary.uploader().upload(avatar.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
@@ -253,6 +306,11 @@ public class UserRepositoryImpl implements UserRepository {
                 } catch (IOException ex) {
                     Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }
+
+            // da cap nhat avatar student
+            if (role.equals("ROLE_STUDENT")) {
+                user.setIsActive(Boolean.TRUE);
             }
 
             s.save(user);
