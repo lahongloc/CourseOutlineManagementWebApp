@@ -123,25 +123,56 @@ public class OutlineRepositoryImpl implements OutlineRepository {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void addOutline(int lecturerId, int subjectId, int academicYearId) {
+    public void addOutline(int lecturerId, int subjectId, int academicYearId1, int academicYearId2) {
         Session s = this.factory.getObject().getCurrentSession();
 
         User user = s.get(User.class, lecturerId);
         Lecturer lecturer = user.getLecturerSet().stream().findFirst().get();
-        
+
         Subject subject = s.get(Subject.class, subjectId);
-        AcademicYear academicYear = s.get(AcademicYear.class, academicYearId);
 
         Outline outline = new Outline();
         outline.setSubjectId(subject);
         outline.setLecturerId(lecturer);
         outline.setStatus("HOLDING");
         s.save(outline);
-        
-        OutlineAcademicYear oc = new OutlineAcademicYear();
-        oc.setAcademicYearId(academicYear);
-        oc.setOutlineId(outline);
-        s.save(oc);
 
+        AcademicYear academicYear1 = s.get(AcademicYear.class, academicYearId1);
+        OutlineAcademicYear oc1 = new OutlineAcademicYear();
+        oc1.setAcademicYearId(academicYear1);
+        oc1.setOutlineId(outline);
+        s.save(oc1);
+
+        if (academicYearId2 > 0) {
+            AcademicYear academicYear2 = s.get(AcademicYear.class, academicYearId2);
+            OutlineAcademicYear oc2 = new OutlineAcademicYear();
+            oc2.setAcademicYearId(academicYear2);
+            oc2.setOutlineId(outline);
+            s.save(oc2);
+        }
+
+    }
+
+    @Override
+    public boolean checkOutlineExist(int subjectId, int academicYearId1, int academicYearId2) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Subject subject = s.get(Subject.class, subjectId);
+        int outlineNumber = subject.getOutlineSet().size();
+        if (outlineNumber > 0) {
+            AcademicYear acy1 = s.get(AcademicYear.class, academicYearId1);
+            int acy1OutlineNumber = acy1.getOutlineAcademicYearSet().size();
+            if (acy1OutlineNumber > 0) {
+                return false;
+            } else {
+                if (academicYearId2 > 0) {
+                    AcademicYear acy2 = s.get(AcademicYear.class, academicYearId2);
+                    int acy2OutlineNumber = acy2.getOutlineAcademicYearSet().size();
+                    return acy2OutlineNumber <= 0;
+                }
+                return true;
+            }
+        } else {
+            return true;
+        }
     }
 }

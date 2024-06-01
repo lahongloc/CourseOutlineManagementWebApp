@@ -26,7 +26,12 @@ public class OutlineServiceImpl implements OutlineService {
     }    
 
     @Override
-    public void addOutline(int lecturerId, int subjectId, int academicYearId) {
-        this.outlineRepo.addOutline(lecturerId, subjectId, academicYearId);
+    public void addOutline(int lecturerId, int subjectId, int academicYearId1, int academicYearId2) {
+        this.outlineRepo.addOutline(lecturerId, subjectId, academicYearId1, academicYearId2);
+    }
+
+    @Override
+    public boolean checkOutlineExist(int subjectId, int academicYearId1, int academicYearId2) {
+        return this.outlineRepo.checkOutlineExist(subjectId, academicYearId1, academicYearId2);
     }
 }

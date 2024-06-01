@@ -5,6 +5,7 @@
 package com.comwe.repositories.impl;
 
 import com.comwe.pojo.FacultySubject;
+import com.comwe.pojo.Outline;
 import com.comwe.pojo.Subject;
 import com.comwe.repositories.SubjectRepository;
 import java.util.ArrayList;
@@ -62,6 +63,9 @@ public class SubjectRepositoryImpl implements SubjectRepository {
             temp.put("id",  sj[0]);
             temp.put("name",  sj[1]);
             temp.put("facultyId", sj[2]);
+            
+            Outline outlines = s.get(Outline.class, (int)sj[0]);
+            temp.put("outline", outlines);
             
             subjectsInfo.add(temp);
         });

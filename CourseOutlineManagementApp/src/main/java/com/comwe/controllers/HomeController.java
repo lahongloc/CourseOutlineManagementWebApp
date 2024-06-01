@@ -150,15 +150,24 @@ public class HomeController {
     public String subjectDetails(@RequestParam Map<String, String> params, 
             Model model, @PathVariable(value = "subjectId") int subjectId, HttpServletRequest request) {
         if (HttpMethod.POST.matches(request.getMethod())) {
+            System.out.println("Ma mon hoc: " + subjectId);
+            params.keySet().forEach(k -> System.out.println("key laa " + k + ", va value: " + params.get(k)));
 //            int lecturerId, int subjectId, int academicYearId
             int lecturerId = Integer.parseInt(params.get("lecturerId"));
-            int academicYearId = Integer.parseInt(params.get("academicYearId"));
-            this.outlineService.addOutline(lecturerId, subjectId, academicYearId);
-            return "redirect:/outline-management/";
-//            System.out.println(params);
-//            params.keySet().forEach(k -> System.out.println("key laa " + k));
-        } else {
-            System.out.println("posy test failed");
+            int academicYear1 = Integer.parseInt(params.get("academicYearId1"));
+            int academicYear2 = -1;
+            try{
+                academicYear2 = Integer.parseInt(params.get("academicYearId2"));
+            } catch(Exception ex) {
+                System.err.println(ex);
+            }
+            
+            if(this.outlineService.checkOutlineExist(subjectId, academicYear1, academicYear2) == true) {
+                this.outlineService.addOutline(lecturerId, subjectId, academicYear1, academicYear2);
+                return "redirect:/outline-management/";
+            } 
+            
+            
         }
 
         model.addAttribute("academicYears", this.academicYearService.getAllAcademicYears(params));
