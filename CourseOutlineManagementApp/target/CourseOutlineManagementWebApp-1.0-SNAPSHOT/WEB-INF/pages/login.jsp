@@ -15,7 +15,7 @@
     </div>
 
     <div class="form-floating mt-3 mb-3">
-        <input type="text" class="form-control" id="pwd" placeholder="Nhập mật khẩu..." name="password">
+        <input type="password" class="form-control" id="pwd" placeholder="Nhập mật khẩu..." name="password">
         <label for="pwd">Mật khẩu</label>
     </div>
     
