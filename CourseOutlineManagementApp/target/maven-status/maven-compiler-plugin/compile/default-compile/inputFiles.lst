@@ -1,69 +1,69 @@
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\FacultyRepository.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\OutlineScore.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\configs\SecurityWebApplicationInitializer.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\LecturerRepository.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\SubjectRepository.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\ScoreService.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\configs\SpringSecurityConfig.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\ApiLecturerController.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Comment.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\UserRepositoryImpl.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\SubjectService.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\LecturerServiceQuery.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\components\JwtService.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\LecturerRepositoryQuery.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\User.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\configs\HibernateConfig.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\HomeController.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\configs\TilesConfig.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\AcademicYearService.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\UserRepository.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Semester.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\ApiScoreController.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\LecturerRepositoryImpl.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\filters\RestAuthenticationEntryPoint.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\FacultyService.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\UserServiceImpl.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\ApiUserController.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\OutlineRepositoryImpl.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\configs\WebAppContextConfig.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\AcademicYearServiceImpl.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\OutlineService.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\AcademicYear.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\SubjectServiceImpl.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Outline.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\AcademicYearRepository.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\LecturerService.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\FacultyServiceImpl.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\ScoreRepository.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\configs\JwtSecurityConfig.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\ApiFacultyController.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Student.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Faculty.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Score.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Subject.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\ApiOutlineController.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\FacultyRepositoryImpl.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\OutlineServiceImpl.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\LecturerServiceQueryImpl.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\filters\CustomAccessDeniedHandler.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Lecturer.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\OutlineAcademicYear.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Class.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\SubjectRepositoryImpl.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\configs\DispatcherServletInit.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\ApiSubjectController.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\OutlineSubject.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\ScoreRepositoryImpl.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Major.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\LecturerServiceImpl.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\ScoreServiceImpl.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\AcademicYearRepositoryImpl.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\filters\JwtAuthenticationTokenFilter.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Admin.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\LecturerRepositoryQueryImpl.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Feedback.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\UserController.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\FacultySubject.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\OutlineRepository.java
-D:\MINE\WEB SYSTEM DEVELOPMENT\??NG L?I\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\UserService.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\configs\TilesConfig.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\UserServiceImpl.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\HomeController.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\LecturerRepositoryQuery.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\LecturerServiceQueryImpl.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\LecturerServiceQuery.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\filters\CustomAccessDeniedHandler.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\OutlineService.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\ScoreRepositoryImpl.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Major.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\ApiFacultyController.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\UserRepositoryImpl.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\OutlineAcademicYear.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\OutlineRepository.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\UserController.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\FacultyRepository.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\ApiSubjectController.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\FacultySubject.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\AcademicYearRepository.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\OutlineRepositoryImpl.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\UserService.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Outline.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\SubjectService.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\ScoreServiceImpl.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\filters\RestAuthenticationEntryPoint.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Admin.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\LecturerServiceImpl.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\OutlineSubject.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Semester.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\SubjectRepository.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Score.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\ApiUserController.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\User.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\configs\SecurityWebApplicationInitializer.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\configs\DispatcherServletInit.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Feedback.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\SubjectRepositoryImpl.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\OutlineServiceImpl.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\ApiScoreController.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\FacultyService.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\LecturerRepository.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\FacultyServiceImpl.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\configs\SpringSecurityConfig.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\AcademicYearService.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\ApiLecturerController.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Lecturer.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\AcademicYearServiceImpl.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\SubjectServiceImpl.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\OutlineScore.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\AcademicYear.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\ScoreService.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\LecturerRepositoryQueryImpl.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Faculty.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Student.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\AcademicYearRepositoryImpl.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\UserRepository.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Class.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\components\JwtService.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\configs\JwtSecurityConfig.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Subject.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\ApiOutlineController.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\ScoreRepository.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\LecturerService.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\FacultyRepositoryImpl.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\filters\JwtAuthenticationTokenFilter.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\configs\WebAppContextConfig.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\configs\HibernateConfig.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Comment.java
+D:\MINE\WEB SYSTEM DEVELOPMENT\FIX\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\LecturerRepositoryImpl.java

@@ -25,7 +25,7 @@
             <li class="nav-item">
                 <c:choose>
                     <c:when test="${pageContext.request.userPrincipal.name != null}">
-                        <a href="<c:url value="/logout" />" class="btn btn-danger">Đăng xuấtt</a>
+                        <a href="<c:url value="/logout" />" class="btn btn-danger">Đăng xuất</a>
                     </c:when>
                     <c:when test="${pageContext.request.userPrincipal.name == null}">
                         <a href="<c:url value="/login" />" class="btn btn-info">Đăng nhập</a>
