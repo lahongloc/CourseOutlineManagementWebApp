@@ -4,6 +4,7 @@
  */
 package com.comwe.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -22,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "feedback")
@@ -46,9 +47,11 @@ public class Feedback implements Serializable {
     private String content;
     @JoinColumn(name = "outline_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Outline outlineId;
     @JoinColumn(name = "student_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Student studentId;
 
     public Feedback() {

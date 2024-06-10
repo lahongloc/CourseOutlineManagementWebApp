@@ -4,6 +4,7 @@
  */
 package com.comwe.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -25,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "academic_year")
@@ -54,10 +55,13 @@ public class AcademicYear implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date finish;
     @OneToMany(mappedBy = "academicYearId")
+    @JsonIgnore
     private Set<Student> studentSet;
     @OneToMany(mappedBy = "academicYearId")
+    @JsonIgnore
     private Set<OutlineAcademicYear> outlineAcademicYearSet;
     @OneToMany(mappedBy = "academicYearId")
+    @JsonIgnore
     private Set<Semester> semesterSet;
 
     public AcademicYear() {

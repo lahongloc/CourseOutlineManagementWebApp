@@ -13,6 +13,8 @@ import com.comwe.services.UserService;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -20,6 +22,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 import org.springframework.security.core.Authentication;
@@ -33,6 +36,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -78,7 +82,25 @@ public class HomeController {
     }
 
     @GetMapping("/users-manager/")
-    public String lecturerManagement(@RequestParam Map<String, String> params, Model model) {
+    public String lecturerManagement(@RequestParam Map<String, String> params, Model model, RedirectAttributes redirectAttributes) {
+        boolean needsRedirect = false;
+
+        // Kiểm tra và thiết lập pageLecturer và pageStudent nếu chúng không tồn tại
+        if (!params.containsKey("pageLecturer")) {
+            params.put("pageLecturer", "1");
+            needsRedirect = true;
+        }
+        if (!params.containsKey("pageStudent")) {
+            params.put("pageStudent", "1");
+            needsRedirect = true;
+        }
+
+        // Nếu cần chuyển hướng, thêm các tham số vào RedirectAttributes và chuyển hướng
+        if (needsRedirect) {
+            redirectAttributes.addAllAttributes(params);
+            return "redirect:/users-manager/";
+        }
+
         params.put("role", "ROLE_LECTURER");
         int totalPageLecturer = (int) Math.ceil((double) this.userService.getNonAdminUsers(params).size() / Integer.parseInt(this.env.getProperty("pageSizeUser")));
         params.put("page", params.get("pageLecturer"));
@@ -95,13 +117,21 @@ public class HomeController {
     }
 
     public void sendMail(String to, String subject, String content) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setFrom("locla2405@gmail.com");
-        mailMessage.setTo(to);
-        mailMessage.setSubject(subject);
-        mailMessage.setText(content);
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
 
-        this.mailSender.send(mailMessage);
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+            helper.setFrom("locla2405@gmail.com");
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(content, true);
+
+            mailSender.send(mimeMessage);
+            System.out.println("Email sent successfully!");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            System.err.println("Failed to send email");
+        }
     }
 
     @PostMapping("/users-manager/{userId}/")
@@ -170,7 +200,7 @@ public class HomeController {
             
         }
 
-        model.addAttribute("academicYears", this.academicYearService.getAllAcademicYears(params));
+        model.addAttribute("academicYears", this.academicYearService.getAcademicYears(params));
         params.put("role", "ROLE_LECTURER");
         model.addAttribute("lecturers", this.userService.getNonAdminUsers(params));
 

@@ -4,6 +4,7 @@
  */
 package com.comwe.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -24,16 +25,16 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
-@Table(name = "class")
+@Table(name = "grade")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Class.findAll", query = "SELECT c FROM Class c"),
-    @NamedQuery(name = "Class.findById", query = "SELECT c FROM Class c WHERE c.id = :id"),
-    @NamedQuery(name = "Class.findByName", query = "SELECT c FROM Class c WHERE c.name = :name")})
-public class Class implements Serializable {
+    @NamedQuery(name = "Grade.findAll", query = "SELECT g FROM Grade g"),
+    @NamedQuery(name = "Grade.findById", query = "SELECT g FROM Grade g WHERE g.id = :id"),
+    @NamedQuery(name = "Grade.findByName", query = "SELECT g FROM Grade g WHERE g.name = :name")})
+public class Grade implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,16 +45,18 @@ public class Class implements Serializable {
     @Size(max = 30)
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "classId")
+    @OneToMany(mappedBy = "gradeId")
+    @JsonIgnore
     private Set<Student> studentSet;
     @JoinColumn(name = "major_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Major majorId;
 
-    public Class() {
+    public Grade() {
     }
 
-    public Class(Integer id) {
+    public Grade(Integer id) {
         this.id = id;
     }
 
@@ -100,10 +103,10 @@ public class Class implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Class)) {
+        if (!(object instanceof Grade)) {
             return false;
         }
-        Class other = (Class) object;
+        Grade other = (Grade) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -112,7 +115,7 @@ public class Class implements Serializable {
 
     @Override
     public String toString() {
-        return "com.comwe.pojo.Class[ id=" + id + " ]";
+        return "com.comwe.pojo.Grade[ id=" + id + " ]";
     }
     
 }

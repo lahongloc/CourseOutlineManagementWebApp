@@ -34,4 +34,8 @@ public class OutlineServiceImpl implements OutlineService {
     public boolean checkOutlineExist(int subjectId, int academicYearId1, int academicYearId2) {
         return this.outlineRepo.checkOutlineExist(subjectId, academicYearId1, academicYearId2);
     }
+
+    public List<Object> getOutlineById(int id) {
+        return this.outlineRepo.getOutlineById(id);
+    }
 }

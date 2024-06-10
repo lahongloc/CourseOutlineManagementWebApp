@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "outline_subject")

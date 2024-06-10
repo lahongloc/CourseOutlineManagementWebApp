@@ -14,16 +14,22 @@ import org.springframework.stereotype.Service;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Service
 public class AcademicYearServiceImpl implements AcademicYearService {
+
     @Autowired
-    private AcademicYearRepository academicYearRepo;
+    private AcademicYearRepository academicYearRepository;
+    
+    @Override
+    public List<AcademicYear> getAcademicYears(Map<String, String> params) {
+        return this.academicYearRepository.getAcademicYears(params);
+    }
 
     @Override
-    public List<AcademicYear> getAllAcademicYears(Map<String, String> params) {
-        return this.academicYearRepo.getAllAcademicYears(params);
+    public AcademicYear getAcademicYearById(int id) {
+        return this.academicYearRepository.getAcademicYearById(id);
     }
     
 }

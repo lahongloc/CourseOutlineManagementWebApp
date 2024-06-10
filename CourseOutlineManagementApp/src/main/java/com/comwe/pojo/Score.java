@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "score")
@@ -47,8 +47,8 @@ public class Score implements Serializable {
     @Size(max = 300)
     @Column(name = "assessment")
     private String assessment;
-    @JsonIgnore
     @OneToMany(mappedBy = "scoreId")
+    @JsonIgnore
     private Set<OutlineScore> outlineScoreSet;
 
     public Score() {

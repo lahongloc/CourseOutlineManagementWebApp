@@ -4,6 +4,7 @@
  */
 package com.comwe.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -23,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Entity
 @Table(name = "admin")
@@ -41,8 +42,10 @@ public class Admin implements Serializable {
     private Integer id;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private User userId;
     @OneToMany(mappedBy = "approverId")
+    @JsonIgnore
     private Set<Outline> outlineSet;
 
     public Admin() {

@@ -10,8 +10,9 @@ import java.util.Map;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 public interface AcademicYearService {
-    List<AcademicYear> getAllAcademicYears(Map<String, String> params);
+    List<AcademicYear> getAcademicYears(Map<String, String> params);
+    AcademicYear getAcademicYearById(int id);
 }

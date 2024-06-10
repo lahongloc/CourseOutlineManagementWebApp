@@ -15,4 +15,5 @@ public interface OutlineRepository {
     List<Object> getOutlines(Map<String, String> params);
     void addOutline(int lecturerId, int subjectId, int academicYearId1, int academicYearId2);
     boolean checkOutlineExist(int subjectId, int academicYearId1, int academicYearId2);
+    List<Object> getOutlineById(int id);
 }

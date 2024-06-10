@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
- * @author lahon
+ * @author kitj3
  */
 @Repository
 @Transactional
@@ -27,11 +27,18 @@ public class AcademicYearRepositoryImpl implements AcademicYearRepository {
     private LocalSessionFactoryBean factory;
 
     @Override
-    public List<AcademicYear> getAllAcademicYears(Map<String, String> params) {
+    public List<AcademicYear> getAcademicYears(Map<String, String> params) {
         Session s = this.factory.getObject().getCurrentSession();
-        Query qr = s.createNamedQuery("AcademicYear.findAll");
+        Query q = s.createNamedQuery("AcademicYear.findAll");
         
-        return qr.getResultList();
+        return q.getResultList();
+    }
+
+    @Override
+    public AcademicYear getAcademicYearById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        AcademicYear a = s.get(AcademicYear.class, id);
+        return a;
     }
     
 }

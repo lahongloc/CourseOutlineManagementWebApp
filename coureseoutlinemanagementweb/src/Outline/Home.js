@@ -2,22 +2,23 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import APIs, { endpoints } from "../configs/APIs";
 import { Badge, Card, Container, ListGroup, Row } from "react-bootstrap";
 import PaginationControlled from "../UI components/PaginationControlled";
+import { render } from "@testing-library/react";
 
 const Home = () => {
 	const [outlines, setOutlines] = useState([]);
 	const [page, setPage] = useState(null);
 	const [loading, setLoading] = useState(false);
 	let pageSize = useRef();
+	let checkLoad = useRef(false);
 
 	const handleSetPage = useCallback((e, value) => {
 		setPage(value);
 	});
 
-	// useEffect(() => {
-	// 	console.log("A");
-	// 	// console.log("Trang hiện tại: ", page);
-	// 	// console.log("Tổng tất cả trang: ", pageSize.current);
-	// });
+	useEffect(() => {
+		loadOutlines();
+		// console.log(outlines.length)
+	}, [page]);
 
 	const loadOutlines = async () => {
 		setLoading(true);
@@ -31,6 +32,7 @@ const Home = () => {
 				pageSize.current = Math.ceil(res.data.length / 4);
 				setPage(1);
 			}
+			console.log(url, page);
 		} catch (ex) {
 			console.error(ex);
 		} finally {

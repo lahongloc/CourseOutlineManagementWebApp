@@ -4,6 +4,7 @@
  */
 package com.comwe.controllers;
 
+import com.comwe.pojo.Major;
 import com.comwe.services.OutlineService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -54,5 +56,12 @@ public class ApiOutlineController {
 
 
         return new ResponseEntity<>("abc", HttpStatus.OK);
+    }
+    
+    @GetMapping(path = "/getOutlines/{outlineId}/", produces = {
+        MediaType.APPLICATION_JSON_VALUE
+    })
+    public ResponseEntity<Object> retrieve(@PathVariable(value = "outlineId") int id) {
+        return new ResponseEntity<>(this.outlineService.getOutlineById(id), HttpStatus.OK);
     }
 }
