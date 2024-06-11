@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -97,13 +98,13 @@ public class User implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private Date createdDatetime;
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userId")
     @JsonIgnore
     private Set<Student> studentSet;
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userId")
     @JsonIgnore
     private Set<Admin> adminSet;
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userId")
     @JsonIgnore
     private Set<Lecturer> lecturerSet;
     

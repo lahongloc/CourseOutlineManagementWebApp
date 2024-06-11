@@ -6,6 +6,7 @@ package com.comwe.repositories.impl;
 
 import com.comwe.pojo.AcademicYear;
 import com.comwe.pojo.Admin;
+import com.comwe.pojo.DTO.OutlineDTO;
 import com.comwe.pojo.Faculty;
 import com.comwe.pojo.Lecturer;
 import com.comwe.pojo.Major;
@@ -16,12 +17,17 @@ import com.comwe.pojo.Subject;
 import com.comwe.pojo.User;
 import com.comwe.repositories.OutlineRepository;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.persistence.Query;
+import javax.persistence.Tuple;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.hibernate.Session;
@@ -48,75 +54,161 @@ public class OutlineRepositoryImpl implements OutlineRepository {
     @Autowired
     private Environment env;
 
-    @Override
-    public List<Object> getOutlines(Map<String, String> params) {
+//    @Override
+//    public List<Object> getOutlines(Map<String, String> params) {
+//        Session s = this.factory.getObject().getCurrentSession();
+//        CriteriaBuilder c = s.getCriteriaBuilder();
+//        CriteriaQuery<Object> q = c.createQuery(Object.class);
+//        Root r = q.from(Outline.class);
+//        q.select(r);
+//        String kw = params.get("kw");
+//        String page = params.get("page");
+//        String lecturerId = params.get("lecturerId");
+//        String status = params.get("status");
+//        String outlineId = params.get("outlineId");
+//
+//        List<Predicate> predicates = new ArrayList<>();
+//
+//        if (kw != null && !kw.isEmpty()) {
+//            predicates.add(c.like(r.get("description"), String.format("%%%s%%", kw)));
+//        }
+//
+//        if (lecturerId != null && !lecturerId.isEmpty()) {
+//            predicates.add(c.equal(r.get("lecturerId").get("userId"), Integer.parseInt(lecturerId)));
+//        }
+//
+//        if (status != null && !status.isEmpty()) {
+//            predicates.add(c.like(r.get("status"), status));
+//        }
+//
+//        if (outlineId != null && !outlineId.isEmpty()) {
+//            predicates.add(c.equal(r.get("id"), Integer.parseInt(outlineId)));
+//        }
+//
+//        q.where(predicates.toArray(Predicate[]::new));
+//
+//        Query qr = s.createQuery(q);
+//        List<Object> outlinesInfo = new ArrayList<>();
+//
+//        if (page != null && !page.isEmpty()) {
+//            int pageSize = Integer.parseInt(this.env.getProperty("pageSize"));
+//
+//            qr.setMaxResults(pageSize);
+//            qr.setFirstResult((Integer.parseInt(page) - 1) * pageSize);
+//        }
+//
+////        CriteriaQuery<Object> qS = c.createQuery(Object.class);
+////        Root rS = qS.from(OutlineSubject.class);
+////        qS.select(rS.get("subjectId"));
+////        List<Predicate> pres = new ArrayList<>();
+//
+//        List<Outline> outlines = qr.getResultList();
+//        outlines.forEach(o -> {
+//            HashMap<Object, Object> temp = new HashMap<>();
+//            temp.put("outlineId", o.getId());
+//            temp.put("lecturer", o.getLecturerId().getUserId().getName());
+//            temp.put("subject", o.getSubjectId().getName());
+//            temp.put("faculty", o.getLecturerId().getFacultyId().getName());
+//            temp.put("startedDate", o.getStartedDatetime());
+//            temp.put("expiredDate", o.getExpiredDatetime());
+//            temp.put("description", o.getDescription());
+//            temp.put("theory", o.getTheoCreditHour());
+//            temp.put("practice", o.getPracCreditHour());
+//
+////            pres.add(c.equal(rS.get("outlineId"), o.getId()));
+////            qS.where(pres.toArray(Predicate[]::new));
+////            Query qrS = s.createQuery(qS);
+////            List<OutlineSubject> outlineSubjects = qrS.getResultList();
+////            temp.put("preSubjects", outlineSubjects);
+//
+//            outlinesInfo.add(temp);
+//        });
+//
+//        return outlinesInfo;
+//    }
+    public List<OutlineDTO> getOutlines(Map<String, String> params) {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder c = s.getCriteriaBuilder();
-        CriteriaQuery<Object> q = c.createQuery(Object.class);
-        Root r = q.from(Outline.class);
-        q.select(r);
+        CriteriaQuery<Tuple> q = c.createQuery(Tuple.class);
+
+        Root<Outline> rootOutline = q.from(Outline.class);
+        Join<Outline, Lecturer> rootLecturer = rootOutline.join("lecturerId");
+        Join<Lecturer, User> rootUser = rootLecturer.join("userId");
+        Join<Outline, Subject> rootSubject = rootOutline.join("subjectId");
+        Join<Lecturer, Faculty> rootFaculty = rootLecturer.join("facultyId");
+        
         String kw = params.get("kw");
         String page = params.get("page");
         String lecturerId = params.get("lecturerId");
         String status = params.get("status");
         String outlineId = params.get("outlineId");
+        String title = params.get("name");
 
         List<Predicate> predicates = new ArrayList<>();
+        
+        if (title != null && !title.isEmpty()) {
+            predicates.add(c.like(rootOutline.get("description"), "%" + title + "%"));
+        }
 
         if (kw != null && !kw.isEmpty()) {
-            predicates.add(c.like(r.get("description"), String.format("%%%s%%", kw)));
+            predicates.add(c.like(rootOutline.get("description"), String.format("%%%s%%", kw)));
         }
 
         if (lecturerId != null && !lecturerId.isEmpty()) {
-            predicates.add(c.equal(r.get("lecturerId").get("userId"), Integer.parseInt(lecturerId)));
+            predicates.add(c.equal(rootOutline.get("lecturerId").get("userId"), Integer.parseInt(lecturerId)));
         }
 
         if (status != null && !status.isEmpty()) {
-            predicates.add(c.like(r.get("status"), status));
+            predicates.add(c.like(rootOutline.get("status"), status));
         }
 
         if (outlineId != null && !outlineId.isEmpty()) {
-            predicates.add(c.equal(r.get("id"), Integer.parseInt(outlineId)));
+            predicates.add(c.equal(rootOutline.get("id"), Integer.parseInt(outlineId)));
         }
 
         q.where(predicates.toArray(Predicate[]::new));
 
-        Query qr = s.createQuery(q);
-        List<Object> outlinesInfo = new ArrayList<>();
+        q.multiselect(
+                rootOutline.get("id").alias("outlineId"),
+                rootOutline.get("startedDatetime").alias("startedDate"),
+                rootOutline.get("expiredDatetime").alias("expiredDate"),
+                rootOutline.get("description").alias("description"),
+                rootOutline.get("theoCreditHour").alias("theory"),
+                rootOutline.get("pracCreditHour").alias("practice"),
+                rootUser.get("name").alias("lecturer"),
+                rootSubject.get("name").alias("subject"),
+                rootFaculty.get("name").alias("faculty")
+        );
 
+        q.where(predicates.toArray(new Predicate[0]));
+        q.orderBy(c.asc(rootOutline.get("id")));
+
+        TypedQuery<Tuple> qr = s.createQuery(q);
+        
         if (page != null && !page.isEmpty()) {
             int pageSize = Integer.parseInt(this.env.getProperty("pageSize"));
 
             qr.setMaxResults(pageSize);
             qr.setFirstResult((Integer.parseInt(page) - 1) * pageSize);
         }
+        
+        List<Tuple> resultList = qr.getResultList();
 
-        CriteriaQuery<Object> qS = c.createQuery(Object.class);
-        Root rS = qS.from(OutlineSubject.class);
-        qS.select(rS.get("subjectId"));
-        List<Predicate> pres = new ArrayList<>();
-
-        List<Outline> outlines = qr.getResultList();
-        outlines.forEach(o -> {
-            HashMap<Object, Object> temp = new HashMap<>();
-            temp.put("outlineId", o.getId());
-            temp.put("lecturer", o.getLecturerId().getUserId().getName());
-            temp.put("subject", o.getSubjectId().getName());
-            temp.put("faculty", o.getLecturerId().getFacultyId().getName());
-            temp.put("startedDate", o.getStartedDatetime());
-            temp.put("expiredDate", o.getExpiredDatetime());
-            temp.put("description", o.getDescription());
-            temp.put("theory", o.getTheoCreditHour());
-            temp.put("practice", o.getPracCreditHour());
-
-            pres.add(c.equal(rS.get("outlineId"), o.getId()));
-            qS.where(pres.toArray(Predicate[]::new));
-            Query qrS = s.createQuery(qS);
-            List<OutlineSubject> outlineSubjects = qrS.getResultList();
-            temp.put("preSubjects", outlineSubjects);
-
+        List<OutlineDTO> outlinesInfo = new ArrayList<>();
+        for (Tuple tuple : resultList) {
+            OutlineDTO temp = new OutlineDTO(
+                    ((Number) tuple.get("outlineId")).longValue(),
+                    (Date) tuple.get("startedDate"),
+                    (Date) tuple.get("expiredDate"),
+                    (String) tuple.get("description"),
+                    (Integer) tuple.get("theory"),
+                    (Integer) tuple.get("practice"),
+                    (String) tuple.get("lecturer"),
+                    (String) tuple.get("subject"),
+                    (String) tuple.get("faculty")
+            );
             outlinesInfo.add(temp);
-        });
+        }
 
         return outlinesInfo;
     }

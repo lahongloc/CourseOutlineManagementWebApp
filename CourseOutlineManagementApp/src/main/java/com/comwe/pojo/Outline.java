@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -80,34 +81,34 @@ public class Outline implements Serializable {
 //    private Boolean status;
     @Column(name = "status")
     private String status;
-    @OneToMany(mappedBy = "outlineId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "outlineId")
     @JsonIgnore
     private Set<OutlineSubject> outlineSubjectSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "outlineId")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "outlineId")
     @JsonIgnore
     private Set<StudentOutlineDownload> studentOutlineDownloadSet;
-    @OneToMany(mappedBy = "outlineId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "outlineId")
     @JsonIgnore
     private Set<Feedback> feedbackSet;
-    @OneToMany(mappedBy = "outlineId")
+    @OneToMany(fetch = FetchType.LAZY ,mappedBy = "outlineId")
     @JsonIgnore
     private Set<OutlineScore> outlineScoreSet;
     @JoinColumn(name = "approver_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Admin approverId;
     @JoinColumn(name = "lecturer_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Lecturer lecturerId;
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Subject subjectId;
-    @OneToMany(mappedBy = "outlineId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "outlineId")
     @JsonIgnore
     private Set<Comment> commentSet;
-    @OneToMany(mappedBy = "outlineId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "outlineId")
     @JsonIgnore
     private Set<OutlineAcademicYear> outlineAcademicYearSet;
 

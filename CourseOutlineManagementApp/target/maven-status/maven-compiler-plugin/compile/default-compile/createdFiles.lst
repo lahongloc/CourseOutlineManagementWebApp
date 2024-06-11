@@ -18,6 +18,7 @@ com\comwe\controllers\ApiUserController.class
 com\comwe\pojo\Feedback_.class
 com\comwe\services\impl\GradeServiceImpl.class
 com\comwe\configs\WebAppContextConfig.class
+com\comwe\pojo\DTO\OutlineDTO.class
 com\comwe\services\MajorService.class
 com\comwe\repositories\MajorRepository.class
 com\comwe\pojo\FacultySubject_.class

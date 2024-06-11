@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -54,13 +55,13 @@ public class AcademicYear implements Serializable {
     @Column(name = "finish")
     @Temporal(TemporalType.TIMESTAMP)
     private Date finish;
-    @OneToMany(mappedBy = "academicYearId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "academicYearId")
     @JsonIgnore
     private Set<Student> studentSet;
-    @OneToMany(mappedBy = "academicYearId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "academicYearId")
     @JsonIgnore
     private Set<OutlineAcademicYear> outlineAcademicYearSet;
-    @OneToMany(mappedBy = "academicYearId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "academicYearId")
     @JsonIgnore
     private Set<Semester> semesterSet;
 

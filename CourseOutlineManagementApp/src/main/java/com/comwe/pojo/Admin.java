@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,10 +42,10 @@ public class Admin implements Serializable {
     @Column(name = "id")
     private Integer id;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private User userId;
-    @OneToMany(mappedBy = "approverId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "approverId")
     @JsonIgnore
     private Set<Outline> outlineSet;
 

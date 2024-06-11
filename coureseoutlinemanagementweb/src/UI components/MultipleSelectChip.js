@@ -60,21 +60,24 @@ export default function MultipleSelectChip({
 						>
 							{selected.map((value) => {
 								let a = subjects.filter((s) => s.id === value);
-								return <Chip key={value} label={a[0].name} />;
+								return <Chip key={value} label={value} />;
 							})}
 						</Box>
 					)}
 					MenuProps={MenuProps}
 				>
-					{names.map((name, index) => (
-						<MenuItem
-							key={index}
-							value={name.id}
-							style={getStyles(name.name, items, theme)}
-						>
-							{name.name}
-						</MenuItem>
-					))}
+					{names.map((name, index) => {
+						console.log("AAAA: ", name);
+						return (
+							<MenuItem
+								key={index}
+								value={name.id}
+								style={getStyles(name.name, items, theme)}
+							>
+								{name.name}
+							</MenuItem>
+						);
+					})}
 				</Select>
 			</FormControl>
 		</div>

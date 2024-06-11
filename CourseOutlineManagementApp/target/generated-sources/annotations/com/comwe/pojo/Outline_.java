@@ -15,7 +15,7 @@ import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.7.12.v20230209-rNA", date="2024-06-10T19:26:01")
+@Generated(value="EclipseLink-2.7.12.v20230209-rNA", date="2024-06-11T16:20:06")
 @StaticMetamodel(Outline.class)
 public class Outline_ { 
 

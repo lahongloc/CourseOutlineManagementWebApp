@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,28 +48,28 @@ public class Student implements Serializable {
     @Column(name = "student_code")
     private String studentCode;
     @JoinColumn(name = "academic_year_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private AcademicYear academicYearId;
     @JoinColumn(name = "grade_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Grade gradeId;
     @JoinColumn(name = "major_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Major majorId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private User userId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "studentId")
     @JsonIgnore
     private Set<StudentOutlineDownload> studentOutlineDownloadSet;
-    @OneToMany(mappedBy = "studentId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studentId")
     @JsonIgnore
     private Set<Feedback> feedbackSet;
-    @OneToMany(mappedBy = "studentId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studentId")
     @JsonIgnore
     private Set<Comment> commentSet;
 

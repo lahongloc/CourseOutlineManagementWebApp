@@ -109,7 +109,6 @@ const App = () => {
 						<BrowserRouter>
 					{/* <Header /> */}
 					<ResponsiveAppBar />
-<<<<<<< HEAD
 
 					{/* <Container> */}
 					<Routes>
@@ -119,9 +118,17 @@ const App = () => {
 							element={<AccountDetails />}
 						/>
 						<Route
-							path="/lecturer-register"
-							element={<LecturerRegister />}
-						/>
+								path="/student-active"
+								element={<StudentActive />}
+							/>
+							<Route
+								path="/account-details"
+								element={<AccountDetails />}
+							/>
+							<Route
+								path="/student-register"
+								element={<StudentRegister />}
+							/>
 						{/* <Route path="/" element={<Home />} /> */}
 						<Route path="/" element={<Content />} />
 						<Route path="/login" element={<Login />} />
@@ -139,31 +146,6 @@ const App = () => {
 						/>
 					</Routes>
 					{/* </Container> */}
-=======
-					<BasicSimpleTreeView />
-					<Container>
-						<Routes>
-							<Route
-								path="/lecturer-register"
-								element={<SignUp />}
-							/>
-							<Route
-								path="/student-active"
-								element={<StudentActive />}
-							/>
-							<Route
-								path="/account-details"
-								element={<AccountDetails />}
-							/>
-							<Route
-								path="/student-register"
-								element={<StudentRegister />}
-							/>
-							<Route path="/" element={<Home />} />
-							<Route path="/login" element={<Login />} />
-						</Routes>
-					</Container>
->>>>>>> origin/studentActive
 					<Footer />
 				</BrowserRouter>
 						</AcademicYearContext.Provider>

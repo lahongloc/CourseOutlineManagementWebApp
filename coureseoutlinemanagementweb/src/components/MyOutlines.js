@@ -27,6 +27,10 @@ const MyOutline = ({ status }) => {
 	};
 
 	useEffect(() => {
+		console.info("Outlines: ", outlines)
+	})
+
+	useEffect(() => {
 		loadMyOutlines();
 	}, [status]);
 

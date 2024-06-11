@@ -85,21 +85,21 @@ public class HomeController {
     public String lecturerManagement(@RequestParam Map<String, String> params, Model model, RedirectAttributes redirectAttributes) {
         boolean needsRedirect = false;
 
-        // Kiểm tra và thiết lập pageLecturer và pageStudent nếu chúng không tồn tại
-        if (!params.containsKey("pageLecturer")) {
-            params.put("pageLecturer", "1");
-            needsRedirect = true;
-        }
-        if (!params.containsKey("pageStudent")) {
-            params.put("pageStudent", "1");
-            needsRedirect = true;
-        }
-
-        // Nếu cần chuyển hướng, thêm các tham số vào RedirectAttributes và chuyển hướng
-        if (needsRedirect) {
-            redirectAttributes.addAllAttributes(params);
-            return "redirect:/users-manager/";
-        }
+//        // Kiểm tra và thiết lập pageLecturer và pageStudent nếu chúng không tồn tại
+//        if (!params.containsKey("pageLecturer")) {
+//            params.put("pageLecturer", "1");
+//            needsRedirect = true;
+//        }
+//        if (!params.containsKey("pageStudent")) {
+//            params.put("pageStudent", "1");
+//            needsRedirect = true;
+//        }
+//
+//        // Nếu cần chuyển hướng, thêm các tham số vào RedirectAttributes và chuyển hướng
+//        if (needsRedirect) {
+//            redirectAttributes.addAllAttributes(params);
+//            return "redirect:/users-manager/";
+//        }
 
         params.put("role", "ROLE_LECTURER");
         int totalPageLecturer = (int) Math.ceil((double) this.userService.getNonAdminUsers(params).size() / Integer.parseInt(this.env.getProperty("pageSizeUser")));

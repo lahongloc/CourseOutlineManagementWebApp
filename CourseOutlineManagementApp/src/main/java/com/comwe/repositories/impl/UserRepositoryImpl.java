@@ -306,7 +306,7 @@ public class UserRepositoryImpl implements UserRepository {
             }
 
             // da cap nhat avatar student
-            if (role.equals("ROLE_STUDENT")) {
+            if (role != null && !role.isEmpty() && role.equals("ROLE_STUDENT")) {
                 user.setIsActive(Boolean.TRUE);
             }
 

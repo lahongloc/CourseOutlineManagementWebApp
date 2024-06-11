@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,7 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Faculty.findByName", query = "SELECT f FROM Faculty f WHERE f.name = :name")})
 public class Faculty implements Serializable {
 
-    @OneToMany(mappedBy = "facultyId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "facultyId")
     @JsonIgnore
     private Set<FacultySubject> facultySubjectSet;
 
@@ -50,10 +51,10 @@ public class Faculty implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "facultyId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "facultyId")
     @JsonIgnore
     private Set<Lecturer> lecturerSet;
-    @OneToMany(mappedBy = "facultyId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "facultyId")
     @JsonIgnore
     private Set<Major> majorSet;
 

@@ -4,6 +4,7 @@
  */
 package com.comwe.controllers;
 
+import com.comwe.pojo.DTO.OutlineDTO;
 import com.comwe.pojo.Major;
 import com.comwe.services.OutlineService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -39,8 +40,9 @@ public class ApiOutlineController {
     private OutlineService outlineService;
 
     @GetMapping("/getOutlines/")
-    public ResponseEntity<List<Object>> list(@RequestParam Map<String, String> params) {
-        return new ResponseEntity<>(this.outlineService.getOutlines(params), HttpStatus.OK);
+    public ResponseEntity<List<OutlineDTO>> list(@RequestParam Map<String, String> params) {
+        List<OutlineDTO> outlines = this.outlineService.getOutlines(params);
+        return new ResponseEntity<>(outlines, HttpStatus.OK);
     }
 
     @PostMapping(path = "/add-outline/", consumes = {

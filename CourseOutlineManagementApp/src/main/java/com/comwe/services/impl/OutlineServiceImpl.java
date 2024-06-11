@@ -4,6 +4,7 @@
  */
 package com.comwe.services.impl;
 
+import com.comwe.pojo.DTO.OutlineDTO;
 import com.comwe.repositories.OutlineRepository;
 import com.comwe.services.OutlineService;
 import java.util.List;
@@ -21,7 +22,7 @@ public class OutlineServiceImpl implements OutlineService {
     private OutlineRepository outlineRepo;
 
     @Override
-    public List<Object> getOutlines(Map<String, String> params) {
+    public List<OutlineDTO> getOutlines(Map<String, String> params) {
         return this.outlineRepo.getOutlines(params);
     }    
 

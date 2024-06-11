@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,11 +46,11 @@ public class Grade implements Serializable {
     @Size(max = 30)
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "gradeId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "gradeId")
     @JsonIgnore
     private Set<Student> studentSet;
     @JoinColumn(name = "major_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Major majorId;
 

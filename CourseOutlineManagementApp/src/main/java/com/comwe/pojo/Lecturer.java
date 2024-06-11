@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,14 +42,14 @@ public class Lecturer implements Serializable {
     @Column(name = "id")
     private Integer id;
     @JoinColumn(name = "faculty_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Faculty facultyId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private User userId;
-    @OneToMany(mappedBy = "lecturerId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "lecturerId")
     @JsonIgnore
     private Set<Outline> outlineSet;
 

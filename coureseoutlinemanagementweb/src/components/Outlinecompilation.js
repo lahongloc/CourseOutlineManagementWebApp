@@ -183,7 +183,6 @@ const Outlinecompilation = () => {
 			if (res.status === 200) {
 				setScores(res.data);
 			}
-			console.log("so cola: ", res.data);
 		} catch (err) {
 			console.error(err);
 		}

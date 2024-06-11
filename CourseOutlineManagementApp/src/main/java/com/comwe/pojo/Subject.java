@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -49,10 +50,10 @@ public class Subject implements Serializable {
     @Size(max = 45)
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "subjectId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "subjectId")
     @JsonIgnore
     private Set<OutlineSubject> outlineSubjectSet;
-    @OneToMany(mappedBy = "subjectId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "subjectId")
     @JsonIgnore
     private Set<Outline> outlineSet;
 

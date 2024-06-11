@@ -51,6 +51,15 @@ create table courseoutlinedb.subject (
     name varchar(45)
 );
 
+create table courseoutlinedb.faculty_subject (
+	id int primary key auto_increment,
+    faculty_id int,
+    subject_id int,
+    foreign key (faculty_id) references faculty(id),
+    foreign key (subject_id) references subject(id),
+    unique key (faculty_id, subject_id)
+);
+
 create table courseoutlinedb.academic_year (
 	id int primary key auto_increment,
 	name varchar(50),
@@ -93,7 +102,7 @@ create table courseoutlinedb.outline (
     prac_credit_hour int not null,
     lecturer_id int,
     subject_id int,
-    status boolean,
+    status varchar(15),
     approver_id int,
     foreign key (lecturer_id) references lecturer(id),
     foreign key (subject_id) references subject(id),
@@ -753,6 +762,69 @@ INSERT INTO outline_subject (outline_id, subject_id)
 SELECT o.id, s.id
 FROM outline o
 JOIN subject s ON o.subject_id = s.id;
+
+-- Thêm dữ liệu cho bảng faculty_subject
+INSERT INTO faculty_subject (faculty_id, subject_id) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(1, 6),
+(1, 7),
+(1, 8),
+(1, 9),
+(1, 10),
+(1, 11),
+(1, 12),
+(1, 13),
+(1, 14),
+(1, 15),
+(1, 16),
+(1, 17),
+(1, 18),
+(1, 19),
+(1, 20),
+(1, 21),
+(1, 22),
+(1, 23),
+(1, 24),
+(1, 25),
+(1, 26),
+(1, 27),
+(1, 28),
+(1, 29),
+(1, 30),
+(1, 31),
+(1, 32),
+(1, 33),
+(1, 34),
+(1, 35),
+(1, 36),
+(1, 37),
+(1, 38),
+(1, 39),
+(1, 40),
+(1, 41),
+(1, 42),
+(2, 43),
+(2, 44),
+(2, 45),
+(2, 46),
+(2, 47),
+(2, 48),
+(2, 49),
+(2, 50),
+(2, 51),
+(2, 52),
+(2, 53),
+(2, 54),
+(2, 55),
+(2, 56),
+(2, 57),
+(2, 58),
+(2, 59),
+(2, 60);
 
 INSERT INTO courseoutlinedb.comment (content, student_id, outline_id) VALUES
 ('Bài giảng rất hay và dễ hiểu.', 1, 1),
