@@ -1,22 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const initializePageParams = () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        let needsRedirect = false;
-
-        if (!urlParams.has('pageLecturer')) {
-            urlParams.set('pageLecturer', '1');
-            needsRedirect = true;
-        }
-        if (!urlParams.has('pageStudent')) {
-            urlParams.set('pageStudent', '1');
-            needsRedirect = true;
-        }
-        if (needsRedirect) {
-            const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
-            window.history.replaceState({}, '', newUrl);
-//            location.reload();
-        }
-    };
 
     const updateUrlParam = (key, value) => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -69,7 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    initializePageParams();
     scrollToSectionFromQueryParams();
     setupPaginationLinks();
 });

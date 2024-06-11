@@ -4,7 +4,7 @@
  */
 package com.comwe.services;
 
-import com.comwe.pojo.Subject;
+import com.comwe.pojo.DTOs.SubjectDTO;
 import java.util.List;
 import java.util.Map;
 
@@ -13,5 +13,5 @@ import java.util.Map;
  * @author lahon
  */
 public interface SubjectService {
-    List<Object> getSubjects(Map<String, String> params);
+    List<SubjectDTO> getSubjects(Map<String, String> params);
 }

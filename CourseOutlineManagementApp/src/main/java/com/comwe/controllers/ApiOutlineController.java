@@ -4,7 +4,7 @@
  */
 package com.comwe.controllers;
 
-import com.comwe.pojo.DTO.OutlineDTO;
+import com.comwe.pojo.DTOs.OutlineDTO;
 import com.comwe.pojo.Major;
 import com.comwe.services.OutlineService;
 import com.fasterxml.jackson.core.JsonProcessingException;

@@ -15,11 +15,14 @@ C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManageme
 C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\SubjectService.java
 C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\OutlineSubject.java
 C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\MajorRepository.java
+C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\DTOs\UserDTO.java
 C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\AcademicYearRepositoryImpl.java
+C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\DTOs\OutlineDTO.java
 C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Outline.java
 C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\configs\TilesConfig.java
 C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Student.java
 C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\MajorRepositoryImpl.java
+C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\DTOs\SubjectDTO.java
 C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\FacultyRepositoryImpl.java
 C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\ScoreServiceImpl.java
 C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Semester.java
@@ -49,7 +52,6 @@ C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManageme
 C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\AcademicYearServiceImpl.java
 C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\AcademicYearRepository.java
 C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\filters\CustomAccessDeniedHandler.java
-C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\DTO\OutlineDTO.java
 C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\User.java
 C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\configs\DispatcherServletInit.java
 C:\Users\kitj3\Desktop\OU_IT\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Score.java

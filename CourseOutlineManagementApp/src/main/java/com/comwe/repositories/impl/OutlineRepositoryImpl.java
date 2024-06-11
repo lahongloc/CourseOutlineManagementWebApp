@@ -6,7 +6,7 @@ package com.comwe.repositories.impl;
 
 import com.comwe.pojo.AcademicYear;
 import com.comwe.pojo.Admin;
-import com.comwe.pojo.DTO.OutlineDTO;
+import com.comwe.pojo.DTOs.OutlineDTO;
 import com.comwe.pojo.Faculty;
 import com.comwe.pojo.Lecturer;
 import com.comwe.pojo.Major;
@@ -197,7 +197,7 @@ public class OutlineRepositoryImpl implements OutlineRepository {
         List<OutlineDTO> outlinesInfo = new ArrayList<>();
         for (Tuple tuple : resultList) {
             OutlineDTO temp = new OutlineDTO(
-                    ((Number) tuple.get("outlineId")).longValue(),
+                    (Integer) tuple.get("outlineId"),
                     (Date) tuple.get("startedDate"),
                     (Date) tuple.get("expiredDate"),
                     (String) tuple.get("description"),

@@ -4,7 +4,7 @@
  */
 package com.comwe.repositories;
 
-import com.comwe.pojo.DTO.OutlineDTO;
+import com.comwe.pojo.DTOs.OutlineDTO;
 import java.util.List;
 import java.util.Map;
 

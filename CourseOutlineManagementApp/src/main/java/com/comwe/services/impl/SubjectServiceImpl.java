@@ -4,6 +4,7 @@
  */
 package com.comwe.services.impl;
 
+import com.comwe.pojo.DTOs.SubjectDTO;
 import com.comwe.pojo.Subject;
 import com.comwe.repositories.SubjectRepository;
 import com.comwe.services.SubjectService;
@@ -23,7 +24,7 @@ public class SubjectServiceImpl implements SubjectService {
     private SubjectRepository subjectRepo;
 
     @Override
-    public List<Object> getSubjects(Map<String, String> params) {
+    public List<SubjectDTO> getSubjects(Map<String, String> params) {
         return this.subjectRepo.getSubjects(params);
     }
     

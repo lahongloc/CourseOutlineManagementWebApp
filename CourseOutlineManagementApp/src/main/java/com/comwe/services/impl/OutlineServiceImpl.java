@@ -4,7 +4,7 @@
  */
 package com.comwe.services.impl;
 
-import com.comwe.pojo.DTO.OutlineDTO;
+import com.comwe.pojo.DTOs.OutlineDTO;
 import com.comwe.repositories.OutlineRepository;
 import com.comwe.services.OutlineService;
 import java.util.List;

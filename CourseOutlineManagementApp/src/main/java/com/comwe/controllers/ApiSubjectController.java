@@ -4,6 +4,7 @@
  */
 package com.comwe.controllers;
 
+import com.comwe.pojo.DTOs.SubjectDTO;
 import com.comwe.pojo.Subject;
 import com.comwe.services.SubjectService;
 import java.util.List;
@@ -29,7 +30,7 @@ public class ApiSubjectController {
     private SubjectService subjectService;
     
     @GetMapping("/getSubjects/")
-    public ResponseEntity<List<Object>> list(@RequestParam Map<String, String> params) {
+    public ResponseEntity<List<SubjectDTO>> list(@RequestParam Map<String, String> params) {
         params.keySet().forEach(k -> System.out.println("key laaaaaaaaaaaaaaaaa " + params.get(k)));
         return new ResponseEntity<>(this.subjectService.getSubjects(params), HttpStatus.OK);
     }
