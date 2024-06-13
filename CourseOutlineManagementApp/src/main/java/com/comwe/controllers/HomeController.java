@@ -179,6 +179,7 @@ public class HomeController {
     })
     public String subjectDetails(@RequestParam Map<String, String> params, 
             Model model, @PathVariable(value = "subjectId") int subjectId, HttpServletRequest request) {
+        System.out.println("vao ham");
         if (HttpMethod.POST.matches(request.getMethod())) {
             System.out.println("Ma mon hoc: " + subjectId);
             params.keySet().forEach(k -> System.out.println("key laa " + k + ", va value: " + params.get(k)));
@@ -193,9 +194,10 @@ public class HomeController {
             }
             
             if(this.outlineService.checkOutlineExist(subjectId, academicYear1, academicYear2) == true) {
+                System.out.println("Thanh congggg");
                 this.outlineService.addOutline(lecturerId, subjectId, academicYear1, academicYear2);
                 return "redirect:/outline-management/";
-            } 
+            } else System.out.println("That baiiii");
             
             
         }

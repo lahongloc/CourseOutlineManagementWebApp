@@ -39,4 +39,9 @@ public class OutlineServiceImpl implements OutlineService {
     public List<Object> getOutlineById(int id) {
         return this.outlineRepo.getOutlineById(id);
     }
+
+    @Override
+    public boolean updateOutline(Map<String, String> params) {
+        return this.outlineRepo.updateOutline(params);
+    }
 }

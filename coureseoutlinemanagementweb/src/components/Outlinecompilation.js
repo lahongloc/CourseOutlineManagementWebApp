@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileLines } from "@fortawesome/free-solid-svg-icons";
+import { faCircle, faFileLines } from "@fortawesome/free-solid-svg-icons";
 import DateRange from "../UI components/DateRange";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
@@ -24,9 +24,9 @@ import "@fontsource/roboto/700.css";
 import { UserContext } from "../App";
 import MultipleSelectChip from "../UI components/MultipleSelectChip";
 import IncreaseTable from "../UI components/IncreaseTable";
-import dayjs from "dayjs";
-import cookie from "react-cookies";
 import MyTextarea from "../UI components/MyTextarea";
+import CustomizedSnackbars from "../UI components/CustomizedSnackbars";
+import LoadingButton from "../UI components/LoadingButton";
 
 const Outlinecompilation = () => {
 	const [user, dispatch] = useContext(UserContext);
@@ -34,15 +34,6 @@ const Outlinecompilation = () => {
 	const [q] = useSearchParams();
 	const [subjects, setSujects] = useState([]);
 	const [scores, setScores] = useState([]);
-
-	// states needed to post API
-	const [timeRange, setTimeRange] = useState([null, null]);
-	const [timeRangeFormat, setTimeRangeFormat] = useState([
-		{
-			start: null,
-			end: null,
-		},
-	]);
 	const [preSubs, setPreSubs] = useState([]);
 	const [theory, setTheory] = useState("");
 	const [prac, setPrac] = useState("");
@@ -59,18 +50,18 @@ const Outlinecompilation = () => {
 		},
 	]);
 	const [description, setDescription] = useState("");
-
-	useEffect(() => {
-		console.log("hbnjnnda: ", outlineScores);
-	});
+	const [message, setMessage] = useState({});
+	const [loading, setLoading] = useState(false);
 
 	// post API to save an outline
 	const saveOutline = async () => {
 		try {
+			setLoading(true);
+			const total = outlineScores.reduce((acc, curr) => {
+				return acc + (curr.percent ? parseFloat(curr.percent) : 0);
+			}, 0);
+			if (total !== 100) throw 100;
 			let form = new FormData();
-			// Time Range Format
-			form.append("start", timeRangeFormat[0].start);
-			form.append("end", timeRangeFormat[0].end);
 
 			// Outline Scores
 			outlineScores.forEach((score, index) => {
@@ -82,14 +73,45 @@ const Outlinecompilation = () => {
 			form.append("prac", prac);
 			form.append("theory", theory);
 			form.append("preSubs", [...preSubs]);
+			form.append("outline", q.get("outlineId"));
 
 			let res = await APIs.post(endpoints["save-outline"], form, {
 				headers: {
 					"Content-Type": "multipart/form-data; charset=UTF-8",
 				},
 			});
+			setMessage((prev) => {
+				return {
+					...prev,
+					success: true,
+					successMsg:
+						"Đã lưu đề cương thành công! Đề cương sẽ được gửi để quản trị viên xét duyệt!",
+				};
+			});
 		} catch (err) {
+			if (err === 100) {
+				setMessage((prev) => {
+					return {
+						...prev,
+						totalErr: true,
+						success: false,
+						successMsg: null,
+					};
+				});
+			}
 			console.error(err);
+		} finally {
+			setLoading(false);
+			setTimeout(() => {
+				setMessage((prev) => {
+					return {
+						...prev,
+						totalErr: false,
+						success: false,
+						successMsg: null,
+					};
+				});
+			}, 5000);
 		}
 	};
 
@@ -133,25 +155,6 @@ const Outlinecompilation = () => {
 			return prev.filter((f, i) => i !== index);
 		});
 	};
-
-	const handleDateChange = (newValue) => {
-		setTimeRange(newValue);
-	};
-
-	const formatDate = (date) => {
-		return date ? dayjs(date).format("YYYY/MM/DD") : "";
-	};
-
-	useEffect(() => {
-		if (timeRange[0] && timeRange[1]) {
-			setTimeRangeFormat([
-				{
-					start: formatDate(timeRange[0]),
-					end: formatDate(timeRange[1]),
-				},
-			]);
-		}
-	}, [timeRange]);
 
 	// data loading function to initialize the page
 	const loadSubjects = async () => {
@@ -213,10 +216,7 @@ const Outlinecompilation = () => {
 			if (savedTheory) setTheory(savedTheory);
 			if (savedPrac) setPrac(savedPrac);
 			if (savedPreSubs) setPreSubs(JSON.parse(savedPreSubs));
-			if (savedDates) {
-				const parsedDates = JSON.parse(savedDates);
-				setTimeRange([dayjs(parsedDates[0]), dayjs(parsedDates[1])]);
-			}
+
 			if (savedScores) {
 				setOutlineScores(JSON.parse(savedScores));
 			}
@@ -246,19 +246,6 @@ const Outlinecompilation = () => {
 			);
 		}
 	}, [preSubs, outlineId]);
-
-	useEffect(() => {
-		if (outlineId && timeRange[0] && timeRange[1]) {
-			const formattedDates = [
-				timeRange[0].toISOString(),
-				timeRange[1].toISOString(),
-			];
-			localStorage.setItem(
-				`dateRange_${outlineId}`,
-				JSON.stringify(formattedDates),
-			);
-		}
-	}, [timeRange, outlineId]);
 
 	useEffect(() => {
 		if (outlineId) {
@@ -297,6 +284,45 @@ const Outlinecompilation = () => {
 							padding: 5,
 						}}
 					>
+						<Box
+							style={{
+								display: "inline-block",
+								marginLeft: "90%",
+							}}
+						>
+							<FontAwesomeIcon
+								icon={faCircle}
+								style={{
+									fontSize: "21",
+									color: "#6e3ee0",
+									marginRight: 7,
+									boxShadow:
+										"rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+									borderRadius: "50%",
+								}}
+							/>
+							<FontAwesomeIcon
+								icon={faCircle}
+								style={{
+									fontSize: "21",
+									color: "#FFD43B",
+									marginRight: 7,
+									boxShadow:
+										"rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+									borderRadius: "50%",
+								}}
+							/>
+							<FontAwesomeIcon
+								icon={faCircle}
+								style={{
+									fontSize: "21",
+									color: "#a09779",
+									boxShadow:
+										"rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+									borderRadius: "50%",
+								}}
+							/>
+						</Box>
 						<h5 style={{ marginBottom: 25 }}>
 							<FontAwesomeIcon
 								icon={faFileLines}
@@ -307,10 +333,11 @@ const Outlinecompilation = () => {
 								ĐỀ CƯƠNG MÔN: {currentOutline[0].subject}
 							</span>
 						</h5>
-						<DateRange
+
+						{/* <DateRange
 							value={timeRange}
 							handleDateChange={handleDateChange}
-						/>
+						/> */}
 						<Typography
 							sx={{ marginTop: 2 }}
 							variant="h6"
@@ -430,7 +457,30 @@ const Outlinecompilation = () => {
 							<span style={{ fontWeight: 600 }}>
 								- Đánh giá môn học:
 							</span>
+
+							<Box>
+								<span style={{ color: "#cb2027" }}>
+									<i>
+										** Lưu ý: Tối đa 5 cột điểm đánh giá,
+										tổng phần trăm của các cột điểm phải
+										bằng 100%
+									</i>
+								</span>
+							</Box>
+							{message.totalErr && (
+								<Alert
+									className="animate__animated animate__wobble"
+									sx={{
+										marginTop: 5,
+										marginBottom: 5,
+									}}
+									severity="warning"
+								>
+									Tổng các cột điểm phải bằng 100%
+								</Alert>
+							)}
 						</Typography>
+
 						<IncreaseTable
 							cells={[
 								"Tên cột điểm",
@@ -442,20 +492,30 @@ const Outlinecompilation = () => {
 							addField={addField}
 							deleteField={deleteField}
 							scores={scores}
+							maxIncrease={5}
+							currentItemNumber={outlineScores.length}
 							// handleValueChange1={handleValueChange1}
 							// handleValueChange2={handleValueChange2}
 							// score1={score1}
 							// score2={score2}
 						/>
 
-						<Button
+						{/* <Button
 							sx={{ marginTop: 5, marginLeft: 101 }}
 							variant="contained"
 							endIcon={<SendIcon />}
 							onClick={saveOutline}
 						>
 							LƯU
-						</Button>
+						</Button> */}
+						<Box sx={{ marginTop: 5, marginLeft: 101 }}>
+							<LoadingButton
+								action={saveOutline}
+								loading={loading}
+								text={"Lưu"}
+							/>
+						</Box>
+						<CustomizedSnackbars message={message.successMsg} />
 					</Box>
 				</Box>
 			)}

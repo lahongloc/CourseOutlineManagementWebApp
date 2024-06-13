@@ -82,7 +82,6 @@ com\comwe\pojo\Grade.class
 com\comwe\repositories\AcademicYearRepository.class
 com\comwe\controllers\ApiLecturerController.class
 com\comwe\controllers\UserController.class
-com\comwe\pojo\DTOs\UserDTO.class
 com\comwe\repositories\impl\UserRepositoryImpl.class
 com\comwe\pojo\AcademicYear_.class
 com\comwe\pojo\OutlineScore.class

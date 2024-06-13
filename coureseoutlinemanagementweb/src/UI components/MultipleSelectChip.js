@@ -60,7 +60,10 @@ export default function MultipleSelectChip({
 						>
 							{selected.map((value) => {
 								let a = subjects.filter((s) => s.id === value);
-								return <Chip key={value} label={value} />;
+								if (a.length > 0)
+									return (
+										<Chip key={value} label={a[0].name} />
+									);
 							})}
 						</Box>
 					)}

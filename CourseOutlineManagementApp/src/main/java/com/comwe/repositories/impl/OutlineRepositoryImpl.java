@@ -12,11 +12,14 @@ import com.comwe.pojo.Lecturer;
 import com.comwe.pojo.Major;
 import com.comwe.pojo.Outline;
 import com.comwe.pojo.OutlineAcademicYear;
+import com.comwe.pojo.OutlineScore;
 import com.comwe.pojo.OutlineSubject;
+import com.comwe.pojo.Score;
 import com.comwe.pojo.Subject;
 import com.comwe.pojo.User;
 import com.comwe.repositories.OutlineRepository;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -54,78 +57,7 @@ public class OutlineRepositoryImpl implements OutlineRepository {
     @Autowired
     private Environment env;
 
-//    @Override
-//    public List<Object> getOutlines(Map<String, String> params) {
-//        Session s = this.factory.getObject().getCurrentSession();
-//        CriteriaBuilder c = s.getCriteriaBuilder();
-//        CriteriaQuery<Object> q = c.createQuery(Object.class);
-//        Root r = q.from(Outline.class);
-//        q.select(r);
-//        String kw = params.get("kw");
-//        String page = params.get("page");
-//        String lecturerId = params.get("lecturerId");
-//        String status = params.get("status");
-//        String outlineId = params.get("outlineId");
-//
-//        List<Predicate> predicates = new ArrayList<>();
-//
-//        if (kw != null && !kw.isEmpty()) {
-//            predicates.add(c.like(r.get("description"), String.format("%%%s%%", kw)));
-//        }
-//
-//        if (lecturerId != null && !lecturerId.isEmpty()) {
-//            predicates.add(c.equal(r.get("lecturerId").get("userId"), Integer.parseInt(lecturerId)));
-//        }
-//
-//        if (status != null && !status.isEmpty()) {
-//            predicates.add(c.like(r.get("status"), status));
-//        }
-//
-//        if (outlineId != null && !outlineId.isEmpty()) {
-//            predicates.add(c.equal(r.get("id"), Integer.parseInt(outlineId)));
-//        }
-//
-//        q.where(predicates.toArray(Predicate[]::new));
-//
-//        Query qr = s.createQuery(q);
-//        List<Object> outlinesInfo = new ArrayList<>();
-//
-//        if (page != null && !page.isEmpty()) {
-//            int pageSize = Integer.parseInt(this.env.getProperty("pageSize"));
-//
-//            qr.setMaxResults(pageSize);
-//            qr.setFirstResult((Integer.parseInt(page) - 1) * pageSize);
-//        }
-//
-////        CriteriaQuery<Object> qS = c.createQuery(Object.class);
-////        Root rS = qS.from(OutlineSubject.class);
-////        qS.select(rS.get("subjectId"));
-////        List<Predicate> pres = new ArrayList<>();
-//
-//        List<Outline> outlines = qr.getResultList();
-//        outlines.forEach(o -> {
-//            HashMap<Object, Object> temp = new HashMap<>();
-//            temp.put("outlineId", o.getId());
-//            temp.put("lecturer", o.getLecturerId().getUserId().getName());
-//            temp.put("subject", o.getSubjectId().getName());
-//            temp.put("faculty", o.getLecturerId().getFacultyId().getName());
-//            temp.put("startedDate", o.getStartedDatetime());
-//            temp.put("expiredDate", o.getExpiredDatetime());
-//            temp.put("description", o.getDescription());
-//            temp.put("theory", o.getTheoCreditHour());
-//            temp.put("practice", o.getPracCreditHour());
-//
-////            pres.add(c.equal(rS.get("outlineId"), o.getId()));
-////            qS.where(pres.toArray(Predicate[]::new));
-////            Query qrS = s.createQuery(qS);
-////            List<OutlineSubject> outlineSubjects = qrS.getResultList();
-////            temp.put("preSubjects", outlineSubjects);
-//
-//            outlinesInfo.add(temp);
-//        });
-//
-//        return outlinesInfo;
-//    }
+    @Override
     public List<OutlineDTO> getOutlines(Map<String, String> params) {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder c = s.getCriteriaBuilder();
@@ -136,7 +68,7 @@ public class OutlineRepositoryImpl implements OutlineRepository {
         Join<Lecturer, User> rootUser = rootLecturer.join("userId");
         Join<Outline, Subject> rootSubject = rootOutline.join("subjectId");
         Join<Lecturer, Faculty> rootFaculty = rootLecturer.join("facultyId");
-        
+
         String kw = params.get("kw");
         String page = params.get("page");
         String lecturerId = params.get("lecturerId");
@@ -145,7 +77,7 @@ public class OutlineRepositoryImpl implements OutlineRepository {
         String title = params.get("name");
 
         List<Predicate> predicates = new ArrayList<>();
-        
+
         if (title != null && !title.isEmpty()) {
             predicates.add(c.like(rootOutline.get("description"), "%" + title + "%"));
         }
@@ -184,14 +116,14 @@ public class OutlineRepositoryImpl implements OutlineRepository {
         q.orderBy(c.asc(rootOutline.get("id")));
 
         TypedQuery<Tuple> qr = s.createQuery(q);
-        
+
         if (page != null && !page.isEmpty()) {
             int pageSize = Integer.parseInt(this.env.getProperty("pageSize"));
 
             qr.setMaxResults(pageSize);
             qr.setFirstResult((Integer.parseInt(page) - 1) * pageSize);
         }
-        
+
         List<Tuple> resultList = qr.getResultList();
 
         List<OutlineDTO> outlinesInfo = new ArrayList<>();
@@ -227,7 +159,9 @@ public class OutlineRepositoryImpl implements OutlineRepository {
         outline.setSubjectId(subject);
         outline.setLecturerId(lecturer);
         outline.setStatus("HOLDING");
+        System.out.println("chuan bi luu");
         s.save(outline);
+        System.out.println("Qua luu");
 
         AcademicYear academicYear1 = s.get(AcademicYear.class, academicYearId1);
         OutlineAcademicYear oc1 = new OutlineAcademicYear();
@@ -292,5 +226,113 @@ public class OutlineRepositoryImpl implements OutlineRepository {
         }
 
         return outline;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean updateOutline(Map<String, String> params) {
+        System.out.println("start");
+        Session s = this.factory.getObject().getCurrentSession();
+
+        params.keySet().forEach(k -> System.out.println(k.toString() + " la: " + params.get(k)));
+
+        try {
+            // take the curent outline id
+            int outlineId = Integer.parseInt(params.get("outline"));
+            // take the ensential params for outline updating
+            int pracCreditHour = Integer.parseInt(params.get("prac"));
+            int theoCreditHour = Integer.parseInt(params.get("theory"));
+            String description = params.get("description");
+
+            // update outline
+            Outline outline = s.get(Outline.class, outlineId);
+            outline.setPracCreditHour(pracCreditHour);
+            outline.setTheoCreditHour(theoCreditHour);
+            outline.setDescription(description);
+            s.update(outline);
+
+            // take score id and percent corresspondingly
+            String[] outlineScoreIds = {params.get("outlineScoreId1"), params.get("outlineScoreId2"), params.get("outlineScoreId3"), params.get("outlineScoreId4"), params.get("outlineScoreId5")};
+            String[] percents = {params.get("percent1"), params.get("percent2"), params.get("percent3"), params.get("percent4"), params.get("percent5")};
+
+            // update or add OutlineScore
+            System.out.println("lay cac cot co san");
+            List<OutlineScore> existingOutlineScores = s.createQuery("FROM OutlineScore WHERE outline_id = :outlineId", OutlineScore.class)
+                    .setParameter("outlineId", outlineId)
+                    .getResultList();
+
+            List<Integer> processedIds = new ArrayList<>();
+            for (int i = 0; i < outlineScoreIds.length; i++) {
+                if (outlineScoreIds[i] != null && !outlineScoreIds[i].isEmpty() && percents[i] != null && !percents[i].isEmpty()) {
+                    int scoreId = Integer.parseInt(outlineScoreIds[i]);
+                    float percent = Float.parseFloat(percents[i]);
+
+                    OutlineScore outlineScore = existingOutlineScores.stream()
+                            .filter(os -> os.getScoreId().getId() == scoreId)
+                            .findFirst()
+                            .orElse(null);
+
+                    if (outlineScore != null) {
+                        // Nếu OutlineScore đã tồn tại, cập nhật nếu cần thiết
+                        outlineScore.setPercent(percent);
+                        s.update(outlineScore);
+                        processedIds.add(outlineScore.getId());
+                    } else {
+                        // Nếu OutlineScore chưa tồn tại, tạo mới
+                        outlineScore = new OutlineScore();
+                        outlineScore.setOutlineId(outline);
+                        outlineScore.setScoreId(s.get(Score.class, scoreId)); // Liên kết với Score dựa trên scoreId
+                        outlineScore.setPercent(percent);
+                        s.save(outlineScore);
+                        processedIds.add(outlineScore.getId());
+                    }
+                }
+            }
+
+            // delete Outline score not in the new list
+            for (OutlineScore os : existingOutlineScores) {
+                if (!processedIds.contains(os.getId())) {
+                    s.delete(os);
+                }
+            }
+
+            // resolve preSubs and update OutlineSubject table
+            int[] preSubs = Arrays.stream(params.get("preSubs").split(",")).mapToInt(Integer::parseInt).toArray();
+            List<OutlineSubject> existingOutlineSubjects = s.createQuery("FROM OutlineSubject WHERE outline_id = :outlineId", OutlineSubject.class)
+                    .setParameter("outlineId", outlineId)
+                    .getResultList();
+
+            List<Integer> processedSubjectIds = new ArrayList<>(preSubs.length);
+            for (int subjectId : preSubs) {
+                OutlineSubject outlineSubject = existingOutlineSubjects.stream()
+                        .filter(os -> os.getSubjectId().getId() == subjectId)
+                        .findFirst()
+                        .orElse(null);
+
+                if (outlineSubject != null) {
+                    // if OutlineSubject existed, skip
+                    processedSubjectIds.add(outlineSubject.getId());
+                } else {
+                    // if it not existed, create new and update corresspondingly
+                    outlineSubject = new OutlineSubject();
+                    outlineSubject.setOutlineId(outline);
+                    outlineSubject.setSubjectId(s.get(Subject.class, subjectId));
+                    outlineSubject.setType("PRE"); // pre-requisite subjects
+                    s.save(outlineSubject);
+                    processedSubjectIds.add(outlineSubject.getId());
+                }
+            }
+
+            for (OutlineSubject os : existingOutlineSubjects) {
+                if (!processedSubjectIds.contains(os.getId())) {
+                    s.delete(os);
+                }
+            }
+
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 }

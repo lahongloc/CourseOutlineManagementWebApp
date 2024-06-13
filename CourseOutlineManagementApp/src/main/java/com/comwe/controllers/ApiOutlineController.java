@@ -49,12 +49,13 @@ public class ApiOutlineController {
         MediaType.APPLICATION_JSON_VALUE,
         MediaType.MULTIPART_FORM_DATA_VALUE
     })
-    public ResponseEntity<Object> addOutline(@RequestParam Map<Object, Object> params) {
+    public ResponseEntity<Object> addOutline(@RequestParam Map<String, String> params) {
         System.out.println("PARAM DO LAAAAA: " + params.keySet());
         
-        params.keySet().forEach(k -> {
-            System.out.println(k.toString() + " is: " + params.get(k));
-        });
+      
+        if(this.outlineService.updateOutline(params) == true) {
+            System.out.println("thanh cong");
+        } else System.out.println("That bai");
 
 
         return new ResponseEntity<>("abc", HttpStatus.OK);

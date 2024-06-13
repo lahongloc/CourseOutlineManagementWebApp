@@ -17,4 +17,5 @@ public interface OutlineService {
     void addOutline(int lecturerId, int subjectId, int academicYearId1, int academicYearId2);
     boolean checkOutlineExist(int subjectId, int academicYearId1, int academicYearId2);
     List<Object> getOutlineById(int id);
+    boolean updateOutline(Map<String, String> params);
 }

@@ -17,6 +17,8 @@ const IncreaseTable = ({
 	handleScoreChange,
 	addField,
 	deleteField,
+	maxIncrease = null,
+	currentItemNumber = null,
 	...props
 }) => {
 	const [assessment, setAssessment] = React.useState("");
@@ -109,12 +111,14 @@ const IncreaseTable = ({
 										<IconButton
 											color="secondary"
 											aria-label="add an alarm"
-											sx={{ padding: 1 }}
+											sx={{
+												padding: 1,
+											}}
 											onClick={() => deleteField(index)}
 										>
 											<FontAwesomeIcon
 												icon={faXmark}
-												style={{ color: "#6e51c8" }}
+												style={{ color: "#cb2027" }}
 											/>
 										</IconButton>
 									</TableCell>
@@ -122,84 +126,6 @@ const IncreaseTable = ({
 							</TableRow>
 						);
 					})}
-					{/* {fields.map((field, index) => {
-						return (
-							<TableRow
-								sx={{
-									"&:last-child td, &:last-child th": {
-										border: 0,
-									},
-								}}
-								key={index}
-							>
-								<TableCell component="th" scope="row">
-									<TextField
-										id="standard-basic"
-										variant="standard"
-										value={field.name}
-										onChange={(e) =>
-											handleFieldChange(
-												index,
-												"name",
-												e.target.value,
-											)
-										}
-									/>
-								</TableCell>
-								<TableCell align="right">
-									<TextField
-										id="standard-basic"
-										variant="standard"
-										value={field.assessment}
-										onChange={(e) =>
-											handleFieldChange(
-												index,
-												"assessment",
-												e.target.value,
-											)
-										}
-									/>
-								</TableCell>
-								<TableCell align="right">
-									<TextField
-										id="standard-basic"
-										variant="standard"
-										value={field.percent}
-										type="number"
-										onChange={(e) =>
-											handleFieldChange(
-												index,
-												"percent",
-												e.target.value,
-											)
-										}
-									/>
-									%
-								</TableCell>
-
-								<TableCell align="right">
-									<IconButton
-										color="secondary"
-										aria-label="add an alarm"
-										sx={{ padding: 1 }}
-										// onClick={() =>
-										// 	setFields((prev) => {
-										// 		return prev.filter(
-										// 			(f, i) => i !== index,
-										// 		);
-										// 	})
-										// }
-										onClick={() => deleteField(index)}
-									>
-										<FontAwesomeIcon
-											icon={faXmark}
-											style={{ color: "#6e51c8" }}
-										/>
-									</IconButton>
-								</TableCell>
-							</TableRow>
-						);
-					})} */}
 
 					<TableRow
 						sx={{
@@ -211,19 +137,25 @@ const IncreaseTable = ({
 						<TableCell component="th" scope="row"></TableCell>
 						<TableCell align="right"></TableCell>
 						<TableCell align="right"></TableCell>
-						<TableCell align="right">
-							<IconButton
-								color="secondary"
-								aria-label="add an alarm"
-								sx={{ padding: 1 }}
-								onClick={addField}
-							>
-								<FontAwesomeIcon
-									icon={faPlus}
-									style={{ color: "#6e51c8" }}
-								/>
-							</IconButton>
-						</TableCell>
+						{currentItemNumber < maxIncrease && (
+							<TableCell align="right">
+								<IconButton
+									color="secondary"
+									aria-label="add an alarm"
+									sx={{
+										padding: 1,
+										boxShadow:
+											"rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+									}}
+									onClick={addField}
+								>
+									<FontAwesomeIcon
+										icon={faPlus}
+										style={{ color: "#6e51c8" }}
+									/>
+								</IconButton>
+							</TableCell>
+						)}
 					</TableRow>
 				</TableBody>
 			</Table>
