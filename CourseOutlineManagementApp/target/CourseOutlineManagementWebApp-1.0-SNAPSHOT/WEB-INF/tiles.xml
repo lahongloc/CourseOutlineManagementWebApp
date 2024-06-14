@@ -35,4 +35,8 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
         <put-attribute name="title" value="Chi tiết môn học" />
         <put-attribute name="content" value="/WEB-INF/pages/subjectDetails.jsp" />
     </definition>
+    <definition name="generatePDF" extends="baseLayout">
+        <put-attribute name="title" value="Upload PDF to S3 Amazone" />
+        <put-attribute name="content" value="/WEB-INF/pages/generatePDF.jsp" />
+    </definition>
 </tiles-definitions>

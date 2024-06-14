@@ -1,5 +1,6 @@
 com\comwe\services\impl\MajorServiceImpl.class
 com\comwe\pojo\Faculty.class
+com\comwe\services\PdfService.class
 com\comwe\pojo\AcademicYear.class
 com\comwe\configs\SpringSecurityConfig.class
 com\comwe\controllers\ApiMajorController.class
@@ -39,6 +40,7 @@ com\comwe\components\JwtService.class
 com\comwe\repositories\impl\LecturerRepositoryQueryImpl.class
 com\comwe\controllers\ApiGradeController.class
 com\comwe\services\impl\LecturerServiceImpl.class
+com\comwe\controllers\ApiDocumentController.class
 com\comwe\configs\SecurityWebApplicationInitializer.class
 com\comwe\pojo\Subject.class
 com\comwe\services\LecturerServiceQuery.class
@@ -48,10 +50,14 @@ com\comwe\pojo\Lecturer_.class
 com\comwe\services\impl\StudentServiceImpl.class
 com\comwe\pojo\StudentOutlineDownload_.class
 com\comwe\pojo\Major_.class
+com\comwe\services\DocumentService.class
 com\comwe\pojo\Admin.class
+com\comwe\services\impl\PdfServiceImpl.class
 com\comwe\filters\CustomAccessDeniedHandler.class
 com\comwe\pojo\OutlineAcademicYear.class
 com\comwe\repositories\FacultyRepository.class
+com\comwe\pojo\Document.class
+com\comwe\repositories\impl\DocumentRepositoryImpl.class
 com\comwe\repositories\impl\GradeRepositoryImpl.class
 com\comwe\controllers\ApiOutlineController.class
 com\comwe\filters\RestAuthenticationEntryPoint.class
@@ -60,6 +66,7 @@ com\comwe\repositories\impl\ScoreRepositoryImpl.class
 com\comwe\controllers\ApiAcademicYearController.class
 com\comwe\controllers\ApiScoreController.class
 com\comwe\services\OutlineService.class
+com\comwe\repositories\DocumentRepository.class
 com\comwe\pojo\Comment.class
 com\comwe\pojo\Feedback.class
 com\comwe\repositories\impl\OutlineRepositoryImpl.class
@@ -81,7 +88,10 @@ com\comwe\services\UserService.class
 com\comwe\pojo\Grade.class
 com\comwe\repositories\AcademicYearRepository.class
 com\comwe\controllers\ApiLecturerController.class
+com\comwe\services\impl\DocumentServiceImpl.class
+com\comwe\services\FileStorageService.class
 com\comwe\controllers\UserController.class
+com\comwe\services\impl\FileStorageServiceImpl.class
 com\comwe\repositories\impl\UserRepositoryImpl.class
 com\comwe\pojo\AcademicYear_.class
 com\comwe\pojo\OutlineScore.class
@@ -89,6 +99,7 @@ com\comwe\services\GradeService.class
 com\comwe\services\impl\ScoreServiceImpl.class
 com\comwe\pojo\User.class
 com\comwe\repositories\LecturerRepositoryQuery.class
+com\comwe\pojo\Document_.class
 com\comwe\services\impl\SubjectServiceImpl.class
 com\comwe\pojo\FacultySubject.class
 com\comwe\pojo\Faculty_.class
@@ -105,3 +116,4 @@ com\comwe\configs\TilesConfig.class
 com\comwe\pojo\Outline_.class
 com\comwe\services\ScoreService.class
 com\comwe\configs\JwtSecurityConfig.class
+com\comwe\repositories\DocumentRepositoryCustom.class
