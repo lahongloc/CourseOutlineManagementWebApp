@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import APIs, { endpoints } from "../configs/APIs";
 import { Badge, Card, Container, ListGroup, Row } from "react-bootstrap";
 import PaginationControlled from "../UI components/PaginationControlled";
+import LinearBuffer from "../UI components/LinearBuffer";
 
 const Home = () => {
 	const [outlines, setOutlines] = useState([]);
@@ -45,6 +46,7 @@ const Home = () => {
 
 	return (
 		<>
+			{loading && <LinearBuffer />}
 			<Container>
 				<PaginationControlled
 					count={pageSize.current}

@@ -46,14 +46,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Outline.findByPracCreditHour", query = "SELECT o FROM Outline o WHERE o.pracCreditHour = :pracCreditHour"),
     @NamedQuery(name = "Outline.findByStatus", query = "SELECT o FROM Outline o WHERE o.status = :status")})
 public class Outline implements Serializable {
-
-    /**
-     * @param status the status to set
-     */
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -77,8 +69,6 @@ public class Outline implements Serializable {
     @Basic(optional = false)
     @Column(name = "prac_credit_hour")
     private int pracCreditHour;
-//    @Column(name = "status")
-//    private Boolean status;
     @Column(name = "status")
     private String status;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "outlineId")
@@ -111,6 +101,17 @@ public class Outline implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "outlineId")
     @JsonIgnore
     private Set<OutlineAcademicYear> outlineAcademicYearSet;
+    @JoinColumn(name = "document_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Document documentId;
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Outline() {
     }
@@ -284,6 +285,14 @@ public class Outline implements Serializable {
     @Override
     public String toString() {
         return "com.comwe.pojo.Outline[ id=" + id + " ]";
+    }
+
+    public Document getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(Document documentId) {
+        this.documentId = documentId;
     }
     
 }

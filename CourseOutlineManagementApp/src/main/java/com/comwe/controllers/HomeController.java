@@ -206,5 +206,11 @@ public class HomeController {
 
         return "subjectDetails";
     }
+    
+    @GetMapping("/generate-pdf/")
+    public String generatePDF() {
+        
+        return "generatePDF";
+    }
 
 }

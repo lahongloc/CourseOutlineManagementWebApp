@@ -4,6 +4,10 @@
  */
 package com.comwe.configs;
 
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import java.util.Properties;
@@ -11,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -35,7 +41,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
     "com.comwe.services"
 })
 @Order(2)
+@PropertySource("classpath:application.properties")
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+    
+    @Autowired
+    private Environment env;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -69,6 +79,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users-manager/").access("hasRole('ROLE_ADMIN')");
         http.authorizeRequests()
                 .antMatchers("/outline-management/**").access("hasRole('ROLE_ADMIN')");
+        http.authorizeRequests()
+                .antMatchers("/generate-pdf/").access("hasRole('ROLE_ADMIN')");
         
         
         http.authorizeRequests().antMatchers("/").permitAll()
@@ -106,5 +118,17 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         props.put("mail.debug", "true");
 
         return mailSender;
+    }
+    
+    @Bean
+    public AmazonS3 amazonS3() {
+        BasicAWSCredentials awsCreds = new BasicAWSCredentials(
+                this.env.getProperty("aws.accessKey"),
+                this.env.getProperty("aws.secretKey")
+        );
+        return AmazonS3ClientBuilder.standard()
+                .withRegion(this.env.getProperty("aws.s3.region"))
+                .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+                .build();
     }
 }

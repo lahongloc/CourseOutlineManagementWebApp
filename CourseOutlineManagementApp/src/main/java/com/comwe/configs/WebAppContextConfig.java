@@ -23,6 +23,9 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
+import org.springframework.core.env.Environment;
 
 /**
  *
@@ -36,8 +39,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
     "com.comwe.repositories",
     "com.comwe.services"
 })
-@PropertySource("classpath:")
+@PropertySource("classpath:application.properties")
+@Order(1)
 public class WebAppContextConfig implements WebMvcConfigurer {
+
+    @Autowired
+    private Environment env;
 
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
