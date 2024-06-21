@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence           http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+  <persistence-unit name="com.comwe_CourseOutlineManagementWebApp_war_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.comwe.pojo.Student</class>
+    <class>com.comwe.pojo.Comment</class>
+    <class>com.comwe.pojo.Subject</class>
+    <class>com.comwe.pojo.User</class>
+    <class>com.comwe.pojo.Feedback</class>
+    <class>com.comwe.pojo.Lecturer</class>
+    <class>com.comwe.pojo.Outline</class>
+    <class>com.comwe.pojo.StudentSubject</class>
+    <class>com.comwe.pojo.Admin</class>
+    <class>com.comwe.pojo.SubjectClass</class>
+    <class>com.comwe.pojo.Faculty</class>
+    <class>com.comwe.pojo.Score</class>
+    <class>com.comwe.pojo.Semester</class>
+    <class>com.comwe.pojo.OutlineSubject</class>
+    <class>com.comwe.pojo.OutlineAcademicYear</class>
+    <class>com.comwe.pojo.AcademicYear</class>
+    <class>com.comwe.pojo.Major</class>
+    <class>com.comwe.pojo.OutlineScore</class>
+    <class>com.comwe.pojo.StudentOutlineDownload</class>
+    <class>com.comwe.pojo.FacultySubject</class>
+    <class>com.comwe.pojo.Grade</class>
+    <class>com.comwe.pojo.Document</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/courseoutlinedb?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="Omc6789#"/>
+    </properties>
+  </persistence-unit>
+</persistence>

@@ -5,7 +5,7 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import BasicSimpleTreeView from "../UI components/BasicSimpleTreeView";
 import Home from "../Outline/Home";
-import { Container, SvgIcon } from "@mui/material";
+import { Container } from "@mui/material";
 import { useState } from "react";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -37,7 +37,6 @@ export default function Content() {
 				</FixedGrid>
 				<Grid item xs={9} sx={{ ml: "24%" }}>
 					<Container>
-						
 						<Home selectedItem={selectedItem} />
 					</Container>
 				</Grid>

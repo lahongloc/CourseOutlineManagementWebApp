@@ -22,7 +22,6 @@ import LinearBuffer from "../UI components/LinearBuffer";
 import "animate.css";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../configs/Firebase";
-// import { auth } from "../configs/Firebase";
 
 function Copyright(props) {
 	return (
