@@ -31,6 +31,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.hibernate.Session;
@@ -63,86 +64,138 @@ public class OutlineRepositoryImpl implements OutlineRepository {
         CriteriaBuilder c = s.getCriteriaBuilder();
         CriteriaQuery<Tuple> q = c.createQuery(Tuple.class);
 
-        Root<Outline> rootOutline = q.from(Outline.class);
-        Join<Outline, Lecturer> rootLecturer = rootOutline.join("lecturerId");
-        Join<Lecturer, User> rootUser = rootLecturer.join("userId");
-        Join<Outline, Subject> rootSubject = rootOutline.join("subjectId");
-        Join<Lecturer, Faculty> rootFaculty = rootLecturer.join("facultyId");
+        try {
+            Root<Outline> rootOutline = q.from(Outline.class);
+            Join<Outline, Lecturer> rootLecturer = rootOutline.join("lecturerId");
+            Join<Lecturer, User> rootUser = rootLecturer.join("userId");
+            Join<Outline, Subject> rootSubject = rootOutline.join("subjectId");
+            Join<Lecturer, Faculty> rootFaculty = rootLecturer.join("facultyId");
+            Join<Outline, OutlineAcademicYear> rootOutlineAcademicYear
+                    = rootOutline.join("outlineAcademicYearSet", JoinType.LEFT); // gồm các Outline mà không có OutlineAcademicYear tương ứng
 
-        String kw = params.get("kw");
-        String page = params.get("page");
-        String lecturerId = params.get("lecturerId");
-        String status = params.get("status");
-        String outlineId = params.get("outlineId");
-        String title = params.get("name");
+            String kw = params.get("kw");
+            String page = params.get("page");
+            String lecturerId = params.get("lecturerId");
+            String status = params.get("status");
+            String outlineId = params.get("outlineId");
+            String title = params.get("name");
+            String facultyId = params.get("facultyId");
+            String subjectId = params.get("subjectId");
+            String academicYearId = params.get("academicYearId");
+            String theoCreditHour = params.get("theoCreditHour");
+            String pracCreditHour = params.get("pracCreditHour");
+            String academicYearRange = params.get("academicYearRange");
 
-        List<Predicate> predicates = new ArrayList<>();
-
-        if (title != null && !title.isEmpty()) {
-            predicates.add(c.like(rootOutline.get("description"), "%" + title + "%"));
-        }
-
-        if (kw != null && !kw.isEmpty()) {
-            predicates.add(c.like(rootOutline.get("description"), String.format("%%%s%%", kw)));
-        }
-
-        if (lecturerId != null && !lecturerId.isEmpty()) {
-            predicates.add(c.equal(rootOutline.get("lecturerId").get("userId"), Integer.parseInt(lecturerId)));
-        }
-
-        if (status != null && !status.isEmpty()) {
-            predicates.add(c.like(rootOutline.get("status"), status));
-        }
-
-        if (outlineId != null && !outlineId.isEmpty()) {
-            predicates.add(c.equal(rootOutline.get("id"), Integer.parseInt(outlineId)));
-        }
-
-        q.where(predicates.toArray(Predicate[]::new));
-
-        q.multiselect(
-                rootOutline.get("id").alias("outlineId"),
-                rootOutline.get("startedDatetime").alias("startedDate"),
-                rootOutline.get("expiredDatetime").alias("expiredDate"),
-                rootOutline.get("description").alias("description"),
-                rootOutline.get("theoCreditHour").alias("theory"),
-                rootOutline.get("pracCreditHour").alias("practice"),
-                rootUser.get("name").alias("lecturer"),
-                rootSubject.get("name").alias("subject"),
-                rootFaculty.get("name").alias("faculty")
-        );
-
-        q.where(predicates.toArray(new Predicate[0]));
-        q.orderBy(c.asc(rootOutline.get("id")));
-
-        TypedQuery<Tuple> qr = s.createQuery(q);
-
-        if (page != null && !page.isEmpty()) {
-            int pageSize = Integer.parseInt(this.env.getProperty("pageSize"));
-
-            qr.setMaxResults(pageSize);
-            qr.setFirstResult((Integer.parseInt(page) - 1) * pageSize);
-        }
-
-        List<Tuple> resultList = qr.getResultList();
-
-        List<OutlineDTO> outlinesInfo = new ArrayList<>();
-        for (Tuple tuple : resultList) {
-            OutlineDTO temp = new OutlineDTO(
-                    (Integer) tuple.get("outlineId"),
-                    (Date) tuple.get("startedDate"),
-                    (Date) tuple.get("expiredDate"),
-                    (String) tuple.get("description"),
-                    (Integer) tuple.get("theory"),
-                    (Integer) tuple.get("practice"),
-                    (String) tuple.get("lecturer"),
-                    (String) tuple.get("subject"),
-                    (String) tuple.get("faculty")
+            q.multiselect(
+                    rootOutline.get("id").alias("outlineId"),
+                    rootOutline.get("startedDatetime").alias("startedDate"),
+                    rootOutline.get("expiredDatetime").alias("expiredDate"),
+                    rootOutline.get("description").alias("description"),
+                    rootOutline.get("theoCreditHour").alias("theory"),
+                    rootOutline.get("pracCreditHour").alias("practice"),
+                    rootUser.get("name").alias("lecturer"),
+                    rootSubject.get("name").alias("subject"),
+                    rootFaculty.get("name").alias("faculty")
             );
-            outlinesInfo.add(temp);
-        }
 
-        return outlinesInfo;
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (academicYearRange != null && !academicYearRange.isEmpty()) {
+                String[] years = academicYearRange.split("-");
+                if (years.length == 2) {
+                    String startYear = years[0].trim() + "-" + (Integer.parseInt(years[0].trim()) + 4);
+                    String endYear = years[1].trim() + "-" + (Integer.parseInt(years[1].trim()) + 4);
+
+                    Predicate startYearPredicate = c.equal(
+                            rootOutlineAcademicYear.get("academicYearId").get("name"),
+                            startYear
+                    );
+                    Predicate endYearPredicate = c.equal(
+                            rootOutlineAcademicYear.get("academicYearId").get("name"),
+                            endYear
+                    );
+
+                    predicates.add(c.or(startYearPredicate, endYearPredicate));
+                }
+            }
+
+            if (academicYearId != null && !academicYearId.isEmpty()) {
+                predicates.add(c.equal(rootOutlineAcademicYear.get("academicYearId"), Integer.parseInt(academicYearId)));
+            }
+
+            if (facultyId != null && !facultyId.isEmpty()) {
+                predicates.add(c.equal(rootOutline.get("lecturerId").get("facultyId"), Integer.parseInt(facultyId)));
+            }
+
+            if (subjectId != null && !subjectId.isEmpty()) {
+                predicates.add(c.equal(rootOutline.get("subjectId"), Integer.parseInt(subjectId)));
+            }
+
+            if (title != null && !title.isEmpty()) {
+                predicates.add(c.like(rootOutline.get("description"), "%" + title + "%"));
+            }
+
+            if (kw != null && !kw.isEmpty()) {
+                predicates.add(c.like(rootOutline.get("description"), String.format("%%%s%%", kw)));
+            }
+
+            if (lecturerId != null && !lecturerId.isEmpty()) {
+                predicates.add(c.equal(rootOutline.get("lecturerId"), Integer.parseInt(lecturerId)));
+            }
+
+            if (status != null && !status.isEmpty()) {
+                predicates.add(c.like(rootOutline.get("status"), status));
+            }
+
+            if (outlineId != null && !outlineId.isEmpty()) {
+                predicates.add(c.equal(rootOutline.get("id"), Integer.parseInt(outlineId)));
+            }
+
+            if (theoCreditHour != null && !theoCreditHour.isEmpty()) {
+                predicates.add(c.equal(rootOutline.get("theoCreditHour"), Integer.parseInt(theoCreditHour)));
+            }
+
+            if (pracCreditHour != null && !pracCreditHour.isEmpty()) {
+                predicates.add(c.equal(rootOutline.get("pracCreditHour"), Integer.parseInt(pracCreditHour)));
+            }
+
+            q.where(predicates.toArray(Predicate[]::new));
+            q.orderBy(c.asc(rootOutline.get("id")));
+
+            q.distinct(true);
+
+            TypedQuery<Tuple> qr = s.createQuery(q);
+
+            if (page != null && !page.isEmpty()) {
+                int pageSize = Integer.parseInt(this.env.getProperty("pageSize"));
+
+                qr.setMaxResults(pageSize);
+                qr.setFirstResult((Integer.parseInt(page) - 1) * pageSize);
+            }
+
+            List<Tuple> resultList = qr.getResultList();
+
+            List<OutlineDTO> outlinesInfo = new ArrayList<>();
+            for (Tuple tuple : resultList) {
+                OutlineDTO temp = new OutlineDTO(
+                        (Integer) tuple.get("outlineId"),
+                        (Date) tuple.get("startedDate"),
+                        (Date) tuple.get("expiredDate"),
+                        (String) tuple.get("description"),
+                        (Integer) tuple.get("theory"),
+                        (Integer) tuple.get("practice"),
+                        (String) tuple.get("lecturer"),
+                        (String) tuple.get("subject"),
+                        (String) tuple.get("faculty")
+                );
+                outlinesInfo.add(temp);
+            }
+
+            return outlinesInfo;
+        } catch (Exception e) {
+            System.out.println("Error of GETOUTLINES is: " + e.toString());
+            return null;
+        }
     }
 
     @Override

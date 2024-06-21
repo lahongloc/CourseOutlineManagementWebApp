@@ -20,6 +20,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Alert, Button } from "@mui/material";
 import LinearBuffer from "../UI components/LinearBuffer";
 import "animate.css";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../configs/Firebase";
+// import { auth } from "../configs/Firebase";
 
 function Copyright(props) {
 	return (
@@ -82,12 +85,20 @@ const Login = () => {
 					endpoints["current-user"],
 				);
 				cookie.save("user", currentUser.data);
+				cookie.save("passwordFirebase", userInfo.password);
 
 				dispatch({
 					type: LOGIN,
 					payload: currentUser.data,
 				});
 				setSuccess(true);
+
+				// login with firebase
+				await signInWithEmailAndPassword(
+					auth,
+					cookie.load("user").email,
+					cookie.load("passwordFirebase"),
+				);
 			} catch (err) {
 				setSuccess(false);
 				console.error(err);

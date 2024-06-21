@@ -5,7 +5,8 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import BasicSimpleTreeView from "../UI components/BasicSimpleTreeView";
 import Home from "../Outline/Home";
-import { Container } from "@mui/material";
+import { Container, SvgIcon } from "@mui/material";
+import { useState } from "react";
 
 const Item = styled(Paper)(({ theme }) => ({
 	backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -26,15 +27,18 @@ const FixedGrid = styled(Grid)(({ theme }) => ({
 }));
 
 export default function Content() {
+	const [selectedItem, setSelectedItem] = useState(null);
+
 	return (
 		<Box sx={{ flexGrow: 1, marginTop: 12 }}>
 			<Grid container spacing={2}>
-				<FixedGrid item xs={2.8}>
-					<BasicSimpleTreeView />
+				<FixedGrid item xs={2.6}>
+					<BasicSimpleTreeView setSelectedItem={setSelectedItem} />
 				</FixedGrid>
-				<Grid item xs={8} sx={{ ml: "30%" }}>
+				<Grid item xs={9} sx={{ ml: "24%" }}>
 					<Container>
-						<Home />
+						
+						<Home selectedItem={selectedItem} />
 					</Container>
 				</Grid>
 			</Grid>

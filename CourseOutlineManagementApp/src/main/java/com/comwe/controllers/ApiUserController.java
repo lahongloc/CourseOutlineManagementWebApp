@@ -7,9 +7,11 @@ package com.comwe.controllers;
 import com.comwe.components.JwtService;
 import com.comwe.pojo.User;
 import com.comwe.services.LecturerService;
+import com.comwe.services.LecturerServiceQuery;
 import com.comwe.services.StudentService;
 import com.comwe.services.UserService;
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,6 +44,9 @@ public class ApiUserController {
     private LecturerService lecturerService;
     
     @Autowired
+    private LecturerServiceQuery lecturerServiceQuery;
+    
+    @Autowired
     private StudentService studentService;
 
     @Autowired
@@ -66,10 +71,7 @@ public class ApiUserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateLecturer(@RequestParam Map<String, String> params, @RequestPart MultipartFile[] files) {
         this.lecturerService.updateLecturer(params, files[0]);
-    }
-    
-    
-    
+    } 
 
     @CrossOrigin
     @PostMapping("/login/")
@@ -102,5 +104,11 @@ public class ApiUserController {
     @ResponseStatus(HttpStatus.OK)
     public void userApprove(@PathVariable int userId) {
         this.userService.userApprove(userId);
+    }
+    
+    @CrossOrigin
+    @GetMapping("/getNonAdminUsers/")
+    public ResponseEntity<List<User>> lisUserNonAdmin(@RequestParam Map<String, String> params) {
+        return new ResponseEntity<>(this.userService.getNonAdminUsers(params), HttpStatus.OK);
     }
 }

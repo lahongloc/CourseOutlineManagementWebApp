@@ -21,6 +21,7 @@ export const endpoints = {
 	"save-outline": "/api/add-outline/",
 	getScores: "/api/getScores/",
 	"student-active": "/api/student-active/",
+	getNonAdminUsers: "/api/getNonAdminUsers/"
 };
 
 export const authApi = () => {

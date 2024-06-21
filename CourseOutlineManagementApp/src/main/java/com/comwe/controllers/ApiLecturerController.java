@@ -30,7 +30,9 @@ public class ApiLecturerController {
     @Autowired
     private LecturerServiceQuery lecturerServiceQuery;
     
-    @GetMapping("/getLecturers/")
+    @GetMapping(path = "/getLecturers/", produces = {
+        MediaType.APPLICATION_JSON_VALUE
+    })
     public ResponseEntity<List<Object>> list(@RequestParam Map<String, String> params) {
         return new ResponseEntity<>(this.lecturerServiceQuery.getLecturers(params), HttpStatus.OK);
     }

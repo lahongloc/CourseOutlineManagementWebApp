@@ -4,6 +4,7 @@ import APIs, { endpoints } from "../configs/APIs";
 import { Link } from "react-router-dom";
 import { FacultyContext, UserContext } from "../App";
 import { LOGOUT } from "../reducers/Actions";
+import SvgIcon from '@mui/material/SvgIcon';
 
 const Header = () => {
 	const faculties = useContext(FacultyContext);

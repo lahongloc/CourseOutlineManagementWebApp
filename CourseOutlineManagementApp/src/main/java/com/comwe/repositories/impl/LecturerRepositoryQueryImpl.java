@@ -60,7 +60,8 @@ public class LecturerRepositoryQueryImpl implements LecturerRepositoryQuery {
             temp.put("id", l.getId());
             temp.put("userId", l.getUserId().getId());
             temp.put("facultyId", l.getFacultyId().getId());
-
+            temp.put("nameLecturer", l.getUserId().getName());
+            
             lecturersInfo.add(temp);
         });
 

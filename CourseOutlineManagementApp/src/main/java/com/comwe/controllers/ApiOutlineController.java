@@ -39,7 +39,9 @@ public class ApiOutlineController {
     @Autowired
     private OutlineService outlineService;
 
-    @GetMapping("/getOutlines/")
+    @GetMapping(path = "/getOutlines/", produces = {
+        MediaType.APPLICATION_JSON_VALUE
+    })
     public ResponseEntity<List<OutlineDTO>> list(@RequestParam Map<String, String> params) {
         List<OutlineDTO> outlines = this.outlineService.getOutlines(params);
         return new ResponseEntity<>(outlines, HttpStatus.OK);

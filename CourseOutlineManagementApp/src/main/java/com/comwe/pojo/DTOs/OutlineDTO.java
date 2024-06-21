@@ -22,6 +22,7 @@ public class OutlineDTO {
     private String lecturer;
     private String subject;
     private String faculty;
+//    private AcademicYear academicYear;
 
     // Constructor
     public OutlineDTO(int outlineId, Date startedDate, Date expiredDate, String description, Integer theory, Integer practice, String lecturer, String subject, String faculty) {
@@ -34,6 +35,7 @@ public class OutlineDTO {
         this.lecturer = lecturer;
         this.subject = subject;
         this.faculty = faculty;
+//        this.academicYear = academicYear;
     }
     
     public OutlineDTO() {
