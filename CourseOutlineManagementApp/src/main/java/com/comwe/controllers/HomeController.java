@@ -10,6 +10,7 @@ import com.comwe.services.FacultyService;
 import com.comwe.services.OutlineService;
 import com.comwe.services.SubjectService;
 import com.comwe.services.UserService;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -79,6 +80,12 @@ public class HomeController {
         }
 
         return "index";
+    }
+    
+    @GetMapping("/outlines/{outlineId}/")
+    public String outlineDetail(@PathVariable(value="outlineId") int outlineId, Model model) {
+        model.addAttribute("outline", this.outlineService.getOutlineById(outlineId).get(0 ));
+        return "outlineDetail";
     }
 
     @GetMapping("/users-manager/")

@@ -19,6 +19,7 @@ import Outlinecompilation from "./components/Outlinecompilation";
 import BasicSimpleTreeView from "./UI components/BasicSimpleTreeView";
 import StudentRegister from "./components/StudentRegister";
 import StudentActive from "./components/StudentActive";
+import { isLecturer } from "./UserAuthorization/UserAuthoriation";
 
 export const UserContext = createContext();
 export const FacultyContext = createContext();
@@ -106,48 +107,59 @@ const App = () => {
 				<MajorContext.Provider value={major}>
 					<GradeContext.Provider value={grade}>
 						<AcademicYearContext.Provider value={academicYear}>
-						<BrowserRouter>
-					{/* <Header /> */}
-					<ResponsiveAppBar />
+							<BrowserRouter>
+								{/* <Header /> */}
+								<ResponsiveAppBar />
 
-					{/* <Container> */}
-					<Routes>
-						<Route path="/lecturer-signup" element={<SignUp />} />
-						<Route
-							path="/account-details"
-							element={<AccountDetails />}
-						/>
-						<Route
-								path="/student-active"
-								element={<StudentActive />}
-							/>
-							<Route
-								path="/account-details"
-								element={<AccountDetails />}
-							/>
-							<Route
-								path="/student-register"
-								element={<StudentRegister />}
-							/>
-						{/* <Route path="/" element={<Home />} /> */}
-						<Route path="/" element={<Content />} />
-						<Route path="/login" element={<Login />} />
-						<Route
-							path="/my-outlines"
-							element={<MyOutline status={"ACCEPTED"} />}
-						/>
-						<Route
-							path="/my-workspace"
-							element={<MyOutline status={"HOLDING"} />}
-						/>
-						<Route
-							path="/outline-compiling"
-							element={<Outlinecompilation />}
-						/>
-					</Routes>
-					{/* </Container> */}
-					<Footer />
-				</BrowserRouter>
+								{/* <Container> */}
+								<Routes>
+									<Route
+										path="/lecturer-signup"
+										element={<SignUp />}
+									/>
+									<Route
+										path="/account-details"
+										element={<AccountDetails />}
+									/>
+									<Route
+										path="/student-active"
+										element={<StudentActive />}
+									/>
+									<Route
+										path="/student-register"
+										element={<StudentRegister />}
+									/>
+									<Route path="/" element={<Content />} />
+									<Route path="/login" element={<Login />} />
+
+									{isLecturer(user) && (
+										<>
+											<Route
+												path="/my-outlines"
+												element={
+													<MyOutline
+														status={"ACCEPTED"}
+													/>
+												}
+											/>
+											<Route
+												path="/my-workspace"
+												element={
+													<MyOutline
+														status={"HOLDING"}
+													/>
+												}
+											/>
+											<Route
+												path="/outline-compiling"
+												element={<Outlinecompilation />}
+											/>
+										</>
+									)}
+								</Routes>
+								{/* </Container> */}
+								<Footer />
+							</BrowserRouter>
 						</AcademicYearContext.Provider>
 					</GradeContext.Provider>
 				</MajorContext.Provider>

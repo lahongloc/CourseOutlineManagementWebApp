@@ -21,6 +21,7 @@ export const endpoints = {
 	"save-outline": "/api/add-outline/",
 	getScores: "/api/getScores/",
 	"student-active": "/api/student-active/",
+	vnpay: "/api/vnpay/create_payment",
 };
 
 export const authApi = () => {

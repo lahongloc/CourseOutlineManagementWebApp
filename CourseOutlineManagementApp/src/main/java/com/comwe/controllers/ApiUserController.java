@@ -76,9 +76,8 @@ public class ApiUserController {
     public ResponseEntity<String> login(@RequestBody User user) {
         if (this.userService.authUser(user.getUsername(), user.getPassword()) == true) {
             String token = this.jwtService.generateTokenLogin(user.getUsername());
-
             return new ResponseEntity<>(token, HttpStatus.OK);
-        }
+        } 
         return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
     }
 
@@ -94,7 +93,9 @@ public class ApiUserController {
     @CrossOrigin
     @GetMapping(path = "/current-user/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> details(Principal user) {
+        System.out.println("lay usser heienjen " + user.getName());
         User u = this.userService.getUserByUsername(user.getName());
+        System.out.println("lay usser tccccccc " + u);
         return new ResponseEntity<>(u, HttpStatus.OK);
     }
 

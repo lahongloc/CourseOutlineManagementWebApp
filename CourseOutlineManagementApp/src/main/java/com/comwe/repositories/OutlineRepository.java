@@ -5,6 +5,7 @@
 package com.comwe.repositories;
 
 import com.comwe.pojo.DTOs.OutlineDTO;
+import com.comwe.pojo.Outline;
 import java.util.List;
 import java.util.Map;
 
@@ -18,4 +19,7 @@ public interface OutlineRepository {
     boolean checkOutlineExist(int subjectId, int academicYearId1, int academicYearId2);
     List<Object> getOutlineById(int id);
     boolean updateOutline(Map<String, String> params);
+    boolean accept(int id);
+    Outline getAnOutlineById(int id);
+    String getDocumentUrl(int outlineId);
 }

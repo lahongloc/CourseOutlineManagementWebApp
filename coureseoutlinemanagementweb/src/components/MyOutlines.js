@@ -3,7 +3,6 @@ import { UserContext } from "../App";
 import APIs, { endpoints } from "../configs/APIs";
 import OutlinedCard from "../UI components/OutlinedCard";
 import { Alert, AlertTitle, Box, Container } from "@mui/material";
-import { width } from "@fortawesome/free-brands-svg-icons/fa42Group";
 
 const MyOutline = ({ status }) => {
 	const [user, dispatch] = useContext(UserContext);
@@ -27,8 +26,8 @@ const MyOutline = ({ status }) => {
 	};
 
 	useEffect(() => {
-		console.info("Outlines: ", outlines)
-	})
+		console.info("Outlines: ", outlines);
+	});
 
 	useEffect(() => {
 		loadMyOutlines();

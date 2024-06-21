@@ -1,14 +1,22 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import APIs, { endpoints } from "../configs/APIs";
 import { Badge, Card, Container, ListGroup, Row } from "react-bootstrap";
 import PaginationControlled from "../UI components/PaginationControlled";
 import LinearBuffer from "../UI components/LinearBuffer";
-
+import { faFileArrowDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Navigate, useNavigate } from "react-router-dom";
+import AlertDialog from "../UI components/AlertDialog";
+import { UserContext } from "../App";
+import { isStudent } from "../UserAuthorization/UserAuthoriation";
 const Home = () => {
+	const [user, dispatch] = useContext(UserContext);
 	const [outlines, setOutlines] = useState([]);
 	const [page, setPage] = useState(null);
 	const [loading, setLoading] = useState(false);
 	let pageSize = useRef();
+
+	const nav = useNavigate();
 
 	const handleSetPage = useCallback((e, value) => {
 		setPage(value);
@@ -44,6 +52,23 @@ const Home = () => {
 		loadOutlines();
 	}, [page]);
 
+	const redirectTo = (url) => {
+		window.location.href = url;
+	};
+
+	const handleOutlineDownload = async (outlineId, price) => {
+		console.log("tai d cuong: ", outlineId);
+
+		let url = `${endpoints["vnpay"]}?amount=${
+			price * 100
+		}&month=6&outlineId=${outlineId}&userId=${user.id}`;
+		let res = await APIs.get(url);
+		console.log(res.data.url);
+
+		window.open(res.data.url, "_blank");
+		// redirectTo(res.data.url);
+	};
+
 	return (
 		<>
 			{loading && <LinearBuffer />}
@@ -59,6 +84,43 @@ const Home = () => {
 						<Card key={outline.outlineId} className="mb-3">
 							<Card.Header>
 								<h5>Mã đề cương: {outline.outlineId}</h5>
+								{/* <button
+									onClick={() =>
+										handleOutlineDownload(outline.outlineId)
+									}
+									style={{
+										border: "none",
+										marginTop: 2,
+									}}
+								> */}
+								{isStudent(user) && (
+									<AlertDialog
+										title={"THANH TOÁN ĐỂ TẢI ĐỀ CƯƠNG"}
+										message={`Bạn phải thanh toán ${new Intl.NumberFormat(
+											"vi-VN",
+											{
+												style: "currency",
+												currency: "VND",
+											},
+										).format(
+											outline.price,
+										)} để tải đề cương này!`}
+										handleClick={handleOutlineDownload}
+										itemId={outline.outlineId}
+										price={outline.price}
+										icon={
+											<FontAwesomeIcon
+												icon={faFileArrowDown}
+												style={{
+													color: "#5f34df",
+													fontSize: 25,
+													marginLeft: 5,
+												}}
+											/>
+										}
+									/>
+								)}
+								{/* </button> */}
 							</Card.Header>
 							<Card.Body>
 								<ListGroup variant="flush">

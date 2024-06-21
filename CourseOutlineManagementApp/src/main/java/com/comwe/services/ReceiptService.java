@@ -5,13 +5,15 @@
 package com.comwe.services;
 
 import com.comwe.pojo.Outline;
-import java.io.ByteArrayInputStream;
-import java.util.Map;
+import com.comwe.pojo.Receipt;
+import com.comwe.pojo.User;
 
 /**
  *
- * @author kitj3
+ * @author lahon
  */
-public interface PdfService {
-    public ByteArrayInputStream createPdf(Outline outline);
+public interface ReceiptService {
+    Receipt getReceiptById(int id);
+    Receipt getReceiptByTransactionId(String transactionId);
+    boolean addReceipt(Receipt r, Outline outline, User user);
 }

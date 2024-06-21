@@ -11,18 +11,16 @@
 <table class="table mt-3 mb-3">
     <tr>
         <th>Tên đề cương</th>
-        <th>Số tín chỉ</th>
         <th>Khoa</th>
-        <th>Giảng viên biên soạn</th>
-        <th>Nội dung đề cương</th>
     </tr>
     <c:forEach items="${outlines}" var="o">
         <tr>
             <td>${o.subject}</td>
-            <td>${o.theory+o.practice}</td>
+            <!--<td>${o.theory+o.practice}</td>-->
             <td>${o.faculty}</td>
-            <td>${o.lecturer}</td>
-            <td>${o.description}</td>
+            <td>
+                <a href="<c:url value="/outlines/${o.outlineId}/" />" class="btn btn-primary">Xem chi tiết</a>
+            </td>
         </tr>
     </c:forEach>
 

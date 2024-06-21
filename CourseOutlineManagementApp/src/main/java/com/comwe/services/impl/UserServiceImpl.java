@@ -101,4 +101,9 @@ public class UserServiceImpl implements UserService {
         return this.userRepo.updateUser(params, avatar);
     }
 
+    @Override
+    public User getCurrentLoginUser() {
+        return this.userRepo.getCurrentLoginUser();
+    }
+
 }

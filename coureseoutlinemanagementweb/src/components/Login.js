@@ -78,11 +78,12 @@ const Login = () => {
 				console.log("data la: ", res.data);
 				cookie.save("token", res.data);
 
+				console.log("lay data day");
 				let currentUser = await authApi().get(
 					endpoints["current-user"],
 				);
 				cookie.save("user", currentUser.data);
-
+				console.log("lay data day tc: ", currentUser.data);
 				dispatch({
 					type: LOGIN,
 					payload: currentUser.data,
