@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import APIs, { endpoints } from "../configs/APIs";
 import {
 	Badge,
@@ -31,8 +31,14 @@ import { useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ChatIcon from '@mui/icons-material/Chat';
+import { faFileArrowDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import AlertDialog from "../UI components/AlertDialog";
+import { UserContext } from "../App";
+import { isStudent } from "../UserAuthorization/UserAuthoriation";
 
 const Home = ({ selectedItem }) => {
+	const [user, dispatch] = useContext(UserContext);
 	const [outlines, setOutlines] = useState([]);
 	const [outlineFilters, setOutlineFilters] = useState({});
 	const [page, setPage] = useState(null);
@@ -199,6 +205,22 @@ const Home = ({ selectedItem }) => {
 			boxShadow: "0 4px 16px rgba(33, 150, 243, 1)",
 		},
 	});
+	const redirectTo = (url) => {
+		window.location.href = url;
+	};
+
+	const handleOutlineDownload = async (outlineId, price) => {
+		console.log("tai d cuong: ", outlineId);
+
+		let url = `${endpoints["vnpay"]}?amount=${
+			price * 100
+		}&month=6&outlineId=${outlineId}&userId=${user.id}`;
+		let res = await APIs.get(url);
+		console.log(res.data.url);
+
+		window.open(res.data.url, "_blank");
+		// redirectTo(res.data.url);
+	};
 
 	return (
 		<>
@@ -365,6 +387,33 @@ const Home = ({ selectedItem }) => {
 							<Card className="border border-primary">
 								<Card.Header>
 									<h5>Mã đề cương: {outline.outlineId}</h5>
+									{isStudent(user) && (
+									<AlertDialog
+										title={"THANH TOÁN ĐỂ TẢI ĐỀ CƯƠNG"}
+										message={`Bạn phải thanh toán ${new Intl.NumberFormat(
+											"vi-VN",
+											{
+												style: "currency",
+												currency: "VND",
+											},
+										).format(
+											outline.price,
+										)} để tải đề cương này!`}
+										handleClick={handleOutlineDownload}
+										itemId={outline.outlineId}
+										price={outline.price}
+										icon={
+											<FontAwesomeIcon
+												icon={faFileArrowDown}
+												style={{
+													color: "#5f34df",
+													fontSize: 25,
+													marginLeft: 5,
+												}}
+											/>
+										}
+									/>
+								)}
 								</Card.Header>
 								<Card.Body>
 									<ListGroup variant="flush">

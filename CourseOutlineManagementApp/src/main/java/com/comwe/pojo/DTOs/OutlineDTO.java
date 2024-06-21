@@ -17,15 +17,16 @@ public class OutlineDTO {
     private Date startedDate;
     private Date expiredDate;
     private String description;
-    private Integer theory;
-    private Integer practice;
+    private int theory;
+    private int practice;
     private String lecturer;
     private String subject;
     private String faculty;
-//    private AcademicYear academicYear;
+    private Float price;
+//    private String url;
 
     // Constructor
-    public OutlineDTO(int outlineId, Date startedDate, Date expiredDate, String description, Integer theory, Integer practice, String lecturer, String subject, String faculty) {
+    public OutlineDTO(int outlineId, Date startedDate, Date expiredDate, String description, Integer theory, Integer practice, String lecturer, String subject, String faculty, Float price) {
         this.outlineId = outlineId;
         this.startedDate = startedDate;
         this.expiredDate = expiredDate;
@@ -35,7 +36,8 @@ public class OutlineDTO {
         this.lecturer = lecturer;
         this.subject = subject;
         this.faculty = faculty;
-//        this.academicYear = academicYear;
+        this.price = price;
+//        this.url = url;
     }
     
     public OutlineDTO() {

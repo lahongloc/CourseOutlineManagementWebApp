@@ -52,6 +52,10 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "User.findByCreatedDatetime", query = "SELECT u FROM User u WHERE u.createdDatetime = :createdDatetime")})
 public class User implements Serializable {
 
+    @OneToMany(mappedBy = "userId")
+    @JsonIgnore
+    private Set<Receipt> receiptSet;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -285,6 +289,15 @@ public class User implements Serializable {
      */
     public void setFile(MultipartFile file) {
         this.file = file;
+    }
+
+    @XmlTransient
+    public Set<Receipt> getReceiptSet() {
+        return receiptSet;
+    }
+
+    public void setReceiptSet(Set<Receipt> receiptSet) {
+        this.receiptSet = receiptSet;
     }
     
 }

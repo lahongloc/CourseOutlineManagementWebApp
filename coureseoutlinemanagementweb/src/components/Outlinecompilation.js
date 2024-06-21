@@ -494,20 +494,7 @@ const Outlinecompilation = () => {
 							scores={scores}
 							maxIncrease={5}
 							currentItemNumber={outlineScores.length}
-							// handleValueChange1={handleValueChange1}
-							// handleValueChange2={handleValueChange2}
-							// score1={score1}
-							// score2={score2}
 						/>
-
-						{/* <Button
-							sx={{ marginTop: 5, marginLeft: 101 }}
-							variant="contained"
-							endIcon={<SendIcon />}
-							onClick={saveOutline}
-						>
-							LƯU
-						</Button> */}
 						<Box sx={{ marginTop: 5, marginLeft: 101 }}>
 							<LoadingButton
 								action={saveOutline}

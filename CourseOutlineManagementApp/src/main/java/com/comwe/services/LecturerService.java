@@ -4,8 +4,6 @@
  */
 package com.comwe.services;
 
-import com.comwe.pojo.Lecturer;
-import java.util.List;
 import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -5,7 +5,6 @@
 package com.comwe.controllers;
 
 import com.comwe.pojo.DTOs.SubjectDTO;
-import com.comwe.pojo.Subject;
 import com.comwe.services.SubjectService;
 import java.util.List;
 import java.util.Map;

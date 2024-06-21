@@ -40,6 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Document.findByUrl", query = "SELECT d FROM Document d WHERE d.url = :url")})
 public class Document implements Serializable {
 
+    @JsonIgnore
     @OneToOne(mappedBy = "documentId")
     private Outline outline;
 
@@ -58,8 +59,8 @@ public class Document implements Serializable {
     @Column(name = "upload_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date uploadDate;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "documentId")
     @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "documentId")
     private Set<Outline> outlineSet;
 
     public Document() {

@@ -4,23 +4,19 @@
  */
 package com.comwe.controllers;
 
-import com.comwe.pojo.User;
 import com.comwe.services.AcademicYearService;
 import com.comwe.services.FacultyService;
 import com.comwe.services.OutlineService;
 import com.comwe.services.SubjectService;
 import com.comwe.services.UserService;
-import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
@@ -79,6 +75,12 @@ public class HomeController {
         }
 
         return "index";
+    }
+    
+    @GetMapping("/outlines/{outlineId}/")
+    public String outlineDetail(@PathVariable(value="outlineId") int outlineId, Model model) {
+        model.addAttribute("outline", this.outlineService.getOutlineById(outlineId).get(0 ));
+        return "outlineDetail";
     }
 
     @GetMapping("/users-manager/")

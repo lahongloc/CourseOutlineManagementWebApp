@@ -4,10 +4,8 @@
  */
 package com.comwe.services.impl;
 
-import com.comwe.pojo.Lecturer;
 import com.comwe.repositories.LecturerRepository;
 import com.comwe.services.LecturerService;
-import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

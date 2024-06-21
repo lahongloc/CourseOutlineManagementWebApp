@@ -4,13 +4,13 @@
  */
 package com.comwe.services;
 
+import com.comwe.pojo.Outline;
 import java.io.ByteArrayInputStream;
-import java.util.Map;
 
 /**
  *
  * @author kitj3
  */
 public interface PdfService {
-    public ByteArrayInputStream createPdf(Map<String, String> params);
+    public ByteArrayInputStream createPdf(Outline outline);
 }

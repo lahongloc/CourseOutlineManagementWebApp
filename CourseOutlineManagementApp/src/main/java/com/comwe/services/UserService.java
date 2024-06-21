@@ -22,4 +22,5 @@ public interface UserService extends UserDetailsService {
     User getUserById(int id);
     User addUser(Map<String, String> params, MultipartFile avatar);
     User updateUser(Map<String, String> params, MultipartFile avatar);
+    User getCurrentLoginUser();
 }

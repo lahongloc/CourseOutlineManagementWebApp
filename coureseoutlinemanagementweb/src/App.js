@@ -19,9 +19,7 @@ import Outlinecompilation from "./components/Outlinecompilation";
 import StudentRegister from "./components/StudentRegister";
 import StudentActive from "./components/StudentActive";
 import ChatComponent from "./components/ChatComponents";
-// import { child, set, get, getDatabase, ref } from "firebase/database";
-// import { database } from "./configs/Firebase";
-// import ChatRealTime from "./components/ChatRealTime";
+import { isLecturer } from "./UserAuthorization/UserAuthoriation";
 
 export const UserContext = createContext();
 export const NonAdminUsersContext = createContext();
@@ -33,22 +31,6 @@ export const SubjectsContext = createContext();
 export const LecturerContext = createContext();
 
 const App = () => {
-	// const dbRef = ref(database);
-	// get(child(dbRef, `users/1`)).then((snapshot) => {
-	// 	if (snapshot.exists()) {
-	// 	  console.log("firebase: ", snapshot.val());
-	// 	} else {
-	// 	  console.log("No data available");
-	// 	}
-	//   }).catch((error) => {
-	// 	console.error(error);
-	//   });
-
-	// set(child(dbRef, 'users/2'), {
-	// 	id: 2,
-	// 	username: "test"
-	//   });
-
 	const [faculties, setFaculties] = useState([]);
 	const [major, setMajor] = useState([]);
 	const [grade, setGrade] = useState([]);
@@ -182,72 +164,62 @@ const App = () => {
 										value={nonAdminUsers}
 									>
 										<BrowserRouter>
-											{/* <Header /> */}
-											<ResponsiveAppBar />
+								{/* <Header /> */}
+								<ResponsiveAppBar />
 
-											{/* <Container> */}
-											<Routes>
-												<Route
-													path="/lecturer-signup"
-													element={<SignUp />}
-												/>
-												<Route
-													path="/account-details"
-													element={<AccountDetails />}
-												/>
-												<Route
-													path="/student-active"
-													element={<StudentActive />}
-												/>
-												<Route
-													path="/account-details"
-													element={<AccountDetails />}
-												/>
-												<Route
-													path="/student-register"
-													element={
-														<StudentRegister />
-													}
-												/>
-												{/* <Route path="/" element={<Home />} /> */}
-												<Route
-													path="/"
-													element={<Content />}
-												/>
-												<Route
-													path="/login"
-													element={<Login />}
-												/>
-												<Route
-													path="/my-outlines"
-													element={
-														<MyOutline
-															status={"ACCEPTED"}
-														/>
-													}
-												/>
-												<Route
-													path="/my-workspace"
-													element={
-														<MyOutline
-															status={"HOLDING"}
-														/>
-													}
-												/>
-												<Route
-													path="/outline-compiling"
-													element={
-														<Outlinecompilation />
-													}
-												/>
-												<Route
+								{/* <Container> */}
+								<Routes>
+									<Route
+										path="/lecturer-signup"
+										element={<SignUp />}
+									/>
+									<Route
+										path="/account-details"
+										element={<AccountDetails />}
+									/>
+									<Route
+										path="/student-active"
+										element={<StudentActive />}
+									/>
+									<Route
+										path="/student-register"
+										element={<StudentRegister />}
+									/>
+									<Route path="/" element={<Content />} />
+									<Route path="/login" element={<Login />} />
+
+									{isLecturer(user) && (
+										<>
+											<Route
+												path="/my-outlines"
+												element={
+													<MyOutline
+														status={"ACCEPTED"}
+													/>
+												}
+											/>
+											<Route
+												path="/my-workspace"
+												element={
+													<MyOutline
+														status={"HOLDING"}
+													/>
+												}
+											/>
+											<Route
+												path="/outline-compiling"
+												element={<Outlinecompilation />}
+											/>
+										</>
+									)}
+									<Route
 													path="/chat-real-time"
 													element={<ChatComponent />}
 												/>
-											</Routes>
-											{/* </Container> */}
-											<Footer />
-										</BrowserRouter>
+								</Routes>
+								{/* </Container> */}
+								<Footer />
+							</BrowserRouter>
 									</NonAdminUsersContext.Provider>
 								</LecturerContext.Provider>
 							</SubjectsContext.Provider>

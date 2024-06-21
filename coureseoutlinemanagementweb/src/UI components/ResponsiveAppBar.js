@@ -17,15 +17,12 @@ import { LOGOUT } from "../reducers/Actions";
 import { useNavigate } from "react-router-dom";
 import LoginIcon from "@mui/icons-material/Login";
 import AvatarChip from "./AvatarChip";
+import { isLecturer } from "../UserAuthorization/UserAuthoriation";
 
 function ResponsiveAppBar() {
 	const [user, dispatch] = React.useContext(UserContext);
 	// const pages = ["Trang chủ", "Workspace", "Đề cương của tôi"];
 	const pages = [
-		{
-			name: "Trang chủ",
-			link: "/",
-		},
 		{
 			name: "Workspaces",
 			link: "/my-workspace",
@@ -101,21 +98,34 @@ function ResponsiveAppBar() {
 								display: { xs: "none", md: "flex" },
 							}}
 						>
-							{pages.map((page, index) => (
-								<Button
-									key={index}
-									onClick={() => {
-										nav(page.link);
-									}}
-									sx={{
-										my: 2,
-										color: "white",
-										display: "block",
-									}}
-								>
-									{page.name}
-								</Button>
-							))}
+							<Button
+								onClick={() => {
+									nav("/");
+								}}
+								sx={{
+									my: 2,
+									color: "white",
+									display: "block",
+								}}
+							>
+								TRANG CHỦ
+							</Button>
+							{isLecturer(user) &&
+								pages.map((page, index) => (
+									<Button
+										key={index}
+										onClick={() => {
+											nav(page.link);
+										}}
+										sx={{
+											my: 2,
+											color: "white",
+											display: "block",
+										}}
+									>
+										{page.name}
+									</Button>
+								))}
 						</Box>
 
 						{user ? (

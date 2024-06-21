@@ -43,9 +43,6 @@ import org.springframework.core.env.Environment;
 @Order(1)
 public class WebAppContextConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private Environment env;
-
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();

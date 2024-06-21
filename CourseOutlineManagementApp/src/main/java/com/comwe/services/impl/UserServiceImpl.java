@@ -5,27 +5,13 @@
 package com.comwe.services.impl;
 
 import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
-import com.comwe.controllers.ApiUserController;
-import com.comwe.pojo.Lecturer;
 import com.comwe.pojo.User;
-import com.comwe.repositories.LecturerRepository;
 import com.comwe.repositories.UserRepository;
-import com.comwe.repositories.impl.UserRepositoryImpl;
 import com.comwe.services.UserService;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -43,14 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserRepository userRepo;
-
-    @Autowired
-    private Cloudinary cloudinary;
-
-    @Autowired
-    private BCryptPasswordEncoder encoder;
-    
+    private UserRepository userRepo;    
 
     @Override
     public User getUserByUsername(String username) {
@@ -99,6 +78,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(Map<String, String> params, MultipartFile avatar) {
         return this.userRepo.updateUser(params, avatar);
+    }
+
+    @Override
+    public User getCurrentLoginUser() {
+        return this.userRepo.getCurrentLoginUser();
     }
 
 }

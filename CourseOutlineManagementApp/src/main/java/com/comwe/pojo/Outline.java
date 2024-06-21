@@ -21,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -46,6 +47,18 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Outline.findByPracCreditHour", query = "SELECT o FROM Outline o WHERE o.pracCreditHour = :pracCreditHour"),
     @NamedQuery(name = "Outline.findByStatus", query = "SELECT o FROM Outline o WHERE o.status = :status")})
 public class Outline implements Serializable {
+
+    @OneToOne(mappedBy = "outlineId")
+    @JsonIgnore
+    private Receipt receipt;
+
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "price")
+    private Float price;
+
+    @OneToMany(mappedBy = "outlineId")
+    @JsonIgnore
+    private Set<Receipt> receiptSet;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -80,7 +93,7 @@ public class Outline implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "outlineId")
     @JsonIgnore
     private Set<Feedback> feedbackSet;
-    @OneToMany(fetch = FetchType.LAZY ,mappedBy = "outlineId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "outlineId")
     @JsonIgnore
     private Set<OutlineScore> outlineScoreSet;
     @JoinColumn(name = "approver_id", referencedColumnName = "id")
@@ -176,9 +189,9 @@ public class Outline implements Serializable {
         this.pracCreditHour = pracCreditHour;
     }
 
-//    public Boolean getStatus() {
-//        return status;
-//    }
+    public String getStatus() {
+        return status;
+    }
 //
 //    public void setStatus(Boolean status) {
 //        this.setStatus(status);
@@ -294,5 +307,30 @@ public class Outline implements Serializable {
     public void setDocumentId(Document documentId) {
         this.documentId = documentId;
     }
-    
+
+    @XmlTransient
+    public Set<Receipt> getReceiptSet() {
+        return receiptSet;
+    }
+
+    public void setReceiptSet(Set<Receipt> receiptSet) {
+        this.receiptSet = receiptSet;
+    }
+
+    public Float getPrice() {
+        return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
+    }
+
+    public Receipt getReceipt() {
+        return receipt;
+    }
+
+    public void setReceipt(Receipt receipt) {
+        this.receipt = receipt;
+    }
+
 }

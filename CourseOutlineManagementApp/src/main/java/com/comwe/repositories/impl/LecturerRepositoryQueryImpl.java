@@ -5,7 +5,6 @@
 package com.comwe.repositories.impl;
 
 import com.comwe.pojo.Lecturer;
-import com.comwe.pojo.User;
 import com.comwe.repositories.LecturerRepositoryQuery;
 import java.util.ArrayList;
 import java.util.HashMap;

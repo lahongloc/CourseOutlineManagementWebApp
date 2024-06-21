@@ -5,6 +5,7 @@
 package com.comwe.services.impl;
 
 import com.comwe.pojo.DTOs.OutlineDTO;
+import com.comwe.pojo.Outline;
 import com.comwe.repositories.OutlineRepository;
 import com.comwe.services.OutlineService;
 import java.util.List;
@@ -43,5 +44,20 @@ public class OutlineServiceImpl implements OutlineService {
     @Override
     public boolean updateOutline(Map<String, String> params) {
         return this.outlineRepo.updateOutline(params);
+    }
+
+    @Override
+    public boolean accept(int id) {
+        return this.outlineRepo.accept(id);
+    }
+
+    @Override
+    public Outline getAnOutlineById(int id) {
+        return this.outlineRepo.getAnOutlineById(id);
+    }
+
+    @Override
+    public String getDocumentUrl(int outlineId) {
+        return this.outlineRepo.getDocumentUrl(outlineId);
     }
 }

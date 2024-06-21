@@ -4,8 +4,6 @@
  */
 package com.comwe.controllers;
 
-import com.comwe.pojo.Major;
-import com.comwe.pojo.Student;
 import com.comwe.services.StudentService;
 import java.util.List;
 import java.util.Map;

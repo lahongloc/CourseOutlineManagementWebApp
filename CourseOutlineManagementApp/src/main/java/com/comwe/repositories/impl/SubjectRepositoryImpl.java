@@ -4,7 +4,6 @@
  */
 package com.comwe.repositories.impl;
 
-import com.comwe.pojo.DTOs.OutlineDTO;
 import com.comwe.pojo.DTOs.SubjectDTO;
 import com.comwe.pojo.Faculty;
 import com.comwe.pojo.FacultySubject;
@@ -12,7 +11,6 @@ import com.comwe.pojo.Outline;
 import com.comwe.pojo.Subject;
 import com.comwe.repositories.SubjectRepository;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.Tuple;

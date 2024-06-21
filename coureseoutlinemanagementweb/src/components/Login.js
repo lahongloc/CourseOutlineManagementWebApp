@@ -80,6 +80,7 @@ const Login = () => {
 				console.log("data la: ", res.data);
 				cookie.save("token", res.data);
 
+				console.log("lay data day");
 				let currentUser = await authApi().get(
 					endpoints["current-user"],
 				);

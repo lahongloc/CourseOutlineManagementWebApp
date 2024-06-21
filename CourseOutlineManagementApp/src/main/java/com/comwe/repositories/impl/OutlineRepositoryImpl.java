@@ -7,6 +7,7 @@ package com.comwe.repositories.impl;
 import com.comwe.pojo.AcademicYear;
 import com.comwe.pojo.Admin;
 import com.comwe.pojo.DTOs.OutlineDTO;
+import com.comwe.pojo.Document;
 import com.comwe.pojo.Faculty;
 import com.comwe.pojo.Lecturer;
 import com.comwe.pojo.Major;
@@ -18,6 +19,13 @@ import com.comwe.pojo.Score;
 import com.comwe.pojo.Subject;
 import com.comwe.pojo.User;
 import com.comwe.repositories.OutlineRepository;
+import com.comwe.services.DocumentService;
+import com.comwe.services.FileStorageService;
+import com.comwe.services.PdfService;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -58,6 +66,9 @@ public class OutlineRepositoryImpl implements OutlineRepository {
     @Autowired
     private Environment env;
 
+    @Autowired
+    private PdfService pdfService;
+
     @Override
     public List<OutlineDTO> getOutlines(Map<String, String> params) {
         Session s = this.factory.getObject().getCurrentSession();
@@ -95,7 +106,8 @@ public class OutlineRepositoryImpl implements OutlineRepository {
                     rootOutline.get("pracCreditHour").alias("practice"),
                     rootUser.get("name").alias("lecturer"),
                     rootSubject.get("name").alias("subject"),
-                    rootFaculty.get("name").alias("faculty")
+                    rootFaculty.get("name").alias("faculty"),
+                    rootOutline.get("price").alias("price")
             );
 
             List<Predicate> predicates = new ArrayList<>();
@@ -186,7 +198,8 @@ public class OutlineRepositoryImpl implements OutlineRepository {
                         (Integer) tuple.get("practice"),
                         (String) tuple.get("lecturer"),
                         (String) tuple.get("subject"),
-                        (String) tuple.get("faculty")
+                        (String) tuple.get("faculty"),
+                        (Float) tuple.get("price")
                 );
                 outlinesInfo.add(temp);
             }
@@ -272,6 +285,12 @@ public class OutlineRepositoryImpl implements OutlineRepository {
             temp.put("description", o.getDescription());
             temp.put("theory", o.getTheoCreditHour());
             temp.put("practice", o.getPracCreditHour());
+            String status = o.getStatus();
+            temp.put("status", status);
+            
+            if (status.equals("ACCEPTED")) {
+                temp.put("document", o.getDocumentId().getUrl());
+            }
 
             outline.add(temp);
         } catch (Exception ex) {
@@ -284,7 +303,6 @@ public class OutlineRepositoryImpl implements OutlineRepository {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public boolean updateOutline(Map<String, String> params) {
-        System.out.println("start");
         Session s = this.factory.getObject().getCurrentSession();
 
         params.keySet().forEach(k -> System.out.println(k.toString() + " la: " + params.get(k)));
@@ -387,5 +405,64 @@ public class OutlineRepositoryImpl implements OutlineRepository {
             System.out.println(e.getMessage());
             return false;
         }
+    }
+
+    @Autowired
+    private FileStorageService fileStorageService;
+
+    @Autowired
+    private DocumentService documentService;
+
+    @Override
+    public boolean accept(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Outline o = s.get(Outline.class, id);
+
+        try {
+            // Tạo file PDF từ thông tin được truyền vào
+            ByteArrayInputStream pdfInputStream = this.pdfService.createPdf(o);
+
+            // Lưu file PDF vào hệ thống tạm thời
+            File tempFile = File.createTempFile("document", ".pdf");
+            try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = pdfInputStream.read(buffer)) != -1) {
+                    fos.write(buffer, 0, bytesRead);
+                }
+            }
+
+            // Upload file lên dịch vụ lưu trữ (ví dụ: S3)
+            String fileUrl = fileStorageService.uploadFile(tempFile);
+
+            // Lưu thông tin Document vào cơ sở dữ liệu
+            Document document = this.documentService.saveDocument(
+                    o.getSubjectId().getName(),
+                    fileUrl,
+                    o.getId()
+            );
+
+            o.setStatus("ACCEPTED");
+            s.update(o);
+
+            return true;
+        } catch (IOException ex) {
+            ex.printStackTrace(); // Xử lý ngoại lệ theo logic của bạn
+            return false;
+        }
+    }
+
+    @Override
+    public Outline getAnOutlineById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Outline o = s.get(Outline.class, id);
+        return o;
+    }
+
+    @Override
+    public String getDocumentUrl(int outlineId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Outline o = s.get(Outline.class, outlineId);
+        return o.getDocumentId().getUrl();
     }
 }

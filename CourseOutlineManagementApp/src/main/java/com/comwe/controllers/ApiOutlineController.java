@@ -5,13 +5,10 @@
 package com.comwe.controllers;
 
 import com.comwe.pojo.DTOs.OutlineDTO;
-import com.comwe.pojo.Major;
+import com.comwe.services.DocumentService;
+import com.comwe.services.FileStorageService;
 import com.comwe.services.OutlineService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import com.comwe.services.PdfService;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,5 +65,17 @@ public class ApiOutlineController {
     })
     public ResponseEntity<Object> retrieve(@PathVariable(value = "outlineId") int id) {
         return new ResponseEntity<>(this.outlineService.getOutlineById(id), HttpStatus.OK);
+    }
+        
+    @GetMapping("/accept-outline/{outlineId}/")
+    @ResponseStatus(HttpStatus.OK)
+    public void acceptOutline(@PathVariable(value = "outlineId") int id) {
+        this.outlineService.accept(id);
+    }
+    
+    @GetMapping("/get-outline-doc-url/{outlineId}/")
+    @ResponseStatus(HttpStatus.OK)
+    public String getOutlineDocumentUrl(@PathVariable(value = "outlineId") int id) {
+        return this.outlineService.getDocumentUrl(id);
     }
 }

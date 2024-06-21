@@ -5,7 +5,6 @@
 package com.comwe.services.impl;
 
 import com.comwe.pojo.DTOs.SubjectDTO;
-import com.comwe.pojo.Subject;
 import com.comwe.repositories.SubjectRepository;
 import com.comwe.services.SubjectService;
 import java.util.List;
