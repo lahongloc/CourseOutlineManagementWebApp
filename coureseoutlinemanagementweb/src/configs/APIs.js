@@ -23,6 +23,8 @@ export const endpoints = {
 	"student-active": "/api/student-active/",
 	getNonAdminUsers: "/api/getNonAdminUsers/",
 	vnpay: "/api/vnpay/create_payment",
+	getComments: "/api/getComments/",
+    addComment: "/api/addComment/",
 };
 
 export const authApi = () => {

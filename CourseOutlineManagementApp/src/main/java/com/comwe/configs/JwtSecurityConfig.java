@@ -65,7 +65,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/lecturer-register/").permitAll();
         http.authorizeRequests().antMatchers("/api/login/").permitAll();
         http.authorizeRequests().antMatchers("/api/current-user/").permitAll();
-        http.authorizeRequests().antMatchers("/api/getOutlines/").permitAll();
+        http.authorizeRequests().antMatchers("/api/getOutlines/**").permitAll();
         http.authorizeRequests().antMatchers("/api/getFaculties/").permitAll();
         http.authorizeRequests().antMatchers("/api/users/").permitAll();
         http.authorizeRequests().antMatchers("/api/lecturers/").permitAll(); // lecturer
@@ -80,6 +80,9 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
 //        http.authorizeRequests().antMatchers("/api/upload-pdf/").permitAll(); //
         http.authorizeRequests().antMatchers("/api/vnpay/create_payment").permitAll(); // student
         http.authorizeRequests().antMatchers("/api/vnpay/return_url/**").permitAll(); // student
+        http.authorizeRequests().antMatchers("/api/getComments/**").permitAll(); 
+        http.authorizeRequests().antMatchers("/api/addComment/").permitAll();
+        http.authorizeRequests().antMatchers("/api/getLecturers/").permitAll();
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/**").access("hasRole('ROLE_ADMIN')")

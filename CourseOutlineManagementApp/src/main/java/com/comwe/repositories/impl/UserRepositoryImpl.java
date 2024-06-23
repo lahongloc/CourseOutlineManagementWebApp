@@ -8,6 +8,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.comwe.controllers.ApiUserController;
 import com.comwe.controllers.HomeController;
+import com.comwe.pojo.DTOs.UserDTO;
 import com.comwe.pojo.Lecturer;
 import com.comwe.pojo.Student;
 import com.comwe.pojo.User;
@@ -28,6 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.Tuple;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -104,12 +106,26 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> getNonAdminUsers(Map<String, String> params) {
+    public List<UserDTO> getNonAdminUsers(Map<String, String> params) {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder c = s.getCriteriaBuilder();
-        CriteriaQuery q = c.createQuery(User.class);
+        CriteriaQuery<Tuple> q = c.createQuery(Tuple.class);
         Root r = q.from(User.class);
-        q.select(r);
+
+        q.multiselect(
+                r.get("id").alias("id"),
+                r.get("username").alias("username"),
+                r.get("sex").alias("sex"),
+                r.get("birthday").alias("birthday"),
+                r.get("password").alias("password"),
+                r.get("name").alias("name"),
+                r.get("role").alias("role"),
+                r.get("email").alias("email"),
+                r.get("hotline").alias("hotline"),
+                r.get("avatar").alias("avatar"),
+                r.get("isActive").alias("isActive"),
+                r.get("createdDatetime").alias("createdDatetime")
+        );
 
         String page = params.get("page");
 
@@ -117,9 +133,28 @@ public class UserRepositoryImpl implements UserRepository {
         predicates.add(c.notEqual(r.get("role"), "ROLE_ADMIN"));
 
         String role = params.get("role");
+
         if (role != null && !role.isEmpty()) {
             predicates.add(c.equal(r.get("role"), role));
         }
+
+        String nameUser = params.get("nameUser");
+        String emailuser = params.get("emailuser");
+        String isActive = params.get("isActive");
+
+        if (nameUser != null && !nameUser.isEmpty()) {
+            predicates.add(c.like(r.get("name"), String.format("%%%s%%", nameUser)));
+        }
+
+        if (emailuser != null && !emailuser.isEmpty()) {
+            predicates.add(c.like(r.get("email"), String.format("%%%s%%", emailuser)));
+        }
+
+        if (isActive != null && !isActive.isEmpty()) {
+            Boolean isActiveCheck = "1".equals(isActive);
+            predicates.add(c.equal(r.get("isActive"), isActiveCheck));
+        }
+
         q.where(predicates.toArray(Predicate[]::new));
 
         Query qr = s.createQuery(q);
@@ -130,10 +165,30 @@ public class UserRepositoryImpl implements UserRepository {
             qr.setMaxResults(pageSize);
             qr.setFirstResult((Integer.parseInt(page) - 1) * pageSize);
         }
+        
+        List<Tuple> results = qr.getResultList();
 
-        List<User> listUsers = qr.getResultList();
+        List<UserDTO> usersInfo = new ArrayList<>();
+        for (Tuple tuple : results) {
+            UserDTO userDTO = new UserDTO(
+                    (int) tuple.get("id"),
+                    (String) tuple.get("username"),
+                    (Boolean) tuple.get("sex"),
+                    (Date) tuple.get("birthday"),
+                    (String) tuple.get("password"),
+                    (String) tuple.get("name"),
+                    (String) tuple.get("role"),
+                    (String) tuple.get("email"),
+                    (String) tuple.get("hotline"),
+                    (String) tuple.get("avatar"),
+                    (Boolean) tuple.get("isActive"),
+                    (Date) tuple.get("createdDatetime")
+            );
 
-        return listUsers;
+            usersInfo.add(userDTO);
+        }
+
+        return usersInfo;
     }
 
     @Override

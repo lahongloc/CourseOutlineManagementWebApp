@@ -20,6 +20,37 @@
 <div class="container mt-3">
     <h2>TÀI KHOẢN GIẢNG VIÊN</h2>
     <p id="lecturers-section">Xem thông tin và yêu cầu bổ sung thông tin, hoặc phê duyệt tài khoản giảng viên ở đây!</p>
+    <form>
+        <div class="row">
+            <div class="col-md-3 col-12">
+                <div class="form-floating mb-3 mt-3">
+                    <input type="text" value="${param.nameOfLecturer}" class="form-control" id="nameOfLecturer" placeholder="Tên giảng viên" name="nameOfLecturer">
+                    <label for="nameOfLecturer">Tên giảng viên</label>
+                </div>
+            </div>
+            <div class="col-md-4 col-12">
+                <div class="form-floating mb-3 mt-3">
+                    <input type="text" value="${param.emailOfLecturer}" class="form-control" id="emailOfLecturer" placeholder="Địa chỉ email giảng viên" name="emailOfLecturer">
+                    <label for="emailOfLecturer">Địa chỉ email giảng viên</label>
+                </div>
+            </div>
+            <div class="col-md-3 col-12">
+                <div class="form-floating mb-3 mt-3">
+                    <select class="form-select" id="isActiveLecturer" path="isActiveLecturer" name="isActiveLecturer">
+                        <option value=""><u>-- Chọn trạng thái tài khoản --</u></option>
+                        <option value="1"><u>Ðã phê duyệt</u></option>
+                        <option value="0"><u>Chưa được phê duyệt</u></option>
+                    </select>
+                    <label for="isActiveLecturer" class="form-label">Trạng thái kích hoạt giảng viên:</label>
+                </div>
+            </div>
+            <div class="col-md-2 col-12">
+                <div class="form-floating mb-3 mt-3">
+                    <button class="btn btn-success p-3"><b>Lọc giảng viên</b></button>
+                </div>  
+            </div>
+        </div>
+    </form>
     <ul class="pagination">
         <c:url value="/users-manager/" var="um" />
         <c:forEach begin="1" end="${pageSizeLecturer}" var="i">
@@ -90,6 +121,37 @@
 <div class="container mt-5">
     <h2>TÀI KHOẢN SINH VIÊN</h2>
     <p id="students-section">Xem thông tin tài khoản sinh viên, cấp tài khoản cho sinh viên ở đây!</p>
+    <form>
+        <div class="row">
+            <div class="col-md-3 col-12">
+                <div class="form-floating mb-3 mt-3">
+                    <input type="text" value="${param.nameOfStudent}" class="form-control" id="nameOfStudent" placeholder="Tên sinh viên" name="nameOfStudent">
+                    <label for="nameOfStudent">Tên sinh viên</label>
+                </div>
+            </div>
+            <div class="col-md-4 col-12">
+                <div class="form-floating mb-3 mt-3">
+                    <input type="text" value="${param.emailOfStudent}" class="form-control" id="emailOfStudent" placeholder="Địa chỉ email sinh viên" name="emailOfStudent">
+                    <label for="emailOfStudent">Địa chỉ email sinh viên</label>
+                </div>
+            </div>
+            <div class="col-md-3 col-12">
+                <div class="form-floating mb-3 mt-3">
+                    <select class="form-select" id="isActiveStudent" path="isActiveStudent" name="isActiveStudent">
+                        <option value=""><u>-- Chọn trạng thái tài khoản --</u></option>
+                        <option value="1"><u>Ðã phê duyệt</u></option>
+                        <option value="0"><u>Chưa được phê duyệt</u></option>
+                    </select>
+                    <label for="isActiveStudent" class="form-label">Trạng thái kích hoạt sinh viên:</label>
+                </div>
+            </div>
+            <div class="col-md-2 col-12">
+                <div class="form-floating mb-3 mt-3">
+                    <button class="btn btn-success p-3"><b>Lọc sinh viên</b></button>
+                </div>
+            </div>
+        </div>
+    </form>
     <ul class="pagination">
         <c:forEach begin="1" end="${pageSizeStudent}" var="i">
             <li class="page-item ${i == currentPageStudent ? 'active' : ''}">

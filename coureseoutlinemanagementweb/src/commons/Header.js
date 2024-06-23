@@ -28,12 +28,12 @@ const Header = () => {
 						<Nav className="me-auto">
 							<Nav.Link href="#home">Trang chủ</Nav.Link>
 							{user === null ? (
-								<Link
-									className="nav-link text-danger"
-									to="/login"
-								>
-									Đăng nhập
-								</Link>
+									<Link
+										className="nav-link text-danger"
+										to="/login"
+									>
+										Đăng nhập
+									</Link>
 							) : (
 								<Button onClick={logout} variant="info">
 									Đăng Xuất {user.name}

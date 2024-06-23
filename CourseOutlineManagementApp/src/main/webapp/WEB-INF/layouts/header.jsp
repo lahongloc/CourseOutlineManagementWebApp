@@ -14,13 +14,16 @@
     <div class="container-fluid">
         <ul class="navbar-nav" style="margin-left: auto; margin-right: auto">
             <li class="nav-item">
+                <a class="nav-link"  href="<c:url value="/" />"<><b>HOME</b></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link"  href="<c:url value="/users-manager/" />"<>Quản lý giảng viên sinh viên</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="<c:url value="/outline-management/" />">Quản lý đề cương</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Báo cáo thống kê</a>
+                <a class="nav-link" href="<c:url value="/statistical/" />">Báo cáo thống kê</a>
             </li>
             <li class="nav-item">
                 <c:choose>

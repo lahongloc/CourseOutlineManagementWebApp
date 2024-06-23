@@ -27,10 +27,9 @@ import {
 	LecturerContext,
 	SubjectsContext,
 } from "../App";
-import { useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import ChatIcon from '@mui/icons-material/Chat';
+import ChatIcon from "@mui/icons-material/Chat";
 import { faFileArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AlertDialog from "../UI components/AlertDialog";
@@ -43,6 +42,7 @@ const Home = ({ selectedItem }) => {
 	const [outlineFilters, setOutlineFilters] = useState({});
 	const [page, setPage] = useState(null);
 	const [loading, setLoading] = useState(false);
+
 	let pageSize = useRef();
 
 	const lecturers = useContext(LecturerContext);
@@ -51,6 +51,36 @@ const Home = ({ selectedItem }) => {
 	const faculties = useContext(FacultyContext);
 	const [theoCreditHourRange, setTheoCreditHourRange] = useState([]);
 	const [pracCreditHourRange, setPracCreditHourRange] = useState([]);
+
+	const observer = useRef(); // theo dõi phần tử cuối cùng
+	const timeoutId = useRef(null);
+	const [isTimeoutLoading, setIsTimeoutLoading] = useState(false);
+
+	const lastElementRef = useCallback(
+		(node) => {
+			if (loading) return;
+			if (observer.current) observer.current.disconnect();
+			observer.current = new IntersectionObserver((entries) => {
+				if (entries[0].isIntersecting) {
+					// Nếu đang ở trang cuối thì không setPage
+					if (page % pageSize.current !== 0) {
+						setIsTimeoutLoading(true);
+						timeoutId.current = setTimeout(() => {
+							setPage((prevPage) => prevPage + 1);
+							setIsTimeoutLoading(false);
+						}, 5000); // Đặt timeout 5 giây
+					}
+				} else {
+					if (timeoutId.current) {
+						clearTimeout(timeoutId.current); // phần tử rời khỏi khung nhìn
+						setIsTimeoutLoading(false);
+					}
+				}
+			});
+			if (node) observer.current.observe(node);
+		},
+		[loading],
+	);
 
 	const buildQueryParams = (params) => {
 		return Object.keys(params)
@@ -75,7 +105,6 @@ const Home = ({ selectedItem }) => {
 
 			let queryString = buildQueryParams(params);
 			let url = `${endpoints["getOutlines"]}?${queryString}`;
-			console.log("QueryString: ", `${queryString}`);
 			let res = await APIs.get(url);
 			setOutlines(res.data);
 
@@ -92,6 +121,7 @@ const Home = ({ selectedItem }) => {
 
 	useEffect(() => {
 		loadOutlines();
+		window.scrollTo({ top: 0, behavior: "smooth" });
 	}, [page]);
 
 	useEffect(() => {
@@ -188,9 +218,15 @@ const Home = ({ selectedItem }) => {
 	}, []);
 
 	const nav = useNavigate();
+
 	const toChat = (event) => {
 		event.preventDefault();
 		nav("/chat-real-time");
+	};
+
+	const toDetailPage = (event, outlineId) => {
+		event.preventDefault();
+		nav(`/detail-page/${outlineId}`);
 	};
 
 	const CustomButton = styled(Button)({
@@ -230,7 +266,7 @@ const Home = ({ selectedItem }) => {
 					<b style={{ color: blue[500] }}>LK UNIVERSITY</b>
 				</p>
 				<CustomButton onClick={(event) => toChat(event)}>
-					<ChatIcon></ChatIcon>
+					<ChatIcon /> <b>FIREBASE</b>
 				</CustomButton>
 			</Typography>
 			{loading && <LinearBuffer />}
@@ -382,38 +418,45 @@ const Home = ({ selectedItem }) => {
 					pageChange={handleSetPage}
 				/>
 				<Row className="mt-2">
-					{outlines.map((outline) => (
+					{outlines.map((outline, index) => (
 						<Col key={outline.outlineId} md={4} className="mb-3">
-							<Card className="border border-primary">
+							<Card
+								ref={
+									index === outlines.length - 1
+										? lastElementRef
+										: null
+								} // Áp dụng ref cho phần tử cuối cùng
+								className="border border-primary"
+							>
 								<Card.Header>
 									<h5>Mã đề cương: {outline.outlineId}</h5>
 									{isStudent(user) && (
-									<AlertDialog
-										title={"THANH TOÁN ĐỂ TẢI ĐỀ CƯƠNG"}
-										message={`Bạn phải thanh toán ${new Intl.NumberFormat(
-											"vi-VN",
-											{
-												style: "currency",
-												currency: "VND",
-											},
-										).format(
-											outline.price,
-										)} để tải đề cương này!`}
-										handleClick={handleOutlineDownload}
-										itemId={outline.outlineId}
-										price={outline.price}
-										icon={
-											<FontAwesomeIcon
-												icon={faFileArrowDown}
-												style={{
-													color: "#5f34df",
-													fontSize: 25,
-													marginLeft: 5,
-												}}
-											/>
-										}
-									/>
-								)}
+										<AlertDialog
+											title={"THANH TOÁN ĐỂ TẢI ĐỀ CƯƠNG"}
+											message={`Bạn phải thanh toán ${new Intl.NumberFormat(
+												"vi-VN",
+												{
+													style: "currency",
+													currency: "VND",
+												},
+											).format(
+												outline.price,
+											)} để tải đề cương này!`}
+											handleClick={handleOutlineDownload}
+											itemId={outline.outlineId}
+											price={outline.price}
+											icon={
+												<FontAwesomeIcon
+													icon={faFileArrowDown}
+													style={{
+														color: "#5f34df",
+														fontSize: 25,
+														marginLeft: 5,
+													}}
+												/>
+											}
+										/>
+									)}
 								</Card.Header>
 								<Card.Body>
 									<ListGroup variant="flush">
@@ -456,12 +499,25 @@ const Home = ({ selectedItem }) => {
 									</ListGroup>
 								</Card.Body>
 								<Card.Footer>
-									<Badge bg="info">Thông tin chi tiết</Badge>
+									{/* <Badge bg="info">Thông tin chi tiết</Badge> */}
+									<Badge
+										bg="info"
+										onClick={(event) =>
+											toDetailPage(
+												event,
+												outline.outlineId,
+											)
+										}
+										style={{ cursor: "pointer" }}
+									>
+										Thông tin chi tiết
+									</Badge>
 								</Card.Footer>
 							</Card>
 						</Col>
 					))}
 				</Row>
+				{isTimeoutLoading && <LinearBuffer />}
 			</Container>
 		</>
 	);

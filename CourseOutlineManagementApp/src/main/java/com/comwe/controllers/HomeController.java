@@ -6,6 +6,8 @@ package com.comwe.controllers;
 
 import com.comwe.services.AcademicYearService;
 import com.comwe.services.FacultyService;
+import com.comwe.services.LecturerServiceQuery;
+import com.comwe.services.OutlineReportService;
 import com.comwe.services.OutlineService;
 import com.comwe.services.SubjectService;
 import com.comwe.services.UserService;
@@ -44,24 +46,49 @@ public class HomeController {
 
     @Autowired
     private OutlineService outlineService;
+    
     @Autowired
     private UserService userService;
+    
     @Autowired
     private JavaMailSender mailSender;
+    
     @Autowired
     private Environment env;
 
     @Autowired
     private FacultyService facultyService;
+    
+    @Autowired
+    private LecturerServiceQuery lecturerServiceQuery;
 
     @Autowired
     private SubjectService subjectService;
+    
+    @Autowired
+    private OutlineReportService outlineReportService;
 
     private static final AuthenticationTrustResolver authenticationTrustResolver = new AuthenticationTrustResolverImpl();
 
     @RequestMapping("/")
     public String index(@RequestParam Map<String, String> params, Model model) {
+        boolean needsRedirect = false;
+
+        // Kiểm tra và thiết lập pageOutline nếu chúng không tồn tại
+        if (!params.containsKey("pageOutline")) {
+            params.put("pageOutline", "1");
+            needsRedirect = true;
+        }
+
+        int totalPageOutline = (int) Math.ceil((double) this.outlineService.getOutlines(params).size() / Integer.parseInt(this.env.getProperty("pageSize")));
+        if (!params.containsKey("page")) {
+            params.put("page", params.get("pageOutline"));
+        }
+        model.addAttribute("pageSizeOutline", totalPageOutline);
         model.addAttribute("outlines", this.outlineService.getOutlines(params));
+        model.addAttribute("faculties", this.facultyService.getFaculties(params));
+        model.addAttribute("lecturers", this.lecturerServiceQuery.getLecturers(params));
+        
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object username = null;
 
@@ -76,10 +103,10 @@ public class HomeController {
 
         return "index";
     }
-    
+
     @GetMapping("/outlines/{outlineId}/")
-    public String outlineDetail(@PathVariable(value="outlineId") int outlineId, Model model) {
-        model.addAttribute("outline", this.outlineService.getOutlineById(outlineId).get(0 ));
+    public String outlineDetail(@PathVariable(value = "outlineId") int outlineId, Model model) {
+        model.addAttribute("outline", this.outlineService.getOutlineById(outlineId).get(0));
         return "outlineDetail";
     }
 
@@ -102,6 +129,11 @@ public class HomeController {
             redirectAttributes.addAllAttributes(params);
             return "redirect:/users-manager/";
         }
+        
+        // filter của lecturer
+        params.put("nameUser", params.get("nameOfLecturer"));
+        params.put("emailuser", params.get("emailOfLecturer"));
+        params.put("isActive", params.get("isActiveLecturer"));
 
         params.put("role", "ROLE_LECTURER");
         int totalPageLecturer = (int) Math.ceil((double) this.userService.getNonAdminUsers(params).size() / Integer.parseInt(this.env.getProperty("pageSizeUser")));
@@ -109,6 +141,11 @@ public class HomeController {
         model.addAttribute("pageSizeLecturer", totalPageLecturer);
         model.addAttribute("lecturers", this.userService.getNonAdminUsers(params));
 
+        // filter của student
+        params.replace("nameUser", params.get("nameOfStudent"));
+        params.replace("emailuser", params.get("emailOfStudent"));
+        params.replace("isActive", params.get("isActiveStudent"));
+ 
         params.replace("role", "ROLE_STUDENT");
         params.replace("page", null);
         int totalPageStudent = (int) Math.ceil((double) this.userService.getNonAdminUsers(params).size() / Integer.parseInt(this.env.getProperty("pageSizeUser")));
@@ -179,7 +216,7 @@ public class HomeController {
         RequestMethod.GET,
         RequestMethod.POST
     })
-    public String subjectDetails(@RequestParam Map<String, String> params, 
+    public String subjectDetails(@RequestParam Map<String, String> params,
             Model model, @PathVariable(value = "subjectId") int subjectId, HttpServletRequest request) {
         System.out.println("vao ham");
         if (HttpMethod.POST.matches(request.getMethod())) {
@@ -189,19 +226,20 @@ public class HomeController {
             int lecturerId = Integer.parseInt(params.get("lecturerId"));
             int academicYear1 = Integer.parseInt(params.get("academicYearId1"));
             int academicYear2 = -1;
-            try{
+            try {
                 academicYear2 = Integer.parseInt(params.get("academicYearId2"));
-            } catch(Exception ex) {
+            } catch (Exception ex) {
                 System.err.println(ex);
             }
-            
-            if(this.outlineService.checkOutlineExist(subjectId, academicYear1, academicYear2) == true) {
+
+            if (this.outlineService.checkOutlineExist(subjectId, academicYear1, academicYear2) == true) {
                 System.out.println("Thanh congggg");
                 this.outlineService.addOutline(lecturerId, subjectId, academicYear1, academicYear2);
                 return "redirect:/outline-management/";
-            } else System.out.println("That baiiii");
-            
-            
+            } else {
+                System.out.println("That baiiii");
+            }
+
         }
 
         model.addAttribute("academicYears", this.academicYearService.getAcademicYears(params));
@@ -210,11 +248,18 @@ public class HomeController {
 
         return "subjectDetails";
     }
-    
+
     @GetMapping("/generate-pdf/")
     public String generatePDF() {
-        
+
         return "generatePDF";
+    }
+    
+    @GetMapping("/statistical/")
+    public String statistical(@RequestParam Map<String, String> params, Model model) {
+        model.addAttribute("outlineReport", this.outlineReportService.getOutlineCompletionStatistics());
+        
+        return "statistical";
     }
 
 }

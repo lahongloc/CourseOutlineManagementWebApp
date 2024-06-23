@@ -6,7 +6,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<h2 class="text-center text-muted">TRANG ĐĂNG NHẬP DÀNH RIÊNG CHO <b>QUẢN TRỊ VIÊN</b></h2>
 <c:url value="/login" var="action" />
 <form method="post" action="${action}">
     <div class="form-floating mb-3 mt-3">

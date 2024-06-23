@@ -113,6 +113,7 @@ public class User implements Serializable {
     private Set<Lecturer> lecturerSet;
     
     @Transient
+    @JsonIgnore
     private MultipartFile file;
 
     public User() {

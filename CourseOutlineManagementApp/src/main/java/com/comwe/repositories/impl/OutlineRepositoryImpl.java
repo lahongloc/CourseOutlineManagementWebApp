@@ -38,6 +38,7 @@ import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
@@ -287,7 +288,7 @@ public class OutlineRepositoryImpl implements OutlineRepository {
             temp.put("practice", o.getPracCreditHour());
             String status = o.getStatus();
             temp.put("status", status);
-            
+
             if (status.equals("ACCEPTED")) {
                 temp.put("document", o.getDocumentId().getUrl());
             }
@@ -424,7 +425,7 @@ public class OutlineRepositoryImpl implements OutlineRepository {
 
             // Lưu file PDF vào hệ thống tạm thời
             File tempFile = File.createTempFile("document", ".pdf");
-            try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+            try ( FileOutputStream fos = new FileOutputStream(tempFile)) {
                 byte[] buffer = new byte[1024];
                 int bytesRead;
                 while ((bytesRead = pdfInputStream.read(buffer)) != -1) {

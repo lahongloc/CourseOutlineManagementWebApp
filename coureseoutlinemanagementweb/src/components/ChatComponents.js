@@ -24,6 +24,8 @@ import { db } from "../configs/Firebase";
 import { NonAdminUsersContext, UserContext } from "../App";
 import Login from "./Login";
 import { blue } from "@mui/material/colors";
+import { isLecturer } from "../UserAuthorization/UserAuthoriation";
+import LinearBuffer from "../UI components/LinearBuffer";
 
 const ChatComponent = () => {
 	const [user] = useContext(UserContext);
@@ -31,12 +33,21 @@ const ChatComponent = () => {
 	const nonAdminUsers = useContext(NonAdminUsersContext);
 	const [messages, setMessages] = useState([]);
 	const [messageContent, setMessageContent] = useState("");
+	const [filteredUsers, setFilteredUsers] = useState([]);
 
 	const handleReceiverSelect = (event, newValue) => {
 		setSelectedReceiver(newValue ? newValue.email : null);
 	};
 
 	useEffect(() => {
+		if (user && user.role === "ROLE_STUDENT") {
+			// Thực hiện filter nonAdminUsers khi Student đăng nhập (chỉ được nhắn tin với giảng viên)
+			const filtered = nonAdminUsers.filter(
+				(u) => u.role === "ROLE_LECTURER" && u.role !== user.role,
+			);
+			console.log("a: ", nonAdminUsers)
+			setFilteredUsers(filtered);
+		}
 		if (user && selectedReceiver) {
 			const sortedUsers = [user.email, selectedReceiver].sort();
 			const chatId = `${sortedUsers[0]}_${sortedUsers[1]}`;
@@ -93,20 +104,39 @@ const ChatComponent = () => {
 						</p>
 					</Typography>
 					<div>
-						<Autocomplete
-							disablePortal
-							id="receiver-select"
-							options={nonAdminUsers}
-							getOptionLabel={(option) => option.email}
-							onChange={handleReceiverSelect}
-							sx={{ width: "100%" }}
-							renderInput={(params) => (
-								<TextField
-									{...params}
-									label="Chọn người muốn gửi tin nhắn"
-								/>
-							)}
-						/>
+						{isLecturer(user) ? (
+							<Autocomplete
+								disablePortal
+								id="receiver-select"
+								options={nonAdminUsers}
+								getOptionLabel={(option) => option.email}
+								onChange={handleReceiverSelect}
+								sx={{ width: "100%" }}
+								renderInput={(params) => (
+									<TextField
+										{...params}
+										label="Chọn người muốn gửi tin nhắn"
+									/>
+								)}
+							/>
+						) : (
+							<Autocomplete
+								disablePortal
+								id="receiver-select"
+								options={filteredUsers}
+								getOptionLabel={(option) => option.email}
+								onChange={handleReceiverSelect}
+								sx={{ width: "100%" }}
+								renderInput={(params) => (
+									<React.Fragment>
+										<TextField
+											{...params}
+											label="Chọn người muốn gửi tin nhắn"
+										/>
+									</React.Fragment>
+								)}
+							/>
+						)}
 					</div>
 					{selectedReceiver && (
 						<>

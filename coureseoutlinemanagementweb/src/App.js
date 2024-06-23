@@ -1,6 +1,6 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Header from "./commons/Header";
 import Footer from "./commons/Footer";
 import Home from "./Outline/Home";
@@ -20,6 +20,7 @@ import StudentRegister from "./components/StudentRegister";
 import StudentActive from "./components/StudentActive";
 import ChatComponent from "./components/ChatComponents";
 import { isLecturer } from "./UserAuthorization/UserAuthoriation";
+import OutlineDetailPage from "./components/OutlineDetailPage";
 
 export const UserContext = createContext();
 export const NonAdminUsersContext = createContext();
@@ -50,9 +51,6 @@ const App = () => {
 		}
 	};
 
-	useEffect(() => {
-		console.log(faculties);
-	});
 	useEffect(() => {
 		loadFaculties();
 	}, []);
@@ -147,10 +145,24 @@ const App = () => {
 		loadNonAdminUsers();
 	}, []);
 
+	useEffect(() => {
+		loadFaculties();
+		loadMajors();
+		loadGrades();
+		loadAcademicYears();
+		loadSubjects();
+		loadLecturers();
+		loadNonAdminUsers();
+	}, []);
+
 	const [user, dispatch] = useReducer(
 		UserReducer,
 		cookie.load("user") || null,
 	);
+
+	const requireLogin = (element) => {
+		return user ? element : <Navigate to="/login" />;
+	};
 
 	return (
 		<UserContext.Provider value={[user, dispatch]}>
@@ -164,62 +176,79 @@ const App = () => {
 										value={nonAdminUsers}
 									>
 										<BrowserRouter>
-								{/* <Header /> */}
-								<ResponsiveAppBar />
+											{/* <Header /> */}
+											<ResponsiveAppBar />
 
-								{/* <Container> */}
-								<Routes>
-									<Route
-										path="/lecturer-signup"
-										element={<SignUp />}
-									/>
-									<Route
-										path="/account-details"
-										element={<AccountDetails />}
-									/>
-									<Route
-										path="/student-active"
-										element={<StudentActive />}
-									/>
-									<Route
-										path="/student-register"
-										element={<StudentRegister />}
-									/>
-									<Route path="/" element={<Content />} />
-									<Route path="/login" element={<Login />} />
-
-									{isLecturer(user) && (
-										<>
-											<Route
-												path="/my-outlines"
-												element={
-													<MyOutline
-														status={"ACCEPTED"}
-													/>
-												}
-											/>
-											<Route
-												path="/my-workspace"
-												element={
-													<MyOutline
-														status={"HOLDING"}
-													/>
-												}
-											/>
-											<Route
-												path="/outline-compiling"
-												element={<Outlinecompilation />}
-											/>
-										</>
-									)}
-									<Route
-													path="/chat-real-time"
-													element={<ChatComponent />}
+											{/* <Container> */}
+											<Routes>
+												<Route
+													path="/lecturer-signup"
+													element={<SignUp />}
 												/>
-								</Routes>
-								{/* </Container> */}
-								<Footer />
-							</BrowserRouter>
+												<Route
+													path="/account-details"
+													element={requireLogin(
+														<AccountDetails />,
+													)}
+												/>
+												<Route
+													path="/student-active"
+													element={<StudentActive />}
+												/>
+												<Route
+													path="/student-register"
+													element={
+														<StudentRegister />
+													}
+												/>
+												<Route
+													path="/"
+													element={<Content />}
+												/>
+												<Route
+													path="/login"
+													element={<Login />}
+												/>
+
+												<Route
+													path="/detail-page/:outlineId"
+													element={requireLogin(
+														<OutlineDetailPage />,
+													)}
+												/>
+
+												{isLecturer(user) && (
+													<>
+														<Route
+															path="/my-outlines"
+															element={requireLogin(
+																<MyOutline status="ACCEPTED" />,
+															)}
+														/>
+														<Route
+															path="/my-workspace"
+															element={requireLogin(
+																<MyOutline status="HOLDING" />,
+															)}
+														/>
+														<Route
+															path="/outline-compiling"
+															element={requireLogin(
+																<Outlinecompilation />,
+															)}
+														/>
+													</>
+												)}
+												<Route
+													path="/chat-real-time"
+													element={requireLogin(
+														<ChatComponent />,
+													)}
+												/>
+											</Routes>
+											{/* </Container> */}
+											<Footer />
+										</BrowserRouter>
 									</NonAdminUsersContext.Provider>
 								</LecturerContext.Provider>
 							</SubjectsContext.Provider>

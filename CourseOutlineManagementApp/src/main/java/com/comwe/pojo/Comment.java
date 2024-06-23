@@ -6,6 +6,7 @@ package com.comwe.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -34,6 +37,16 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Comment.findById", query = "SELECT c FROM Comment c WHERE c.id = :id"),
     @NamedQuery(name = "Comment.findByContent", query = "SELECT c FROM Comment c WHERE c.content = :content")})
 public class Comment implements Serializable {
+
+    @Column(name = "created_date")
+    @Temporal(TemporalType.DATE)
+    private Date createdDate;
+
+    @Column(name = "positive")
+    private Short positive;
+    @Size(max = 1000)
+    @Column(name = "model_response")
+    private String modelResponse;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -122,6 +135,30 @@ public class Comment implements Serializable {
     @Override
     public String toString() {
         return "com.comwe.pojo.Comment[ id=" + id + " ]";
+    }
+
+    public Short getPositive() {
+        return positive;
+    }
+
+    public void setPositive(Short positive) {
+        this.positive = positive;
+    }
+
+    public String getModelResponse() {
+        return modelResponse;
+    }
+
+    public void setModelResponse(String modelResponse) {
+        this.modelResponse = modelResponse;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
     
 }

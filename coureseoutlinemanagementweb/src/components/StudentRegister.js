@@ -34,12 +34,6 @@ const StudentRegister = () => {
 	const grade = useContext(GradeContext);
 	const academicYear = useContext(AcademicYearContext);
 
-	// useEffect(() => {
-	//     console.log("academicYear: ", academicYear)
-	//     console.log("major: ", major)
-	//     console.log("grade: ", grade)
-	// })
-
 	const [student, setStudent] = useState({ role: "ROLE_STUDENT", sex: true });
 	const [loading, setLoading] = useState(false);
 	const [message, setMessage] = useState({
@@ -133,8 +127,8 @@ const StudentRegister = () => {
 					sx={{ marginTop: 5 }}
 					severity="success"
 				>
-					Đăng ký thành công, tài khoản của bạn sẽ được phê duyệt bởi
-					quản trị viên!
+					Đăng ký thành công! Chú ý: QUẢN TRỊ VIÊN SẼ XÉT/DUYỆT TÀI
+					KHOẢN CỦA BẠN, NHỚ THEO DÕI GMAIL THƯỜNG XUYÊN!
 				</Alert>
 			)}
 			{message.error && (
@@ -147,7 +141,10 @@ const StudentRegister = () => {
 					chính xác!
 				</Alert>
 			)}
-			<Typography variant="h4" sx={{ textAlign: "center", mt: 4, mb: 4 }}>
+			<Typography
+				variant="h4"
+				sx={{ textAlign: "center", mt: 12, mb: 4 }}
+			>
 				GỬI YÊU CẦU CẤP TÀI KHOẢN DÀNH CHO{" "}
 				<p>
 					<b style={{ color: blue[500] }}>SINH VIÊN</b>
@@ -207,8 +204,11 @@ const StudentRegister = () => {
 								username: e.target.value,
 							}))
 						}
-						sx={{ backgroundColor: "#ffffff",borderBottomLeftRadius: "8px",
-                        borderBottomRightRadius: "8px", }}
+						sx={{
+							backgroundColor: "#ffffff",
+							borderBottomLeftRadius: "8px",
+							borderBottomRightRadius: "8px",
+						}}
 					/>
 					<TextField
 						fullWidth
@@ -221,8 +221,11 @@ const StudentRegister = () => {
 								studentCode: e.target.value,
 							}))
 						}
-						sx={{ backgroundColor: "#ffffff",borderBottomLeftRadius: "8px",
-                        borderBottomRightRadius: "8px", }}
+						sx={{
+							backgroundColor: "#ffffff",
+							borderBottomLeftRadius: "8px",
+							borderBottomRightRadius: "8px",
+						}}
 					/>
 					<TextField
 						fullWidth
@@ -235,8 +238,11 @@ const StudentRegister = () => {
 								email: e.target.value,
 							}))
 						}
-						sx={{ backgroundColor: "#ffffff",borderBottomLeftRadius: "8px",
-                        borderBottomRightRadius: "8px", }}
+						sx={{
+							backgroundColor: "#ffffff",
+							borderBottomLeftRadius: "8px",
+							borderBottomRightRadius: "8px",
+						}}
 					/>
 					<TextField
 						fullWidth
@@ -249,8 +255,11 @@ const StudentRegister = () => {
 								hotline: e.target.value,
 							}))
 						}
-						sx={{ backgroundColor: "#ffffff",borderBottomLeftRadius: "8px",
-                        borderBottomRightRadius: "8px", }}
+						sx={{
+							backgroundColor: "#ffffff",
+							borderBottomLeftRadius: "8px",
+							borderBottomRightRadius: "8px",
+						}}
 					/>
 					<TextField
 						fullWidth
@@ -263,8 +272,11 @@ const StudentRegister = () => {
 								birthday: e.target.value,
 							}))
 						}
-						sx={{ backgroundColor: "#ffffff",borderBottomLeftRadius: "8px",
-                        borderBottomRightRadius: "8px", }}
+						sx={{
+							backgroundColor: "#ffffff",
+							borderBottomLeftRadius: "8px",
+							borderBottomRightRadius: "8px",
+						}}
 					/>
 					<Autocomplete
 						disablePortal
@@ -338,9 +350,9 @@ const StudentRegister = () => {
 							variant="contained"
 							sx={{
 								mt: 3,
-								bgcolor: blue[520], // Màu chủ đạo xanh dương
+								bgcolor: blue[520],
 								"&:hover": {
-									bgcolor: pink[700], // Màu nền khi di chuột qua
+									bgcolor: pink[700],
 								},
 								width: "180px",
 								height: "45px",

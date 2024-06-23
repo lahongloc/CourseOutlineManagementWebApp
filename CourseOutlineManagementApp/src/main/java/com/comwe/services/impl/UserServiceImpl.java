@@ -5,6 +5,7 @@
 package com.comwe.services.impl;
 
 import com.cloudinary.Cloudinary;
+import com.comwe.pojo.DTOs.UserDTO;
 import com.comwe.pojo.User;
 import com.comwe.repositories.UserRepository;
 import com.comwe.services.UserService;
@@ -61,7 +62,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getNonAdminUsers(Map<String, String> params) {
+    public List<UserDTO> getNonAdminUsers(Map<String, String> params) {
         return this.userRepo.getNonAdminUsers(params);
     }
 

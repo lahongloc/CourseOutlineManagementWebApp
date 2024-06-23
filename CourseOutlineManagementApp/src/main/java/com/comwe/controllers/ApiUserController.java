@@ -5,6 +5,7 @@
 package com.comwe.controllers;
 
 import com.comwe.components.JwtService;
+import com.comwe.pojo.DTOs.UserDTO;
 import com.comwe.pojo.User;
 import com.comwe.services.LecturerService;
 import com.comwe.services.LecturerServiceQuery;
@@ -102,7 +103,7 @@ public class ApiUserController {
     
     @CrossOrigin
     @GetMapping("/getNonAdminUsers/")
-    public ResponseEntity<List<User>> lisUserNonAdmin(@RequestParam Map<String, String> params) {
+    public ResponseEntity<List<UserDTO>> lisUserNonAdmin(@RequestParam Map<String, String> params) {
         return new ResponseEntity<>(this.userService.getNonAdminUsers(params), HttpStatus.OK);
     }
 }
