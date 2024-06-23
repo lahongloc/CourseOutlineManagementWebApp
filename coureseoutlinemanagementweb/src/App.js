@@ -19,7 +19,8 @@ import Outlinecompilation from "./components/Outlinecompilation";
 import StudentRegister from "./components/StudentRegister";
 import StudentActive from "./components/StudentActive";
 import ChatComponent from "./components/ChatComponents";
-import { isLecturer } from "./UserAuthorization/UserAuthoriation";
+import { isLecturer, isStudent } from "./UserAuthorization/UserAuthoriation";
+import DownloadedOutlines from "./components/DownloadedOutlines";
 
 export const UserContext = createContext();
 export const NonAdminUsersContext = createContext();
@@ -164,62 +165,84 @@ const App = () => {
 										value={nonAdminUsers}
 									>
 										<BrowserRouter>
-								{/* <Header /> */}
-								<ResponsiveAppBar />
+											{/* <Header /> */}
+											<ResponsiveAppBar />
 
-								{/* <Container> */}
-								<Routes>
-									<Route
-										path="/lecturer-signup"
-										element={<SignUp />}
-									/>
-									<Route
-										path="/account-details"
-										element={<AccountDetails />}
-									/>
-									<Route
-										path="/student-active"
-										element={<StudentActive />}
-									/>
-									<Route
-										path="/student-register"
-										element={<StudentRegister />}
-									/>
-									<Route path="/" element={<Content />} />
-									<Route path="/login" element={<Login />} />
+											{/* <Container> */}
+											<Routes>
+												<Route
+													path="/lecturer-signup"
+													element={<SignUp />}
+												/>
+												<Route
+													path="/account-details"
+													element={<AccountDetails />}
+												/>
+												<Route
+													path="/student-active"
+													element={<StudentActive />}
+												/>
+												<Route
+													path="/student-register"
+													element={
+														<StudentRegister />
+													}
+												/>
+												<Route
+													path="/"
+													element={<Content />}
+												/>
+												<Route
+													path="/login"
+													element={<Login />}
+												/>
+												{isStudent(user) && (
+													<Route
+														path="/downloaded-outlines"
+														element={
+															<DownloadedOutlines />
+														}
+													/>
+												)}
 
-									{isLecturer(user) && (
-										<>
-											<Route
-												path="/my-outlines"
-												element={
-													<MyOutline
-														status={"ACCEPTED"}
-													/>
-												}
-											/>
-											<Route
-												path="/my-workspace"
-												element={
-													<MyOutline
-														status={"HOLDING"}
-													/>
-												}
-											/>
-											<Route
-												path="/outline-compiling"
-												element={<Outlinecompilation />}
-											/>
-										</>
-									)}
-									<Route
+												{isLecturer(user) && (
+													<>
+														<Route
+															path="/my-outlines"
+															element={
+																<MyOutline
+																	status={
+																		"ACCEPTED"
+																	}
+																/>
+															}
+														/>
+														<Route
+															path="/my-workspace"
+															element={
+																<MyOutline
+																	status={
+																		"HOLDING"
+																	}
+																/>
+															}
+														/>
+														<Route
+															path="/outline-compiling"
+															element={
+																<Outlinecompilation />
+															}
+														/>
+													</>
+												)}
+												<Route
 													path="/chat-real-time"
 													element={<ChatComponent />}
 												/>
-								</Routes>
-								{/* </Container> */}
-								<Footer />
-							</BrowserRouter>
+											</Routes>
+											{/* </Container> */}
+											<Footer />
+										</BrowserRouter>
 									</NonAdminUsersContext.Provider>
 								</LecturerContext.Provider>
 							</SubjectsContext.Provider>

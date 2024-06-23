@@ -17,7 +17,7 @@ import { LOGOUT } from "../reducers/Actions";
 import { useNavigate } from "react-router-dom";
 import LoginIcon from "@mui/icons-material/Login";
 import AvatarChip from "./AvatarChip";
-import { isLecturer } from "../UserAuthorization/UserAuthoriation";
+import { isLecturer, isStudent } from "../UserAuthorization/UserAuthoriation";
 
 function ResponsiveAppBar() {
 	const [user, dispatch] = React.useContext(UserContext);
@@ -126,6 +126,20 @@ function ResponsiveAppBar() {
 										{page.name}
 									</Button>
 								))}
+							{isStudent(user) && (
+								<Button
+									onClick={() => {
+										nav("/downloaded-outlines");
+									}}
+									sx={{
+										my: 2,
+										color: "white",
+										display: "block",
+									}}
+								>
+									Đề cương đã tải
+								</Button>
+							)}
 						</Box>
 
 						{user ? (
@@ -176,6 +190,18 @@ function ResponsiveAppBar() {
 											</Typography>
 										</MenuItem>
 									))}
+									{/* {isStudent(user) && (
+										<MenuItem
+											onClick={() => {
+												handleCloseUserMenu();
+												nav("/");
+											}}
+										>
+											<Typography textAlign="center">
+												Đề cương đã tải
+											</Typography>
+										</MenuItem>
+									)} */}
 								</Menu>
 							</Box>
 						) : (

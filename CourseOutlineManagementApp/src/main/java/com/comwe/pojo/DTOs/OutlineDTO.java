@@ -4,7 +4,7 @@
  */
 package com.comwe.pojo.DTOs;
 
-import java.util.Date;
+import java.util.List;
 import lombok.Data;
 
 /**
@@ -14,8 +14,6 @@ import lombok.Data;
 @Data
 public class OutlineDTO {
     private int outlineId;
-    private Date startedDate;
-    private Date expiredDate;
     private String description;
     private int theory;
     private int practice;
@@ -23,13 +21,12 @@ public class OutlineDTO {
     private String subject;
     private String faculty;
     private Float price;
+    private List<Object> preSubjects;
 //    private String url;
 
     // Constructor
-    public OutlineDTO(int outlineId, Date startedDate, Date expiredDate, String description, Integer theory, Integer practice, String lecturer, String subject, String faculty, Float price) {
+    public OutlineDTO(int outlineId, String description, Integer theory, Integer practice, String lecturer, String subject, String faculty, Float price, List<Object> preSubjects) {
         this.outlineId = outlineId;
-        this.startedDate = startedDate;
-        this.expiredDate = expiredDate;
         this.description = description;
         this.theory = theory;
         this.practice = practice;
@@ -37,6 +34,7 @@ public class OutlineDTO {
         this.subject = subject;
         this.faculty = faculty;
         this.price = price;
+        this.preSubjects = preSubjects;
 //        this.url = url;
     }
     

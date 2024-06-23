@@ -1,18 +1,11 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import APIs, { endpoints } from "../configs/APIs";
-import {
-	Badge,
-	Card,
-	Container,
-	Row,
-	Col,
-	ListGroup,
-	Button,
-} from "react-bootstrap";
+import { Badge, Card, Container, Row, Col, ListGroup } from "react-bootstrap";
 import PaginationControlled from "../UI components/PaginationControlled";
 import LinearBuffer from "../UI components/LinearBuffer";
 import {
 	Autocomplete,
+	Button,
 	Chip,
 	Link,
 	Stack,
@@ -27,10 +20,9 @@ import {
 	LecturerContext,
 	SubjectsContext,
 } from "../App";
-import { useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import ChatIcon from '@mui/icons-material/Chat';
+import ChatIcon from "@mui/icons-material/Chat";
 import { faFileArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AlertDialog from "../UI components/AlertDialog";
@@ -43,6 +35,7 @@ const Home = ({ selectedItem }) => {
 	const [outlineFilters, setOutlineFilters] = useState({});
 	const [page, setPage] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const [urls, setUrls] = useState([]);
 	let pageSize = useRef();
 
 	const lecturers = useContext(LecturerContext);
@@ -51,6 +44,8 @@ const Home = ({ selectedItem }) => {
 	const faculties = useContext(FacultyContext);
 	const [theoCreditHourRange, setTheoCreditHourRange] = useState([]);
 	const [pracCreditHourRange, setPracCreditHourRange] = useState([]);
+
+	const handleLoadDocumentUrls = async () => {};
 
 	const buildQueryParams = (params) => {
 		return Object.keys(params)
@@ -72,12 +67,28 @@ const Home = ({ selectedItem }) => {
 			};
 
 			if (page) params.page = page;
+			params.outlineStatus = "ACCEPTED";
 
 			let queryString = buildQueryParams(params);
 			let url = `${endpoints["getOutlines"]}?${queryString}`;
 			console.log("QueryString: ", `${queryString}`);
 			let res = await APIs.get(url);
-			setOutlines(res.data);
+
+			let docUrl = `${endpoints["getDownloadedOutlineDocument"]}${user.id}/`;
+			let docRes = await APIs.get(docUrl);
+
+			if (docRes.data) {
+				const mergedOutlines = res.data.map((o) => {
+					const matchedOutline = docRes.data.find(
+						(dr) => dr.outlineId === o.outlineId,
+					);
+
+					return matchedOutline
+						? { ...o, url: matchedOutline.url }
+						: o;
+				});
+				setOutlines(mergedOutlines);
+			} else setOutlines(res.data);
 
 			if (page === null) {
 				pageSize.current = Math.ceil(res.data.length / 9);
@@ -104,11 +115,12 @@ const Home = ({ selectedItem }) => {
 
 	useEffect(() => {
 		if (subjects.length > 0) {
+			console.log("jnjnjnjn ", subjects);
 			const uniqueTheoCreditHours = new Set(
-				subjects.map((subject) => subject.outline.theoCreditHour),
+				subjects.map((s) => (s.outline ? s.outline.theoCreditHour : 0)),
 			);
 			const uniquePracCreditHours = new Set(
-				subjects.map((subject) => subject.outline.pracCreditHour),
+				subjects.map((s) => (s.outline ? s.outline.pracCreditHour : 0)),
 			);
 
 			const sortedTheoCreditHours = Array.from(
@@ -210,8 +222,6 @@ const Home = ({ selectedItem }) => {
 	};
 
 	const handleOutlineDownload = async (outlineId, price) => {
-		console.log("tai d cuong: ", outlineId);
-
 		let url = `${endpoints["vnpay"]}?amount=${
 			price * 100
 		}&month=6&outlineId=${outlineId}&userId=${user.id}`;
@@ -220,6 +230,10 @@ const Home = ({ selectedItem }) => {
 
 		window.open(res.data.url, "_blank");
 		// redirectTo(res.data.url);
+	};
+
+	const handleOpenLink = (url) => {
+		window.open(url, "_blank");
 	};
 
 	return (
@@ -387,33 +401,42 @@ const Home = ({ selectedItem }) => {
 							<Card className="border border-primary">
 								<Card.Header>
 									<h5>Mã đề cương: {outline.outlineId}</h5>
-									{isStudent(user) && (
-									<AlertDialog
-										title={"THANH TOÁN ĐỂ TẢI ĐỀ CƯƠNG"}
-										message={`Bạn phải thanh toán ${new Intl.NumberFormat(
-											"vi-VN",
-											{
-												style: "currency",
-												currency: "VND",
-											},
-										).format(
-											outline.price,
-										)} để tải đề cương này!`}
-										handleClick={handleOutlineDownload}
-										itemId={outline.outlineId}
-										price={outline.price}
-										icon={
-											<FontAwesomeIcon
-												icon={faFileArrowDown}
-												style={{
-													color: "#5f34df",
-													fontSize: 25,
-													marginLeft: 5,
-												}}
-											/>
-										}
-									/>
-								)}
+									{isStudent(user) && !outline.url && (
+										<AlertDialog
+											title={"THANH TOÁN ĐỂ TẢI ĐỀ CƯƠNG"}
+											message={`Bạn phải thanh toán ${new Intl.NumberFormat(
+												"vi-VN",
+												{
+													style: "currency",
+													currency: "VND",
+												},
+											).format(
+												outline.price,
+											)} để tải đề cương này!`}
+											handleClick={handleOutlineDownload}
+											itemId={outline.outlineId}
+											price={outline.price}
+											icon={
+												<FontAwesomeIcon
+													icon={faFileArrowDown}
+													style={{
+														color: "#5f34df",
+														fontSize: 25,
+														marginLeft: 5,
+													}}
+												/>
+											}
+										/>
+									)}
+									{outline.url && (
+										<Button
+											onClick={() =>
+												handleOpenLink(outline.url)
+											}
+										>
+											Link
+										</Button>
+									)}
 								</Card.Header>
 								<Card.Body>
 									<ListGroup variant="flush">
@@ -429,18 +452,7 @@ const Home = ({ selectedItem }) => {
 											<strong>Khoa quản lý:</strong>{" "}
 											{outline.faculty}
 										</ListGroup.Item>
-										<ListGroup.Item className="text-truncate">
-											<strong>Ngày bắt đầu:</strong>{" "}
-											{new Date(
-												outline.startedDate,
-											).toLocaleDateString()}
-										</ListGroup.Item>
-										<ListGroup.Item className="text-truncate">
-											<strong>Ngày kết thúc:</strong>{" "}
-											{new Date(
-												outline.expiredDate,
-											).toLocaleDateString()}
-										</ListGroup.Item>
+
 										<ListGroup.Item className="text-truncate">
 											<strong>Mô tả:</strong>{" "}
 											{outline.description}
@@ -453,6 +465,21 @@ const Home = ({ selectedItem }) => {
 											<strong>Thực hành:</strong>{" "}
 											{outline.practice}
 										</ListGroup.Item>
+										{outline.preSubjects.length > 0 &&
+											outline.preSubjects.map(
+												(sub, index) => {
+													const subjectKey = `subject${index}`;
+													return (
+														<ListGroup.Item className="text-truncate">
+															<strong>
+																Môn tiên quyết{" "}
+																{index + 1}:
+															</strong>{" "}
+															{sub[subjectKey]}
+														</ListGroup.Item>
+													);
+												},
+											)}
 									</ListGroup>
 								</Card.Body>
 								<Card.Footer>

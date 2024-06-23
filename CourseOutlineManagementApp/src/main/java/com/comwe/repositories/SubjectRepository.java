@@ -14,4 +14,5 @@ import java.util.Map;
  */
 public interface SubjectRepository {
     List<SubjectDTO> getSubjects(Map<String, String> params);
+    boolean addSubject(String name, String[] faculties);
 }

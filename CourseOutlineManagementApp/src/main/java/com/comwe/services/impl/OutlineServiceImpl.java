@@ -60,4 +60,14 @@ public class OutlineServiceImpl implements OutlineService {
     public String getDocumentUrl(int outlineId) {
         return this.outlineRepo.getDocumentUrl(outlineId);
     }
+
+    @Override
+    public List<Object> getDownoadedOutlineDocument(int userId) {
+        return this.outlineRepo.getDownoadedOutlineDocument(userId);
+    }
+
+    @Override
+    public List<Object> getPrerequisiteSubjects(int outlineId) {
+        return this.outlineRepo.getPrerequisiteSubjects(outlineId);
+    }
 }

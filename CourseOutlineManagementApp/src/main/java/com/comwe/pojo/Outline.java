@@ -40,17 +40,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Outline.findAll", query = "SELECT o FROM Outline o"),
     @NamedQuery(name = "Outline.findById", query = "SELECT o FROM Outline o WHERE o.id = :id"),
-    @NamedQuery(name = "Outline.findByStartedDatetime", query = "SELECT o FROM Outline o WHERE o.startedDatetime = :startedDatetime"),
-    @NamedQuery(name = "Outline.findByExpiredDatetime", query = "SELECT o FROM Outline o WHERE o.expiredDatetime = :expiredDatetime"),
     @NamedQuery(name = "Outline.findByDescription", query = "SELECT o FROM Outline o WHERE o.description = :description"),
     @NamedQuery(name = "Outline.findByTheoCreditHour", query = "SELECT o FROM Outline o WHERE o.theoCreditHour = :theoCreditHour"),
     @NamedQuery(name = "Outline.findByPracCreditHour", query = "SELECT o FROM Outline o WHERE o.pracCreditHour = :pracCreditHour"),
     @NamedQuery(name = "Outline.findByStatus", query = "SELECT o FROM Outline o WHERE o.status = :status")})
 public class Outline implements Serializable {
-
-    @OneToOne(mappedBy = "outlineId")
-    @JsonIgnore
-    private Receipt receipt;
 
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "price")
@@ -65,14 +59,8 @@ public class Outline implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @Column(name = "started_datetime")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date startedDatetime;
-    @Basic(optional = false)
-    @Column(name = "expired_datetime")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date expiredDatetime;
+    
+    
     @Size(max = 500)
     @Column(name = "description")
     private String description;
@@ -133,10 +121,8 @@ public class Outline implements Serializable {
         this.id = id;
     }
 
-    public Outline(Integer id, Date startedDatetime, Date expiredDatetime, int theoCreditHour, int pracCreditHour) {
+    public Outline(Integer id, int theoCreditHour, int pracCreditHour) {
         this.id = id;
-        this.startedDatetime = startedDatetime;
-        this.expiredDatetime = expiredDatetime;
         this.theoCreditHour = theoCreditHour;
         this.pracCreditHour = pracCreditHour;
     }
@@ -147,22 +133,6 @@ public class Outline implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Date getStartedDatetime() {
-        return startedDatetime;
-    }
-
-    public void setStartedDatetime(Date startedDatetime) {
-        this.startedDatetime = startedDatetime;
-    }
-
-    public Date getExpiredDatetime() {
-        return expiredDatetime;
-    }
-
-    public void setExpiredDatetime(Date expiredDatetime) {
-        this.expiredDatetime = expiredDatetime;
     }
 
     public String getDescription() {
@@ -324,13 +294,4 @@ public class Outline implements Serializable {
     public void setPrice(Float price) {
         this.price = price;
     }
-
-    public Receipt getReceipt() {
-        return receipt;
-    }
-
-    public void setReceipt(Receipt receipt) {
-        this.receipt = receipt;
-    }
-
 }

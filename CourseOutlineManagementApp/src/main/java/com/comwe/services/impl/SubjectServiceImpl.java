@@ -26,5 +26,10 @@ public class SubjectServiceImpl implements SubjectService {
     public List<SubjectDTO> getSubjects(Map<String, String> params) {
         return this.subjectRepo.getSubjects(params);
     }
+
+    @Override
+    public boolean addSubject(String name, String[] faculties) {
+        return this.subjectRepo.addSubject(name, faculties);
+    }
     
 }

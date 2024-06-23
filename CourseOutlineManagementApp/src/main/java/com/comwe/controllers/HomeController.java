@@ -4,11 +4,13 @@
  */
 package com.comwe.controllers;
 
+import com.comwe.pojo.Subject;
 import com.comwe.services.AcademicYearService;
 import com.comwe.services.FacultyService;
 import com.comwe.services.OutlineService;
 import com.comwe.services.SubjectService;
 import com.comwe.services.UserService;
+import java.util.Arrays;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.mail.MessagingException;
@@ -76,10 +78,10 @@ public class HomeController {
 
         return "index";
     }
-    
+
     @GetMapping("/outlines/{outlineId}/")
-    public String outlineDetail(@PathVariable(value="outlineId") int outlineId, Model model) {
-        model.addAttribute("outline", this.outlineService.getOutlineById(outlineId).get(0 ));
+    public String outlineDetail(@PathVariable(value = "outlineId") int outlineId, Model model) {
+        model.addAttribute("outline", this.outlineService.getOutlineById(outlineId).get(0));
         return "outlineDetail";
     }
 
@@ -179,29 +181,25 @@ public class HomeController {
         RequestMethod.GET,
         RequestMethod.POST
     })
-    public String subjectDetails(@RequestParam Map<String, String> params, 
+    public String subjectDetails(@RequestParam Map<String, String> params,
             Model model, @PathVariable(value = "subjectId") int subjectId, HttpServletRequest request) {
-        System.out.println("vao ham");
         if (HttpMethod.POST.matches(request.getMethod())) {
-            System.out.println("Ma mon hoc: " + subjectId);
-            params.keySet().forEach(k -> System.out.println("key laa " + k + ", va value: " + params.get(k)));
-//            int lecturerId, int subjectId, int academicYearId
             int lecturerId = Integer.parseInt(params.get("lecturerId"));
             int academicYear1 = Integer.parseInt(params.get("academicYearId1"));
             int academicYear2 = -1;
-            try{
+            try {
                 academicYear2 = Integer.parseInt(params.get("academicYearId2"));
-            } catch(Exception ex) {
+            } catch (Exception ex) {
                 System.err.println(ex);
             }
-            
-            if(this.outlineService.checkOutlineExist(subjectId, academicYear1, academicYear2) == true) {
-                System.out.println("Thanh congggg");
+
+            if (this.outlineService.checkOutlineExist(subjectId, academicYear1, academicYear2) == true) {
                 this.outlineService.addOutline(lecturerId, subjectId, academicYear1, academicYear2);
                 return "redirect:/outline-management/";
-            } else System.out.println("That baiiii");
-            
-            
+            } else {
+                System.out.println("That baiiii");
+            }
+
         }
 
         model.addAttribute("academicYears", this.academicYearService.getAcademicYears(params));
@@ -210,11 +208,26 @@ public class HomeController {
 
         return "subjectDetails";
     }
-    
+
     @GetMapping("/generate-pdf/")
     public String generatePDF() {
-        
         return "generatePDF";
     }
 
+    @GetMapping("/subjects-management/")
+    public String subjectsManagement(Model model, @RequestParam Map<String, String> params, HttpServletRequest request) {
+        params.keySet().forEach(k -> System.out.println(k + " la: " + params.get(k)));
+
+        String[] faculties = request.getParameterValues("faculties");
+        System.out.println("ten mon hoc la: " + request.getParameterValues("subjectName"));
+        if (faculties != null) {
+            this.subjectService.addSubject(params.get("subjectName"), faculties);
+            Arrays.stream(faculties).forEach(id -> System.out.println(id));
+        }
+        model.addAttribute("faculties", this.facultyService.getFaculties(params));
+
+        return "subject";
+    }
+
+    
 }
