@@ -22,8 +22,8 @@ public class OutlineReportServiceImpl implements OutlineReportService {
     private OutlineReportRepository outlineReportRepository;
     
     @Override
-    public List<OutlineReportDTO> getOutlineCompletionStatistics() {
-        return this.outlineReportRepository.getOutlineCompletionStatistics();
+    public List<OutlineReportDTO> getOutlineCompletionStatistics(String year, String period) {
+        return this.outlineReportRepository.getOutlineCompletionStatistics(year, period);
     }
     
 }

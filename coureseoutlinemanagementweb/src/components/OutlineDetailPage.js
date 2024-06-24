@@ -210,7 +210,7 @@ const OutlineDetailPage = () => {
 												<strong>Khoa quản lý:</strong>{" "}
 												{outlineDetail.faculty}
 											</ListGroupItem>
-											<ListGroupItem className="text-truncate">
+											{/* <ListGroupItem className="text-truncate">
 												<strong>Ngày bắt đầu:</strong>{" "}
 												{new Date(
 													outlineDetail.startedDate,
@@ -221,7 +221,7 @@ const OutlineDetailPage = () => {
 												{new Date(
 													outlineDetail.expiredDate,
 												).toLocaleDateString()}
-											</ListGroupItem>
+											</ListGroupItem> */}
 											<ListGroupItem className="text-truncate">
 												<strong>Mô tả:</strong>{" "}
 												{outlineDetail.description}

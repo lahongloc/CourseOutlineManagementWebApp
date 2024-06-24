@@ -12,5 +12,5 @@ import java.util.List;
  * @author kitj3
  */
 public interface OutlineReportService {
-    public List<OutlineReportDTO> getOutlineCompletionStatistics();
+    public List<OutlineReportDTO> getOutlineCompletionStatistics(String year, String period);
 }

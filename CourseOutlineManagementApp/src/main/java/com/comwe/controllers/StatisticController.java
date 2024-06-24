@@ -31,8 +31,11 @@ public class StatisticController {
         String year = params.getOrDefault("year", String.valueOf(LocalDate.now().getYear()));
         String period = params.getOrDefault("period", "MONTH");
         
+        String yearActive = params.getOrDefault("yearActive", String.valueOf(LocalDate.now().getYear()));
+        String periodActive = params.getOrDefault("periodActive", "MONTH");
         
-        model.addAttribute("outlineReport", this.outlineReportService.getOutlineCompletionStatistics());
+        System.out.println("PARAMSSSS: " + params.get("facultyActive"));
+        model.addAttribute("outlineReport", this.outlineReportService.getOutlineCompletionStatistics("", params.get("facultyActive")));
         model.addAttribute("outlineStats", this.statisticService.outlineSaleStatistic(params));
         return "statistic";
     }

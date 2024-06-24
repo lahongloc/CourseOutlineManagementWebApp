@@ -62,7 +62,7 @@
                 <div class="form-floating  mb-3 mt-3">
                     <button class="btn btn-info">Lọc</button>
                 </div>
-            </form>
+            <!--</form>-->
         </div>
     </div>
 
@@ -93,19 +93,19 @@
                 </tr>
             </table>
 
-            <form>
+<!--            <form>-->
                 <div class="form-floating mb-3 mt-3">
-                    <input type="number" class="form-control" id="yearActive" placeholder="Năm" name="yearActive">
-                    <label for="yearActive">Năm</label>
+                    <input type="text" value="${param.facultyActive}" class="form-control" id="facultyActive" placeholder="Khoa" name="facultyActive">
+                    <label for="facultyActive">Khoa</label>
                 </div>
 
-                <div class="form-floating  mb-3 mt-3">
+<!--                <div class="form-floating  mb-3 mt-3">
                     <select class="form-select" id="peroidActive" name="peroidActive">
                         <option value="MONTH">Tháng</option>
                         <option value="QUARTER">Qúy</option>
                     </select>
                     <label for="sel1" class="form-label">Khoảng thời gian:</label>
-                </div>
+                </div>-->
                 <div class="form-floating  mb-3 mt-3">
                     <button class="btn btn-info">Lọc</button>
                 </div>
@@ -162,8 +162,7 @@
         let data2 = [];
         <c:forEach items="${outlineReport}" var="o">
         labels2.push('${o.facultyName}');
-        data2.push(${o.acceptedCount});
-        data2.push(${o.holdingCount});
+        data2.push([${o.acceptedCount}, ${o.holdingCount}]);
         </c:forEach>
 
         window.onload = function () {

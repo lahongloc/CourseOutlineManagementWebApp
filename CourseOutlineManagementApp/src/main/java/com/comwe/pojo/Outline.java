@@ -46,6 +46,17 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Outline.findByStatus", query = "SELECT o FROM Outline o WHERE o.status = :status")})
 public class Outline implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "started_datetime")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startedDatetime;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "expired_datetime")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date expiredDatetime;
+
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "price")
     private Float price;
@@ -293,5 +304,21 @@ public class Outline implements Serializable {
 
     public void setPrice(Float price) {
         this.price = price;
+    }
+
+    public Date getStartedDatetime() {
+        return startedDatetime;
+    }
+
+    public void setStartedDatetime(Date startedDatetime) {
+        this.startedDatetime = startedDatetime;
+    }
+
+    public Date getExpiredDatetime() {
+        return expiredDatetime;
+    }
+
+    public void setExpiredDatetime(Date expiredDatetime) {
+        this.expiredDatetime = expiredDatetime;
     }
 }

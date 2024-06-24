@@ -101,6 +101,7 @@ const Home = ({ selectedItem }) => {
 			let url = `${endpoints["getOutlines"]}?${queryString}`;
 			let res = await APIs.get(url);
 
+
 			let docUrl = `${endpoints["getDownloadedOutlineDocument"]}${user.id}/`;
 			let docRes = await APIs.get(docUrl);
 
@@ -506,7 +507,7 @@ const Home = ({ selectedItem }) => {
 											<strong>Thực hành:</strong>{" "}
 											{outline.practice}
 										</ListGroup.Item>
-										{outline.preSubjects.length > 0 &&
+										{/* {outline.preSubjects.length > 0 &&
 											outline.preSubjects.map(
 												(sub, index) => {
 													const subjectKey = `subject${index}`;
@@ -520,7 +521,7 @@ const Home = ({ selectedItem }) => {
 														</ListGroup.Item>
 													);
 												},
-											)}
+											)} */}
 									</ListGroup>
 								</Card.Body>
 								<Card.Footer>

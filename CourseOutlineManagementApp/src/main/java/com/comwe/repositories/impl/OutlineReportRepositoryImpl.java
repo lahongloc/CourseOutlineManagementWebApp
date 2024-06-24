@@ -40,7 +40,7 @@ public class OutlineReportRepositoryImpl implements OutlineReportRepository {
     private LocalSessionFactoryBean factory;
 
     @Override
-    public List<OutlineReportDTO> getOutlineCompletionStatistics() {
+    public List<OutlineReportDTO> getOutlineCompletionStatistics(String year, String period) {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder c = s.getCriteriaBuilder();
         CriteriaQuery<Tuple> q = c.createQuery(Tuple.class);
@@ -60,6 +60,7 @@ public class OutlineReportRepositoryImpl implements OutlineReportRepository {
 //                        .when(c.equal(rootOutline.get("status"), "HOLDING"), 1L)
 //        );
         q.multiselect(
+                //                c.function(period, Integer.class, rootOutline.get("createdDate")),
                 rootFaculty.get("name").alias("facultyName"),
                 c.count(
                         c.selectCase()
@@ -71,17 +72,24 @@ public class OutlineReportRepositoryImpl implements OutlineReportRepository {
                 ).alias("holdingCount")
         );
 
-        q.groupBy(rootFaculty.get("name"));
-
+        List<Predicate> predicates = new ArrayList<>();
         Predicate predicateAccepted = c.equal(rootOutline.get("status"), "ACCEPTED");
         Predicate predicateHolding = c.equal(rootOutline.get("status"), "HOLDING");
-        q.where(c.or(predicateAccepted, predicateHolding));
-
+        predicates.add(c.or(predicateAccepted, predicateHolding));
+        
+        if (period != null && !period.isEmpty()) {
+            predicates.add(c.like(rootFaculty.get("name"), String.format("%%%s%%", period)));
+        }
+        
+        q.where(predicates.toArray(Predicate[]::new));
+        q.groupBy(rootFaculty.get("name"));
+            
         TypedQuery<Tuple> qr = s.createQuery(q);
         List<Tuple> resultList = qr.getResultList();
 
         List<OutlineReportDTO> outlineReports = new ArrayList<>();
         for (Tuple tuple : resultList) {
+            
             OutlineReportDTO temp = new OutlineReportDTO(
                     (String) tuple.get("facultyName"),
                     Integer.parseInt(tuple.get("acceptedCount").toString()),
