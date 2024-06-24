@@ -52,6 +52,8 @@ const OutlineDetailPage = () => {
 		error: false,
 	});
 
+	const [preSubjects, setPreSubjects] = useState([]);
+
 	useEffect(() => {
 		const loadOutlineDetail = async () => {
 			setLoading(true);
@@ -60,6 +62,16 @@ const OutlineDetailPage = () => {
 				let urlOutline = `${endpoints["getOutlines"]}?outlineId=${outlineId}`;
 				let resOutline = await APIs.get(urlOutline);
 				setOutlineDetail(resOutline.data[0]);
+
+				let preSubsRes = await APIs.get(
+					`${endpoints["getPreSubjects"]}${outlineId}/`,
+				);
+
+				if (preSubsRes.status === 200) {
+					setPreSubjects(preSubsRes.data);
+				}
+
+				console.log("preSubsRes la: ", preSubsRes.data);
 
 				// các comment của outline đã chọn
 				let urlComments = `${endpoints["getComments"]}${outlineId}`;
@@ -210,7 +222,7 @@ const OutlineDetailPage = () => {
 												<strong>Khoa quản lý:</strong>{" "}
 												{outlineDetail.faculty}
 											</ListGroupItem>
-											<ListGroupItem className="text-truncate">
+											{/* <ListGroupItem className="text-truncate">
 												<strong>Ngày bắt đầu:</strong>{" "}
 												{new Date(
 													outlineDetail.startedDate,
@@ -221,7 +233,7 @@ const OutlineDetailPage = () => {
 												{new Date(
 													outlineDetail.expiredDate,
 												).toLocaleDateString()}
-											</ListGroupItem>
+											</ListGroupItem> */}
 											<ListGroupItem className="text-truncate">
 												<strong>Mô tả:</strong>{" "}
 												{outlineDetail.description}
@@ -234,6 +246,26 @@ const OutlineDetailPage = () => {
 												<strong>Thực hành:</strong>{" "}
 												{outlineDetail.practice}
 											</ListGroupItem>
+											{preSubjects.length > 0 &&
+												preSubjects.map(
+													(sub, index) => {
+														const subjectKey = `subject${index}`;
+														return (
+															<ListGroup.Item className="text-truncate">
+																<strong>
+																	Môn tiên
+																	quyết{" "}
+																	{index + 1}:
+																</strong>{" "}
+																{
+																	sub[
+																		subjectKey
+																	]
+																}
+															</ListGroup.Item>
+														);
+													},
+												)}
 										</ListGroup>
 									</CardContent>
 									<CardFooter>

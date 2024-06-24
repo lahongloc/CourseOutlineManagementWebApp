@@ -24,8 +24,9 @@ export const endpoints = {
 	getNonAdminUsers: "/api/getNonAdminUsers/",
 	vnpay: "/api/vnpay/create_payment",
 	getComments: "/api/getComments/",
-    addComment: "/api/addComment/",
+	addComment: "/api/addComment/",
 	getDownloadedOutlineDocument: "/api/get-downloaded-outline-document/",
+	getPreSubjects: "/api/get-pre-subjects/",
 };
 
 export const authApi = () => {

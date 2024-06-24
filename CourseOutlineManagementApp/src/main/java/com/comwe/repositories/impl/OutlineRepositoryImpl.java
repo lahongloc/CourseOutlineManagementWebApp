@@ -103,6 +103,7 @@ public class OutlineRepositoryImpl implements OutlineRepository {
             String theoCreditHour = params.get("theoCreditHour");
             String pracCreditHour = params.get("pracCreditHour");
             String academicYearRange = params.get("academicYearRange");
+            String userId = params.get("userId");
 
             q.multiselect(
                     rootOutline.get("id").alias("outlineId"),
@@ -117,7 +118,6 @@ public class OutlineRepositoryImpl implements OutlineRepository {
 
             List<Predicate> predicates = new ArrayList<>();
             String outlineStatus = params.get("outlineStatus");
-
             if (outlineStatus != null && !outlineStatus.isEmpty()) {
                 predicates.add(c.equal(rootOutline.get("status"), outlineStatus));
             }
@@ -162,11 +162,12 @@ public class OutlineRepositoryImpl implements OutlineRepository {
             }
 
             if (lecturerId != null && !lecturerId.isEmpty()) {
-//                System.out.println("co lecturer nha");
-//                Lecturer lecturer = this.lecturerServiceQuery.getLecturerByUserId(Integer.parseInt(lecturerId));
-// 
-//                predicates.add(c.equal(rootOutline.get("lecturerId"), lecturer.getId()));
                  predicates.add(c.equal(rootOutline.get("lecturerId"), Integer.parseInt(lecturerId)));
+            }
+            
+            if(userId != null && !userId.isEmpty()) {
+                Lecturer lecturer = this.lecturerServiceQuery.getLecturerByUserId(Integer.parseInt(userId));
+                predicates.add(c.equal(rootOutline.get("lecturerId"), lecturer.getId()));
             }
 
             if (status != null && !status.isEmpty()) {

@@ -21,6 +21,7 @@ export default function OutlinedCard({
 	lecturer,
 	description,
 	outlineId,
+	status,
 }) {
 	const nav = useNavigate();
 
@@ -37,9 +38,13 @@ export default function OutlinedCard({
 			</CardContent>
 			<CardActions>
 				<Button
-					onClick={() =>
-						nav(`/outline-compiling/?outlineId=${outlineId}`)
-					}
+					onClick={() => {
+						if (status === "HOLDING") {
+							nav(`/outline-compiling/?outlineId=${outlineId}`);
+						} else if (status === "ACCEPTED") {
+							nav(`/detail-page/${outlineId}`);
+						}
+					}}
 					size="small"
 				>
 					XEM CHI TIẾT

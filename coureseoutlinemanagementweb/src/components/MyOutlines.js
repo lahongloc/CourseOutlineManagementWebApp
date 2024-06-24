@@ -12,7 +12,7 @@ const MyOutline = ({ status }) => {
 	const loadMyOutlines = async () => {
 		setLoading(false);
 		let url = `${endpoints["getOutlines"]}`;
-		if (user) url = `${url}?lecturerId=${user.id}`;
+		if (user) url = `${url}?userId=${user.id}`;
 		if (status) url = `${url}&status=${status}`;
 
 		try {
@@ -61,6 +61,7 @@ const MyOutline = ({ status }) => {
 						};
 						return (
 							<OutlinedCard
+								status={status}
 								{...props}
 								sx={{ width: "25%" }}
 								key={index}

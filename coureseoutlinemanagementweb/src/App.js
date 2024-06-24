@@ -151,10 +151,25 @@ const App = () => {
 
 											{/* <Container> */}
 											<Routes>
-												<Route
-													path="/lecturer-signup"
-													element={<SignUp />}
-												/>
+												{user === null && (
+													<>
+														<Route
+															path="/lecturer-signup"
+															element={<SignUp />}
+														/>
+														<Route
+															path="/student-register"
+															element={
+																<StudentRegister />
+															}
+														/>
+														<Route
+															path="/login"
+															element={<Login />}
+														/>
+													</>
+												)}
+
 												<Route
 													path="/account-details"
 													element={requireLogin(
@@ -165,36 +180,25 @@ const App = () => {
 													path="/student-active"
 													element={<StudentActive />}
 												/>
-												<Route
-													path="/student-register"
-													element={
-														<StudentRegister />
-													}
-												/>
+
 												<Route
 													path="/"
 													element={<Content />}
-												/>
-												<Route
-													path="/login"
-													element={<Login />}
 												/>
 
 												{isStudent(user) && (
 													<Route
 														path="/downloaded-outlines"
-														element={
-															requireLogin(
-																<DownloadedOutlines />
-															)
-														}
+														element={requireLogin(
+															<DownloadedOutlines />,
+														)}
 													/>
 												)}
 
 												<Route
 													path="/detail-page/:outlineId"
 													element={requireLogin(
-														<OutlineDetailPage />
+														<OutlineDetailPage />,
 													)}
 												/>
 

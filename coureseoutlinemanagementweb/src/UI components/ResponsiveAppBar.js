@@ -110,18 +110,20 @@ function ResponsiveAppBar() {
 							>
 								TRANG CHỦ
 							</Button>
-							<Button
-								onClick={() => {
-									nav("/student-register");
-								}}
-								sx={{
-									my: 2,
-									color: "white",
-									display: "block",
-								}}
-							>
-								Cấp tài khoản sinh viên
-							</Button>
+							{user === null && (
+								<Button
+									onClick={() => {
+										nav("/student-register");
+									}}
+									sx={{
+										my: 2,
+										color: "white",
+										display: "block",
+									}}
+								>
+									Cấp tài khoản sinh viên
+								</Button>
+							)}
 							{isLecturer(user) &&
 								pages.map((page, index) => (
 									<Button
