@@ -68,23 +68,28 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/getOutlines/**").permitAll();
         http.authorizeRequests().antMatchers("/api/getFaculties/").permitAll();
         http.authorizeRequests().antMatchers("/api/users/").permitAll();
-        http.authorizeRequests().antMatchers("/api/lecturers/").permitAll(); // lecturer
-        http.authorizeRequests().antMatchers("/api/lecturer-update/").permitAll(); // lecturer
-        http.authorizeRequests().antMatchers("/api/add-outline/").permitAll(); // lecturer
         http.authorizeRequests().antMatchers("/api/getScores/").permitAll(); 
-        http.authorizeRequests().antMatchers("/api/user-approvement/**").permitAll(); // admin
         http.authorizeRequests().antMatchers("/api/student-register/").permitAll();
         http.authorizeRequests().antMatchers("/api/student-active/").permitAll();
         http.authorizeRequests().antMatchers("/api/upload-pdf/").permitAll();
         http.authorizeRequests().antMatchers("/api/getNonAdminUsers/").permitAll();
-//        http.authorizeRequests().antMatchers("/api/upload-pdf/").permitAll(); //
-        http.authorizeRequests().antMatchers("/api/vnpay/create_payment").permitAll(); // student
-        http.authorizeRequests().antMatchers("/api/vnpay/return_url/**").permitAll(); // student
         http.authorizeRequests().antMatchers("/api/getComments/**").permitAll(); 
         http.authorizeRequests().antMatchers("/api/addComment/").permitAll();
         http.authorizeRequests().antMatchers("/api/getLecturers/").permitAll();
-        http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+        http.authorizeRequests().antMatchers("/api/get-downloaded-outline-document/").permitAll();
+        http.authorizeRequests().antMatchers("/api/get-pre-subjects/**").permitAll();
+        
+        
+        http.authorizeRequests().antMatchers("/api/lecturers/").permitAll(); // ROLE_LECTURER
+        http.authorizeRequests().antMatchers("/api/vnpay/create_payment").permitAll(); // ROLE_STUDENT
+        http.authorizeRequests().antMatchers("/api/vnpay/return_url/**").permitAll(); // ROLE_STUDENT
+        http.authorizeRequests().antMatchers("/api/lecturer-update/").permitAll(); // ROLE_LECTURER
+        http.authorizeRequests().antMatchers("/api/add-outline/").permitAll(); // ROLE_LECTURER
+        http.authorizeRequests().antMatchers("/api/user-approvement/**").permitAll(); // ROLE_ADMIN
+        http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint())
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/**").access("hasRole('ROLE_ADMIN')")
                 .antMatchers(HttpMethod.DELETE, "/api/**").access("hasRole('ROLE_ADMIN')").and()
                 .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)

@@ -101,21 +101,26 @@ const Home = ({ selectedItem }) => {
 			let url = `${endpoints["getOutlines"]}?${queryString}`;
 			let res = await APIs.get(url);
 
+			let docUrl;
+			let docRes;
+			if (isStudent(user)) {
+				let docUrl = `${endpoints["getDownloadedOutlineDocument"]}${user.id}/`;
+				docRes = await APIs.get(docUrl);
 
-			let docUrl = `${endpoints["getDownloadedOutlineDocument"]}${user.id}/`;
-			let docRes = await APIs.get(docUrl);
+				if (docRes.data) {
+					const mergedOutlines = res.data.map((o) => {
+						const matchedOutline = docRes.data.find(
+							(dr) => dr.outlineId === o.outlineId,
+						);
 
-			if (docRes.data) {
-				const mergedOutlines = res.data.map((o) => {
-					const matchedOutline = docRes.data.find(
-						(dr) => dr.outlineId === o.outlineId,
-					);
-
-					return matchedOutline
-						? { ...o, url: matchedOutline.url }
-						: o;
-				});
-				setOutlines(mergedOutlines);
+						return matchedOutline
+							? { ...o, url: matchedOutline.url }
+							: o;
+					});
+					console.log("outline la: ", mergedOutlines);
+					res = mergedOutlines;
+					setOutlines(mergedOutlines);
+				}
 			} else setOutlines(res.data);
 
 			if (page === null) {
