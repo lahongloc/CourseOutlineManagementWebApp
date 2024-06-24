@@ -15,7 +15,9 @@ export default function BasicSimpleTreeView({ setSelectedItem }) {
 		let groupedYears = [];
 
 		for (let i = 0; i < academicYears.length; i += 2) {
+			console.log("academic years: ", academicYears[i + 1]);
 			const startYear = academicYears[i].name.split("-")[0].trim();
+			// const endYear = 0;
 			const endYear = academicYears[i + 1].name.split("-")[0].trim();
 			const groupYear = `${startYear}-${endYear}`;
 

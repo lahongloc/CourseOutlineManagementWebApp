@@ -15,12 +15,14 @@ import com.comwe.pojo.Outline;
 import com.comwe.pojo.OutlineAcademicYear;
 import com.comwe.pojo.OutlineScore;
 import com.comwe.pojo.OutlineSubject;
+import com.comwe.pojo.Receipt;
 import com.comwe.pojo.Score;
 import com.comwe.pojo.Subject;
 import com.comwe.pojo.User;
 import com.comwe.repositories.OutlineRepository;
 import com.comwe.services.DocumentService;
 import com.comwe.services.FileStorageService;
+import com.comwe.services.LecturerServiceQuery;
 import com.comwe.services.PdfService;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -32,6 +34,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import javax.persistence.Query;
 import javax.persistence.Tuple;
@@ -70,6 +73,9 @@ public class OutlineRepositoryImpl implements OutlineRepository {
     @Autowired
     private PdfService pdfService;
 
+    @Autowired
+    private LecturerServiceQuery lecturerServiceQuery;
+
     @Override
     public List<OutlineDTO> getOutlines(Map<String, String> params) {
         Session s = this.factory.getObject().getCurrentSession();
@@ -100,8 +106,6 @@ public class OutlineRepositoryImpl implements OutlineRepository {
 
             q.multiselect(
                     rootOutline.get("id").alias("outlineId"),
-                    rootOutline.get("startedDatetime").alias("startedDate"),
-                    rootOutline.get("expiredDatetime").alias("expiredDate"),
                     rootOutline.get("description").alias("description"),
                     rootOutline.get("theoCreditHour").alias("theory"),
                     rootOutline.get("pracCreditHour").alias("practice"),
@@ -112,6 +116,11 @@ public class OutlineRepositoryImpl implements OutlineRepository {
             );
 
             List<Predicate> predicates = new ArrayList<>();
+            String outlineStatus = params.get("outlineStatus");
+
+            if (outlineStatus != null && !outlineStatus.isEmpty()) {
+                predicates.add(c.equal(rootOutline.get("status"), outlineStatus));
+            }
 
             if (academicYearRange != null && !academicYearRange.isEmpty()) {
                 String[] years = academicYearRange.split("-");
@@ -153,7 +162,11 @@ public class OutlineRepositoryImpl implements OutlineRepository {
             }
 
             if (lecturerId != null && !lecturerId.isEmpty()) {
-                predicates.add(c.equal(rootOutline.get("lecturerId"), Integer.parseInt(lecturerId)));
+//                System.out.println("co lecturer nha");
+//                Lecturer lecturer = this.lecturerServiceQuery.getLecturerByUserId(Integer.parseInt(lecturerId));
+// 
+//                predicates.add(c.equal(rootOutline.get("lecturerId"), lecturer.getId()));
+                 predicates.add(c.equal(rootOutline.get("lecturerId"), Integer.parseInt(lecturerId)));
             }
 
             if (status != null && !status.isEmpty()) {
@@ -192,8 +205,6 @@ public class OutlineRepositoryImpl implements OutlineRepository {
             for (Tuple tuple : resultList) {
                 OutlineDTO temp = new OutlineDTO(
                         (Integer) tuple.get("outlineId"),
-                        (Date) tuple.get("startedDate"),
-                        (Date) tuple.get("expiredDate"),
                         (String) tuple.get("description"),
                         (Integer) tuple.get("theory"),
                         (Integer) tuple.get("practice"),
@@ -201,7 +212,10 @@ public class OutlineRepositoryImpl implements OutlineRepository {
                         (String) tuple.get("subject"),
                         (String) tuple.get("faculty"),
                         (Float) tuple.get("price")
+                //                        this.getPrerequisiteSubjects((Integer) tuple.get("outlineId"))
                 );
+//                Map<String, Object> preSubs = new HashMap<>();
+//                preSubs.put("preSubs", this.getPrerequisiteSubjects((Integer) tuple.get("outlineId")));
                 outlinesInfo.add(temp);
             }
 
@@ -218,8 +232,8 @@ public class OutlineRepositoryImpl implements OutlineRepository {
         Session s = this.factory.getObject().getCurrentSession();
 
         User user = s.get(User.class, lecturerId);
-        Lecturer lecturer = user.getLecturerSet().stream().findFirst().get();
-
+//        Lecturer lecturer = user.getLecturerSet().stream().findFirst().get();
+        Lecturer lecturer = s.get(Lecturer.class, lecturerId);
         Subject subject = s.get(Subject.class, subjectId);
 
         Outline outline = new Outline();
@@ -281,8 +295,6 @@ public class OutlineRepositoryImpl implements OutlineRepository {
             temp.put("lecturer", o.getLecturerId().getUserId().getName());
             temp.put("subject", o.getSubjectId().getName());
             temp.put("faculty", o.getLecturerId().getFacultyId().getName());
-            temp.put("startedDate", o.getStartedDatetime());
-            temp.put("expiredDate", o.getExpiredDatetime());
             temp.put("description", o.getDescription());
             temp.put("theory", o.getTheoCreditHour());
             temp.put("practice", o.getPracCreditHour());
@@ -465,5 +477,59 @@ public class OutlineRepositoryImpl implements OutlineRepository {
         Session s = this.factory.getObject().getCurrentSession();
         Outline o = s.get(Outline.class, outlineId);
         return o.getDocumentId().getUrl();
+    }
+
+    @Override
+    public List<Object> getDownoadedOutlineDocument(int userId) {
+        Session s = this.factory.getObject().getCurrentSession();
+
+        CriteriaBuilder c = s.getCriteriaBuilder();
+        CriteriaQuery<Receipt> q = c.createQuery(Receipt.class);
+        Root rC = q.from(Receipt.class);
+        q.select(rC);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        predicates.add(c.equal(rC.get("userId").get("id"), userId));
+        System.out.println("get outline id");
+        q.where(predicates.toArray(Predicate[]::new));
+
+        List<Receipt> receipts = s.createQuery(q).getResultList();
+
+        List<Object> outlineUrls = new ArrayList<>();
+
+        receipts.forEach(r -> {
+            Map<String, Object> outlineDocuments = new HashMap<>();
+            outlineDocuments.put("outlineName", r.getOutlineId().getSubjectId().getName());
+            outlineDocuments.put("outlineId", r.getOutlineId().getId());
+            outlineDocuments.put("url", r.getOutlineId().getDocumentId().getUrl());
+            outlineUrls.add(outlineDocuments);
+        });
+
+        return outlineUrls;
+    }
+
+    @Override
+    public List<Object> getPrerequisiteSubjects(int outlineId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder c = s.getCriteriaBuilder();
+        CriteriaQuery q = c.createQuery(OutlineSubject.class);
+        Root r = q.from(OutlineSubject.class);
+        q.select(r);
+
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(c.equal(r.get("outlineId"), outlineId));
+        q.where(predicates.toArray(Predicate[]::new));
+
+        List<Object> preSubjects = new ArrayList<>();
+        List<OutlineSubject> outlineSubjects = s.createQuery(q).getResultList();
+        AtomicInteger i = new AtomicInteger(0);
+        outlineSubjects.forEach(o -> {
+            Map<String, String> temp = new HashMap<>();
+            temp.put("subject" + String.valueOf(i.getAndIncrement()), o.getSubjectId().getName());
+            preSubjects.add(temp);
+        });
+
+        return preSubjects;
     }
 }

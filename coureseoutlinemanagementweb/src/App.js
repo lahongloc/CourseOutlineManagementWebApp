@@ -1,11 +1,8 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Header from "./commons/Header";
 import Footer from "./commons/Footer";
-import Home from "./Outline/Home";
 import Login from "./components/Login";
-import { Container } from "react-bootstrap";
 import { createContext, useEffect, useReducer, useState } from "react";
 import UserReducer from "./reducers/UserReducer";
 import cookie from "react-cookies";
@@ -19,8 +16,9 @@ import Outlinecompilation from "./components/Outlinecompilation";
 import StudentRegister from "./components/StudentRegister";
 import StudentActive from "./components/StudentActive";
 import ChatComponent from "./components/ChatComponents";
-import { isLecturer } from "./UserAuthorization/UserAuthoriation";
 import OutlineDetailPage from "./components/OutlineDetailPage";
+import { isLecturer, isStudent } from "./UserAuthorization/UserAuthoriation";
+import DownloadedOutlines from "./components/DownloadedOutlines";
 
 export const UserContext = createContext();
 export const NonAdminUsersContext = createContext();
@@ -51,10 +49,6 @@ const App = () => {
 		}
 	};
 
-	useEffect(() => {
-		loadFaculties();
-	}, []);
-
 	const loadMajors = async () => {
 		try {
 			let url = `${endpoints["getMajors"]}`;
@@ -65,10 +59,6 @@ const App = () => {
 			console.error(ex);
 		}
 	};
-
-	useEffect(() => {
-		loadMajors();
-	}, []);
 
 	const loadGrades = async () => {
 		try {
@@ -81,10 +71,6 @@ const App = () => {
 		}
 	};
 
-	useEffect(() => {
-		loadGrades();
-	}, []);
-
 	const loadAcademicYears = async () => {
 		try {
 			let url = `${endpoints["getAcademicYears"]}`;
@@ -95,10 +81,6 @@ const App = () => {
 			console.error(ex);
 		}
 	};
-
-	useEffect(() => {
-		loadAcademicYears();
-	}, []);
 
 	const loadSubjects = async () => {
 		try {
@@ -111,10 +93,6 @@ const App = () => {
 		}
 	};
 
-	useEffect(() => {
-		loadSubjects();
-	}, []);
-
 	const loadLecturers = async () => {
 		try {
 			let url = `${endpoints["getLecturers"]}`;
@@ -126,10 +104,6 @@ const App = () => {
 		}
 	};
 
-	useEffect(() => {
-		loadLecturers();
-	}, []);
-
 	const loadNonAdminUsers = async () => {
 		try {
 			let url = `${endpoints["getNonAdminUsers"]}`;
@@ -140,10 +114,6 @@ const App = () => {
 			console.error(ex);
 		}
 	};
-
-	useEffect(() => {
-		loadNonAdminUsers();
-	}, []);
 
 	useEffect(() => {
 		loadFaculties();
@@ -210,10 +180,21 @@ const App = () => {
 													element={<Login />}
 												/>
 
+												{isStudent(user) && (
+													<Route
+														path="/downloaded-outlines"
+														element={
+															requireLogin(
+																<DownloadedOutlines />
+															)
+														}
+													/>
+												)}
+
 												<Route
 													path="/detail-page/:outlineId"
 													element={requireLogin(
-														<OutlineDetailPage />,
+														<OutlineDetailPage />
 													)}
 												/>
 

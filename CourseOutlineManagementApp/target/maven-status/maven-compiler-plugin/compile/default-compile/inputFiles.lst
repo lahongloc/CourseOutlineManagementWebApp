@@ -52,9 +52,11 @@ C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\GradeRepositoryImpl.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\DTOs\OutlineDTO.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\SubjectRepositoryImpl.java
+C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\StatisticServiceImpl.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\ReceiptServiceImpl.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\DTOs\CommentDTO.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\FacultyRepositoryImpl.java
+C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\StatisticRepositoryImpl.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\configs\WebAppContextConfig.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\ApiAcademicYearController.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\AcademicYear.java
@@ -82,9 +84,11 @@ C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\ScoreRepositoryImpl.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Semester.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\configs\SpringSecurityConfig.java
+C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\StatisticService.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\FileStorageServiceImpl.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\DTOs\UserDTO.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\configs\SecurityWebApplicationInitializer.java
+C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\StatisticController.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\GradeService.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\FacultyService.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\LecturerRepositoryQueryImpl.java
@@ -101,6 +105,7 @@ C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\LecturerServiceQuery.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\ApiUserController.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\UserRepositoryImpl.java
+C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\ApiStatisticController.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\filters\CustomAccessDeniedHandler.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\controllers\ApiLecturerController.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\Admin.java
@@ -116,5 +121,6 @@ C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\UserServiceImpl.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\pojo\User.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\impl\OutlineReportRepositoryImpl.java
+C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\StatisticRepository.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\services\impl\FacultyServiceImpl.java
 C:\Users\kitj3\Desktop\CourseOutlineManagementSystem\CourseOutlineManagementApp\src\main\java\com\comwe\repositories\ScoreRepository.java

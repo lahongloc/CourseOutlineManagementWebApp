@@ -11,6 +11,7 @@ import com.comwe.pojo.Outline;
 import com.comwe.pojo.Subject;
 import com.comwe.repositories.SubjectRepository;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.Tuple;
@@ -18,11 +19,13 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -45,8 +48,8 @@ public class SubjectRepositoryImpl implements SubjectRepository {
         Root<FacultySubject> rFS = q.from(FacultySubject.class);
         Root<Faculty> rF = q.from(Faculty.class);
 
-        q.multiselect(rS.get("id").alias("id"), 
-                rS.get("name").alias("name"), 
+        q.multiselect(rS.get("id").alias("id"),
+                rS.get("name").alias("name"),
                 rFS.get("facultyId").alias("facultyId"));
 
         List<Predicate> predicates = new ArrayList<>();
@@ -66,16 +69,44 @@ public class SubjectRepositoryImpl implements SubjectRepository {
         List<SubjectDTO> subjectsInfo = new ArrayList<>();
         for (Tuple tuple : results) {
             SubjectDTO subjectDTO = new SubjectDTO(
-                    (Integer) tuple.get("id"), 
-                    (String) tuple.get("name"), 
-                    (Faculty) tuple.get("facultyId"), 
+                    (Integer) tuple.get("id"),
+                    (String) tuple.get("name"),
+                    (Faculty) tuple.get("facultyId"),
                     s.get(Outline.class, (Integer) tuple.get("id"))
             );
-            
+
             subjectsInfo.add(subjectDTO);
         }
 
         return subjectsInfo;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean addSubject(String name, String[] faculties) {
+        Session s = this.factory.getObject().getCurrentSession();
+        try {
+            System.out.println("start");
+            Subject sj = new Subject();
+            sj.setName(name);
+            s.save(sj);
+
+            System.out.println("herer cbi add khoa");
+            Arrays.stream(faculties).forEach(facutltyId -> {
+                System.out.println("ma khoa: " + facutltyId);
+                FacultySubject fs = new FacultySubject();
+                Faculty f = s.get(Faculty.class, Integer.parseInt(facutltyId));
+
+                fs.setSubjectId(sj);
+                fs.setFacultyId(f);
+                s.save(fs);
+            });
+
+            return true;
+        } catch (HibernateException err) {
+            System.err.println(err);
+            return false;
+        }
     }
 }
 

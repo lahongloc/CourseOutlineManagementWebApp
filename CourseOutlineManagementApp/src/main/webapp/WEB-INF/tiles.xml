@@ -43,8 +43,12 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
         <put-attribute name="title" value="Thông tin đề cương" />
         <put-attribute name="content" value="/WEB-INF/pages/outlineDetail.jsp" />
     </definition>
-    <definition name="statistical" extends="baseLayout">
+    <definition name="subject" extends="baseLayout">
+        <put-attribute name="title" value="Quản lý môn học" />
+        <put-attribute name="content" value="/WEB-INF/pages/subject.jsp" />
+    </definition>
+    <definition name="statistic" extends="baseLayout">
         <put-attribute name="title" value="Thống kê báo cáo" />
-        <put-attribute name="content" value="/WEB-INF/pages/statistical.jsp" />
+        <put-attribute name="content" value="/WEB-INF/pages/statistic.jsp" />
     </definition>
 </tiles-definitions>

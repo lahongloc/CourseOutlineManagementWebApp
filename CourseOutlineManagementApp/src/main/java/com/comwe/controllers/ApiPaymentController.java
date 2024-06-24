@@ -25,6 +25,8 @@ import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.servlet.view.RedirectView;
@@ -168,6 +170,10 @@ public class ApiPaymentController {
 
             try {
                 r.setIsPaid(Boolean.TRUE);
+                LocalDate today = LocalDate.now();
+                Instant instant = today.atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant();
+                Date created_date = Date.from(instant);
+                r.setCreatedDate(created_date);
                 Outline o = this.outlineService.getAnOutlineById(Integer.parseInt(receiptId));
                 User u = this.userService.getUserById(userId);
                 if (this.receiptSerivce.addReceipt(r, o, u) == true) {

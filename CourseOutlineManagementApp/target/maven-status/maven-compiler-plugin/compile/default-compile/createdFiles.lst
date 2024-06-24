@@ -11,6 +11,7 @@ com\comwe\repositories\impl\MajorRepositoryImpl.class
 com\comwe\repositories\impl\SubjectRepositoryImpl.class
 com\comwe\pojo\Subject_.class
 com\comwe\pojo\User_.class
+com\comwe\repositories\impl\StatisticRepositoryImpl.class
 com\comwe\pojo\Admin_.class
 com\comwe\services\FacultyService.class
 com\comwe\repositories\impl\FacultyRepositoryImpl.class
@@ -59,6 +60,7 @@ com\comwe\pojo\Major_.class
 com\comwe\services\DocumentService.class
 com\comwe\pojo\Admin.class
 com\comwe\services\impl\PdfServiceImpl.class
+com\comwe\services\impl\StatisticServiceImpl.class
 com\comwe\filters\CustomAccessDeniedHandler.class
 com\comwe\pojo\OutlineAcademicYear.class
 com\comwe\repositories\impl\CommentRepositoryImpl.class
@@ -89,11 +91,14 @@ com\comwe\repositories\ScoreRepository.class
 com\comwe\controllers\ApiSubjectController.class
 com\comwe\services\impl\FacultyServiceImpl.class
 com\comwe\pojo\Semester.class
+com\comwe\controllers\StatisticController.class
 com\comwe\pojo\Score.class
 com\comwe\repositories\LecturerRepository.class
+com\comwe\controllers\ApiStatisticController.class
 com\comwe\services\SubjectService.class
 com\comwe\repositories\CommentRepository.class
 com\comwe\pojo\Score_.class
+com\comwe\repositories\StatisticRepository.class
 com\comwe\services\UserService.class
 com\comwe\pojo\Grade.class
 com\comwe\repositories\AcademicYearRepository.class
@@ -134,6 +139,7 @@ com\comwe\pojo\Receipt.class
 com\comwe\services\AcademicYearService.class
 com\comwe\configs\TilesConfig.class
 com\comwe\services\OutlineReportService.class
+com\comwe\services\StatisticService.class
 com\comwe\pojo\Outline_.class
 com\comwe\services\ScoreService.class
 com\comwe\configs\JwtSecurityConfig.class

@@ -25,6 +25,7 @@ export const endpoints = {
 	vnpay: "/api/vnpay/create_payment",
 	getComments: "/api/getComments/",
     addComment: "/api/addComment/",
+	getDownloadedOutlineDocument: "/api/get-downloaded-outline-document/",
 };
 
 export const authApi = () => {

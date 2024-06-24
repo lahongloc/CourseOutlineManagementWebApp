@@ -22,4 +22,6 @@ public interface OutlineService {
     boolean accept(int id);
     Outline getAnOutlineById(int id);
     String getDocumentUrl(int outlineId);
+    List<Object> getDownoadedOutlineDocument(int userId);
+    List<Object> getPrerequisiteSubjects(int outlineId);
 }

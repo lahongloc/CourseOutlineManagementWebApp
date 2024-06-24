@@ -23,6 +23,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -48,6 +49,7 @@ public class Receipt implements Serializable {
     private Integer id;
     @Column(name = "created_date")
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
     private Date createdDate;
     @Column(name = "is_paid")
     private Boolean isPaid;

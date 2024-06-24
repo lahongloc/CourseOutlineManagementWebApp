@@ -50,10 +50,10 @@ public class PdfServiceImpl implements PdfService {
             // Create a table
             Table table = new Table(UnitValue.createPercentArray(new float[]{1, 1}))
                     .useAllAvailableWidth();
-            table.addCell("Ngày bắt đầu hiệu lực");
-            table.addCell(outline.getStartedDatetime().toString());
-            table.addCell("Ngày hết hiệu lực");
-            table.addCell(outline.getExpiredDatetime().toString());
+//            table.addCell("Ngày bắt đầu hiệu lực");
+//            table.addCell(outline.getStartedDatetime().toString());
+//            table.addCell("Ngày hết hiệu lực");
+//            table.addCell(outline.getExpiredDatetime().toString());
             table.addCell("Tín chỉ thực hành");
             table.addCell(outline.getPracCreditHour() + "");
             table.addCell("Tín chỉ lý thuyết");

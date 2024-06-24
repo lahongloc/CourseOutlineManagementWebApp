@@ -23,7 +23,10 @@
                 <a class="nav-link" href="<c:url value="/outline-management/" />">Quản lý đề cương</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<c:url value="/statistical/" />">Báo cáo thống kê</a>
+                <a class="nav-link" href="<c:url value="/subjects-management/" />">Quản lý môn học</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<c:url value="/outlines-statistic/" />">Báo cáo thống kê</a>
             </li>
             <li class="nav-item">
                 <c:choose>

@@ -5,6 +5,7 @@
 package com.comwe.controllers;
 
 import com.comwe.pojo.DTOs.OutlineDTO;
+import com.comwe.pojo.User;
 import com.comwe.services.DocumentService;
 import com.comwe.services.FileStorageService;
 import com.comwe.services.OutlineService;
@@ -50,32 +51,47 @@ public class ApiOutlineController {
     })
     public ResponseEntity<Object> addOutline(@RequestParam Map<String, String> params) {
         System.out.println("PARAM DO LAAAAA: " + params.keySet());
-        
-      
-        if(this.outlineService.updateOutline(params) == true) {
-            System.out.println("thanh cong");
-        } else System.out.println("That bai");
 
+        if (this.outlineService.updateOutline(params) == true) {
+            System.out.println("thanh cong");
+        } else {
+            System.out.println("That bai");
+        }
 
         return new ResponseEntity<>("abc", HttpStatus.OK);
     }
-    
+
     @GetMapping(path = "/getOutlines/{outlineId}/", produces = {
         MediaType.APPLICATION_JSON_VALUE
     })
     public ResponseEntity<Object> retrieve(@PathVariable(value = "outlineId") int id) {
         return new ResponseEntity<>(this.outlineService.getOutlineById(id), HttpStatus.OK);
     }
-        
+
     @GetMapping("/accept-outline/{outlineId}/")
     @ResponseStatus(HttpStatus.OK)
     public void acceptOutline(@PathVariable(value = "outlineId") int id) {
         this.outlineService.accept(id);
     }
-    
+
     @GetMapping("/get-outline-doc-url/{outlineId}/")
     @ResponseStatus(HttpStatus.OK)
     public String getOutlineDocumentUrl(@PathVariable(value = "outlineId") int id) {
         return this.outlineService.getDocumentUrl(id);
     }
+
+    @GetMapping(path = "/get-downloaded-outline-document/{userId}/", produces = {
+        MediaType.APPLICATION_JSON_VALUE
+    })
+    public ResponseEntity<List<Object>> getDownloadedOutlineDocument(@PathVariable(value = "userId") int userId) {
+        return new ResponseEntity<>(this.outlineService.getDownoadedOutlineDocument(userId), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/get-pre-subjects/{outlineId}/", produces = {
+        MediaType.APPLICATION_JSON_VALUE
+    })
+    public ResponseEntity<List<Object>> getPrerequisiteSubjects(@PathVariable(value = "outlineId") int outlineId) {
+        return new ResponseEntity<>(this.outlineService.getPrerequisiteSubjects(outlineId), HttpStatus.OK);
+    }
+
 }
