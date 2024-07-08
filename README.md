@@ -138,6 +138,6 @@
 - Contributions are welcome! Please submit a pull request or open an issue to discuss any changes.
 
 ## 📞 Contact
-- **Name**: [La Hồng Lộc]
-- **Email**: [hongloc111990@gmail.com]
-- **LinkedIn**: [www.linkedin.com/in/hongloc2405]
+- **Name**: La Hồng Lộc
+- **Email**: hongloc111990@gmail.com
+- **LinkedIn**: www.linkedin.com/in/hongloc2405
