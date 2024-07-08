@@ -1,9 +1,9 @@
-<h1 align="center">📚 Course Syllabus Management System</h1>
+<h1 align="center">📚 Course OutlineManagement System</h1>
 
 <h3 align="center">A comprehensive web application for managing course syllabi, built with a robust tech stack to ensure security, efficiency, and user-friendliness. This project showcases my ability to integrate various technologies and develop a fully functional web application.</h3>
 
 ## ✨ Features
-- **📋 Course Syllabus Management**: Create, edit, and delete course syllabi.
+- **📋 Course outlineManagement**: Create, edit, and delete course syllabi.
 - **👥 User Management**: Admin and user roles with different levels of access and capabilities.
 - **📝 Assign Syllabi**: Assign syllabi to instructors.
 - **💬 Comment System**: Users can comment on syllabi.
