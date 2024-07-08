@@ -45,7 +45,7 @@
 
 1. **Clone the repository:**
     ```sh
-    git clone https://github.com/lahongloc/HotelManagementWeb.git
+    git clone [https://github.com/lahongloc/HotelManagementWeb.git](https://github.com/lahongloc/CourseOutlineManagementWebApp.git)
     cd HotelManagementWeb
     ```
 
