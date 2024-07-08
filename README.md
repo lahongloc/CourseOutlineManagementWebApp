@@ -50,20 +50,16 @@
     ```
 
 2. **Backend Setup:**
-    - Navigate to the backend directory:
-      ```sh
-      cd backend
-      ```
-    - Update the `application.properties` file with your MySQL and other configurations.
-    - Run the application:
-      ```sh
-      mvn spring-boot:run
-      ```
+    Update the `databases.properties` file with your MySQL and other configurations.
+    - Open the project in NetBeans (or any IDE of your choice).
+    - Open MySQL and import the `courseoutlinemanagementdb.sql` file.
+    - Update the database username, password, and name in the `databases.properties` file within the project.
+    - Right-click on the project and select `Run`.
 
 3. **Frontend Setup:**
     - Navigate to the frontend directory:
       ```sh
-      cd frontend
+      cd CourseOutlineManagementWeb
       ```
     - Install the dependencies:
       ```sh
@@ -78,7 +74,11 @@
 
 ### 🔐 Authentication
 - **Admin Login**: Admin can log in and access all features.
-- **User Login**: Users can log in and access features based on their roles.
+      - Available **Admin** account:**username**: Admin1, **password**: 123456
+- **User Login**: Users can log in and access features based on their roles. There are two roles: **Lecturer** and **Student**
+      - Available **Lecturer** account: **username**: dhthanh, **password**: 123455
+      - Available **Student** account: **username**: ttkiet, **password**: 123456
+  
 
 ### 📋 Core Features
 1. **Manage Syllabi**:
@@ -112,10 +112,7 @@ _Add screenshots of your application here to give visual insight into its functi
 ## 🤝 Contributing
 - Contributions are welcome! Please submit a pull request or open an issue to discuss any changes.
 
-## 📄 License
-This project is licensed under the MIT License.
-
 ## 📞 Contact
-- **Name**: [Your Name]
-- **Email**: [Your Email]
-- **LinkedIn**: [Your LinkedIn Profile]
+- **Name**: [La Hồng Lộc]
+- **Email**: [hongloc111990@gmail.com]
+- **LinkedIn**: [www.linkedin.com/in/hongloc2405]
