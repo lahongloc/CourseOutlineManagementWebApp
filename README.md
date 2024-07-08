@@ -107,7 +107,9 @@
     - Use Amazon S3 for storing files securely.
 
 ## 📸 Screenshots
-_Add screenshots of your application here to give visual insight into its functionality._
+**ADMIN SIDE** - Server Side Rendering
+![image](https://github.com/lahongloc/CourseOutlineManagementWebApp/assets/109413731/6b01f6a2-4860-4875-9308-920eedd731e6)
+
 
 ## 🤝 Contributing
 - Contributions are welcome! Please submit a pull request or open an issue to discuss any changes.
