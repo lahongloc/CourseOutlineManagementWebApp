@@ -13,6 +13,9 @@
 - **💳 Payment Integration**: VNPay integration for payments.
 - **📄 PDF Generation**: Generate PDF versions of syllabi.
 - **☁️ File Storage**: Amazon S3 for file storage.
+- **📊 Statistics Reporting (Chart.js)**:
+  - Sales and revenue statistics by year, quarter, month.
+  - Statistics on the number of syllabi in different statuses: in the process of approval (HOLDING), and approved (ACCEPTED).
 
 ## 🛠 Tech Stack
 
@@ -21,11 +24,12 @@
 - **🛠 JDBC**
 - **🐬 MySQL**
 - **🔒 Spring Security**
-- **🔑 JWT (JSON Web Tokens)**
+- **🔑 JWT (JSON Web Tokens)** (For user authorization)
 - **📧 Spring Mail**
 - **💳 VNPay**
-- **📄 Spring PDF Generator**
-- **☁️ Amazon S3**
+- **📄 Spring PDF Generator** (For file gernerating)
+- **☁️ Amazon S3** (For file storage)
+- **📈 Chart.js** (for statistics reporting)
 
 ### Frontend
 - **⚛️ ReactJs**
@@ -105,11 +109,30 @@
 
 7. **File Storage**:
     - Use Amazon S3 for storing files securely.
+8. **Statistics Reporting (Chart.js)**:
+    - Sales and revenue statistics by year, quarter, month.
+    - Statistics on the number of syllabi in different statuses: in the process of approval (holding), and approved (accepted).
 
 ## 📸 Screenshots
 **ADMIN SIDE** - Server Side Rendering
-![image](https://github.com/lahongloc/CourseOutlineManagementWebApp/assets/109413731/6b01f6a2-4860-4875-9308-920eedd731e6)
-
+- Hone page: ![image](https://github.com/lahongloc/CourseOutlineManagementWebApp/assets/109413731/08377572-691b-4947-865b-26c9d9eac292)
+- Students and Lecturers management page:
+  ![image](https://github.com/lahongloc/CourseOutlineManagementWebApp/assets/109413731/1d3ecb22-18ab-49f1-ac85-fe973e845cda)
+  ![image](https://github.com/lahongloc/CourseOutlineManagementWebApp/assets/109413731/bd459ce5-458d-4aa6-ad13-fe3379425c37)
+  ![image](https://github.com/lahongloc/CourseOutlineManagementWebApp/assets/109413731/5ea81470-5809-4d61-874b-d7a9ea68091c)
+  ![image](https://github.com/lahongloc/CourseOutlineManagementWebApp/assets/109413731/ebe6e329-eb24-42c5-8913-da197409267b)
+- Report anf Statistics page:
+  ![image](https://github.com/lahongloc/CourseOutlineManagementWebApp/assets/109413731/4abf5de6-6e03-4d6b-aced-630afbfb3490)
+  ![image](https://github.com/lahongloc/CourseOutlineManagementWebApp/assets/109413731/fffb3e8f-9db3-459f-9220-283e50fc9d1b)
+**CLIENT SITE** - Client Side Rendering
+- Home page: ![image](https://github.com/lahongloc/CourseOutlineManagementWebApp/assets/109413731/f9b372a0-4be4-46c1-88c8-5d18e566f6d7)
+- User detail page: ![image](https://github.com/lahongloc/CourseOutlineManagementWebApp/assets/109413731/5ff41055-7204-4c18-9e28-bed266a3000d)
+- Workspaces (place where lecturers can compile course outline):
+  ![image](https://github.com/lahongloc/CourseOutlineManagementWebApp/assets/109413731/a9bf4e36-947c-44d5-a7eb-74de225e7642)
+  ![image](https://github.com/lahongloc/CourseOutlineManagementWebApp/assets/109413731/212b071f-427a-45a0-b94d-c707191590af)
+  ![image](https://github.com/lahongloc/CourseOutlineManagementWebApp/assets/109413731/0da2a16a-7756-4610-99a2-fa431c14fe1d)
+- Course outline detail page: ![image](https://github.com/lahongloc/CourseOutlineManagementWebApp/assets/109413731/2d0cb42f-fb70-48fc-9441-fe450fab1260)
+- Real-time chat page: ![image](https://github.com/lahongloc/CourseOutlineManagementWebApp/assets/109413731/0fdf824b-50b4-48a1-b348-6b621784b378)
 
 ## 🤝 Contributing
 - Contributions are welcome! Please submit a pull request or open an issue to discuss any changes.
