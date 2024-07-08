@@ -77,9 +77,9 @@
 ## 💡 Usage
 
 ### 🔐 Authentication
-- **Admin Login**: Admin can log in and access all features.
+1. **Admin Login**: Admin can log in and access all features.
 - Available **Admin** account:**username**: Admin1, **password**: 123456
-- **User Login**: Users can log in and access features based on their roles. There are two roles: **Lecturer** and **Student**
+2. **User Login**: Users can log in and access features based on their roles. There are two roles: **Lecturer** and **Student**
 - Available **Lecturer** account: **username**: dhthanh, **password**: 123455
 - Available **Student** account: **username**: ttkiet, **password**: 123456
   
